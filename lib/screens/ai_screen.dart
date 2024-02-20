@@ -1,5 +1,8 @@
+import 'package:aitrip/services/hotel_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:aitrip/services/request_url_service.dart';
 
 final aiScreenProvider = Provider((_) => AiScreen());
 
@@ -7,12 +10,14 @@ class AiScreen extends ConsumerWidget {
   AiScreen({super.key});
   final TextEditingController controller = TextEditingController();
 
-  void _sendHotelInfoToAPI() {
+  Future<void> _sendHotelInfoToAPI() async {
     final String hotelInfo = controller.text;
-    // ここで hotelInfo を楽天APIに渡す処理を実装します
-    print('送信されたホテル情報: $hotelInfo');
-
-    // テキストフィールドをクリア
+    final appId = dotenv.env['RAKUTEN_API_KEY'];
+    final requestUrl =
+        RequestUrlService.createRequestUrl(hotelInfo, appId!); // リクエストURLの生成
+    print(requestUrl); // 生成したリクエストURLをコンソールに出力
+    final hotelService = HotelService();
+    await hotelService.sendHotelInfo(requestUrl);
     controller.clear();
   }
 
