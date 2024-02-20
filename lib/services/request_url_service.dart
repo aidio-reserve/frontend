@@ -5,10 +5,10 @@ import 'dart:core';
 class RequestUrlService {
   static String createRequestUrl(String userInput, String appId) {
     // ユーザー入力から必要な情報を抽出する正規表現パターン
-    final checkInDatePattern = RegExp(r'checkInDate=([0-9\-]+)');
-    final checkOutDatePattern = RegExp(r'checkOutDate=([0-9\-]+)');
-    final latitudePattern = RegExp(r'latitude=([0-9\.]+)');
-    final longitudePattern = RegExp(r'longitude=([0-9\.]+)');
+    final checkInDatePattern = RegExp(r"'checkinDate': '([0-9\-]+)'");
+    final checkOutDatePattern = RegExp(r"'checkoutDate': '([0-9\-]+)'");
+    final latitudePattern = RegExp(r"'latitude': ([0-9\.]+)");
+    final longitudePattern = RegExp(r"'longitude': ([0-9\.]+)");
 
     // パターンにマッチする部分をユーザー入力から探し、値を抽出
     final checkInDateMatch = checkInDatePattern.firstMatch(userInput);
@@ -25,13 +25,14 @@ class RequestUrlService {
     // リクエストURLの構築
     final requestUrl =
         'https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426'
-        '?applicationId=$appId'
-        '&format=json'
+        '?format=json'
         '&checkinDate=$checkInDate'
         '&checkoutDate=$checkOutDate'
         '&latitude=$latitude'
         '&longitude=$longitude'
-        '&searchRadius=2';
+        '&searchRadius=2'
+        '&datumType=1'
+        '&applicationId=$appId';
 
     return requestUrl;
   }
