@@ -35,10 +35,15 @@ class AiScreen extends ConsumerWidget {
       return Hotel.fromJson(hotelInfo);
     }).toList();
 
+    // hotelMinChargeが小さい順にソートし、上位5つのホテルを選択
+    hotels.sort((a, b) => a.hotelMinCharge.compareTo(b.hotelMinCharge));
+    List<Hotel> topHotels = hotels.take(5).toList();
+
+    // ResultScreenに遷移し、上位5つのホテルを表示
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => ResultScreen(hotels: hotels),
+        builder: (context) => ResultScreen(hotels: topHotels),
       ),
     );
   }
