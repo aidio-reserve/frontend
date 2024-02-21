@@ -1,4 +1,6 @@
 import 'package:aitrip/services/hotel_service.dart';
+import 'package:aitrip/ui/screens/loading_screen.dart';
+import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,16 +13,23 @@ class AiScreen extends ConsumerWidget {
   final TextEditingController controller = TextEditingController();
   final hotelInfoResult = StateProvider<String?>((ref) => null);
 
-  Future<void> _sendHotelInfoToAPI(WidgetRef ref) async {
+  Future<void> _sendHotelInfoToAPI(WidgetRef ref, BuildContext context) async {
     final String hotelInfo = controller.text;
     final appId = dotenv.env['RAKUTEN_API_KEY'];
     final requestUrl = RequestUrlService.createRequestUrl(hotelInfo, appId!);
     print(requestUrl);
+    // LoadingScreenに遷移
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const LoadingScreen()));
+
     final hotelService = HotelService();
-    await hotelService.sendHotelInfo(requestUrl);
     final String? response = await hotelService.sendHotelInfo(requestUrl);
-    ref.read(hotelInfoResult.notifier).state = response;
-    controller.clear();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultScreen(result: response ?? 'データがありません'),
+      ),
+    );
   }
 
   @override
@@ -42,23 +51,9 @@ class AiScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () async => await _sendHotelInfoToAPI(ref),
+                  onPressed: () async =>
+                      await _sendHotelInfoToAPI(ref, context),
                   child: const Text('実行'),
-                ),
-                const SizedBox(height: 100),
-                Column(
-                  children: [
-                    Consumer(
-                      builder: (context, ref, child) {
-                        final response = ref.watch(hotelInfoResult);
-                        if (response != null) {
-                          return Text(response);
-                        } else {
-                          return const Text('ホテル情報がここに表示されます。');
-                        }
-                      },
-                    ),
-                  ],
                 ),
               ],
             ),
