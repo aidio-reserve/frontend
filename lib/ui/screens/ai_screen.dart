@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:aitrip/services/hotel_service.dart';
+import 'package:aitrip/services/result_cut_service.dart';
 import 'package:aitrip/ui/screens/loading_screen.dart';
 import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,17 +20,25 @@ class AiScreen extends ConsumerWidget {
     final String hotelInfo = controller.text;
     final appId = dotenv.env['RAKUTEN_API_KEY'];
     final requestUrl = RequestUrlService.createRequestUrl(hotelInfo, appId!);
-    print(requestUrl);
+    debugPrint(requestUrl);
     // LoadingScreenに遷移
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const LoadingScreen()));
 
     final hotelService = HotelService();
     final String? response = await hotelService.sendHotelInfo(requestUrl);
+
+    // JSONレスポンスを解析し、ホテルオブジェクトのリストを作成
+    final jsonResponse = jsonDecode(response ?? '');
+    List<Hotel> hotels = (jsonResponse['hotels'] as List).map((hotelData) {
+      var hotelInfo = hotelData['hotel'][0]; // hotelBasicInfoとroomInfoが含まれている
+      return Hotel.fromJson(hotelInfo);
+    }).toList();
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => ResultScreen(result: response ?? 'データがありません'),
+        builder: (context) => ResultScreen(hotels: hotels),
       ),
     );
   }
