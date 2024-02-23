@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aitrip/providers/hotel_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
 import 'package:aitrip/services/hotel_model_service.dart.dart';
 import 'package:aitrip/ui/screens/loading_screen.dart';
@@ -39,13 +40,11 @@ class AiScreen extends ConsumerWidget {
     hotels.sort((a, b) => a.hotelMinCharge.compareTo(b.hotelMinCharge));
     List<Hotel> topHotels = hotels.take(5).toList();
 
-    // ResultScreenに遷移し、上位5つのホテルを表示
+    ref.read(hotelListProvider.notifier).state = topHotels;
+    // ResultScreenに遷移
     Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ResultScreen(hotels: topHotels),
-      ),
-    );
+        context, MaterialPageRoute(builder: (context) => const ResultScreen()));
+
     Hotel hotel = Hotel.fromJson(jsonResponse['hotels'][0]['hotel'][0]);
     debugPrint('Hotel Image URL: ${hotel.hotelImageUrl}');
   }
