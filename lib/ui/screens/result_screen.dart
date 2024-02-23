@@ -1,4 +1,5 @@
-import 'package:aitrip/services/result_cut_service.dart';
+import 'package:aitrip/services/hotel_model_service.dart.dart';
+import 'package:aitrip/ui/components/hotel_card.dart';
 import 'package:flutter/material.dart';
 
 // HotelとRoomクラスをインポートする必要があるかもしれません
@@ -15,26 +16,12 @@ class ResultScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('ホテル情報'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(), // スクロール内スクロールの問題を防ぐ
-            itemCount: hotels.length,
-            itemBuilder: (context, index) {
-              final hotel = hotels[index];
-              return Card(
-                child: ListTile(
-                  title: Text(hotel.hotelName),
-                  onTap: () {
-                    // 詳細ページへのナビゲーションやその他のアクションをここに追加
-                  },
-                ),
-              );
-            },
-          ),
-        ),
+      body: ListView.builder(
+        itemCount: hotels.length, // ホテルの数だけリストアイテムを生成
+        itemBuilder: (context, index) {
+          // HotelCardにホテル情報を渡して生成
+          return HotelCard(hotel: hotels[index]);
+        },
       ),
     );
   }

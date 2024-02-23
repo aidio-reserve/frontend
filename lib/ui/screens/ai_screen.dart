@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:aitrip/services/hotel_service.dart';
-import 'package:aitrip/services/result_cut_service.dart';
+import 'package:aitrip/services/hotel_model_service.dart.dart';
 import 'package:aitrip/ui/screens/loading_screen.dart';
 import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +46,8 @@ class AiScreen extends ConsumerWidget {
         builder: (context) => ResultScreen(hotels: topHotels),
       ),
     );
+    Hotel hotel = Hotel.fromJson(jsonResponse['hotels'][0]['hotel'][0]);
+    debugPrint('Hotel Image URL: ${hotel.hotelImageUrl}');
   }
 
   @override
