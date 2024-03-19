@@ -5,6 +5,8 @@ class Hotel {
   final String hotelImageUrl;
   final double reviewAverage;
   final int hotelMinCharge;
+  final double latitude;
+  final double longitude;
 
   Hotel({
     required this.hotelNo,
@@ -13,6 +15,8 @@ class Hotel {
     required this.hotelImageUrl,
     required this.reviewAverage,
     required this.hotelMinCharge,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory Hotel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +27,8 @@ class Hotel {
       hotelImageUrl: json['hotelBasicInfo']['hotelImageUrl'],
       reviewAverage: json['hotelBasicInfo']['reviewAverage'].toDouble(),
       hotelMinCharge: json['hotelBasicInfo']['hotelMinCharge'],
+      latitude: json['hotelBasicInfo']['latitude'].toDouble(),
+      longitude: json['hotelBasicInfo']['longitude'].toDouble(),
     );
   }
 }
