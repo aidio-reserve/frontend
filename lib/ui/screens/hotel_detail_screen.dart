@@ -8,9 +8,6 @@ class HotelDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String googleMapsUrl =
-        "https://www.google.com/maps/@${hotel.latitude},${hotel.longitude},14z";
-
     return Scaffold(
       appBar: AppBar(),
       body: Center(
