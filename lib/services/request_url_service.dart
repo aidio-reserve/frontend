@@ -2,8 +2,11 @@
 
 import 'dart:core';
 
+import 'package:flutter/material.dart';
+
 class RequestUrlService {
   static String createRequestUrl(String userInput, String appId) {
+    debugPrint('User input: $userInput');
     // ユーザー入力から必要な情報を抽出する正規表現パターン
     final checkInDatePattern = RegExp(r"'checkinDate': '([0-9\-]+)'");
     final checkOutDatePattern = RegExp(r"'checkoutDate': '([0-9\-]+)'");

@@ -1,58 +1,25 @@
-import 'dart:convert';
-
-import 'package:aitrip/providers/hotel_provider.dart';
+import 'package:aitrip/data/repositories/get_hotel_repository.dart';
+import 'package:aitrip/data/repositories/message_repository.dart';
 import 'package:aitrip/services/hotel_service.dart';
-import 'package:aitrip/services/hotel_model_service.dart.dart';
-import 'package:aitrip/ui/screens/loading_screen.dart';
-import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:aitrip/services/request_url_service.dart';
 
 final aiScreenProvider = Provider((_) => AiScreen());
 
 class AiScreen extends ConsumerWidget {
   AiScreen({super.key});
-  final TextEditingController controller = TextEditingController();
-  final hotelInfoResult = StateProvider<String?>((ref) => null);
-
-  Future<void> _sendHotelInfoToAPI(WidgetRef ref, BuildContext context) async {
-    final String hotelInfo = controller.text;
-    final appId = dotenv.env['RAKUTEN_API_KEY'];
-    final requestUrl = RequestUrlService.createRequestUrl(hotelInfo, appId!);
-    debugPrint(requestUrl);
-    // LoadingScreenに遷移
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const LoadingScreen()));
-
-    final hotelService = HotelService();
-    final String? response = await hotelService.sendHotelInfo(requestUrl);
-
-    // JSONレスポンスを解析し、ホテルオブジェクトのリストを作成
-    final jsonResponse = jsonDecode(response ?? '');
-    List<Hotel> hotels = (jsonResponse['hotels'] as List).map((hotelData) {
-      var hotelInfo = hotelData['hotel'][0]; // hotelBasicInfoとroomInfoが含まれている
-      return Hotel.fromJson(hotelInfo);
-    }).toList();
-
-    // hotelMinChargeが小さい順にソートし、上位5つのホテルを選択
-    hotels.sort((a, b) => a.hotelMinCharge.compareTo(b.hotelMinCharge));
-    List<Hotel> topHotels = hotels.take(5).toList();
-
-    ref.read(hotelListProvider.notifier).state = topHotels;
-    // ResultScreenに遷移
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const ResultScreen()));
-
-    Hotel hotel = Hotel.fromJson(jsonResponse['hotels'][0]['hotel'][0]);
-    debugPrint('Hotel Image URL: ${hotel.hotelImageUrl}');
-  }
+  final TextEditingController hotelInfoController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
+  final hotelInfoServiceProvider = Provider<HotelInfoRepository>((ref) {
+    return HotelInfoRepository(HotelService());
+  });
+  final messageProvider = Provider<MessageRepository>((ref) {
+    return MessageRepository();
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -60,7 +27,7 @@ class AiScreen extends ConsumerWidget {
             child: Column(
               children: [
                 TextField(
-                  controller: controller,
+                  controller: hotelInfoController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'ここに、楽天APIに渡すhotel infoを入力します。',
@@ -68,10 +35,37 @@ class AiScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () async =>
-                      await _sendHotelInfoToAPI(ref, context),
+                  onPressed: () async {
+                    final hotelInfoService = ref.read(hotelInfoServiceProvider);
+                    final String userInput = hotelInfoController.text;
+                    await hotelInfoService.sendHotelInfoToAPI(
+                        userInput, ref, context);
+                  },
                   child: const Text('実行'),
                 ),
+                const SizedBox(height: 680),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        controller: messageController,
+                        decoration: const InputDecoration(
+                          labelText: "メッセージを入力します",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () async {
+                        final messageService = ref.read(messageProvider);
+                        final String message = messageController.text;
+                        messageController.clear();
+                        await messageService.sendMessage(message);
+                      },
+                    )
+                  ],
+                )
               ],
             ),
           ),
