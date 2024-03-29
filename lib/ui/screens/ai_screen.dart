@@ -43,7 +43,7 @@ class AiScreen extends ConsumerWidget {
                   },
                   child: const Text('実行'),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 680),
                 Row(
                   children: <Widget>[
                     Expanded(
