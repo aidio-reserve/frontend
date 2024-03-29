@@ -6,8 +6,8 @@ final myPageProvider = ChangeNotifierProvider((ref) => MyPageNotifier());
 
 class MyPageNotifier extends ChangeNotifier {}
 
-class MyPageScreen extends ConsumerWidget {
-  const MyPageScreen({super.key});
+class SettingScreen extends ConsumerWidget {
+  const SettingScreen({super.key});
   static const routeName = '/my-page';
 
   @override
@@ -21,7 +21,7 @@ class MyPageScreen extends ConsumerWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () => themeNotifier.toggleTheme(),
-          child: const Text('Toggle Theme'),
+          child: const Text('テーマを切り替える'),
         ),
       ),
     );

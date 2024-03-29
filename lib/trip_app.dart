@@ -1,6 +1,6 @@
 import 'package:aitrip/providers/theme_provider.dart';
 import 'package:aitrip/ui/screens/home_screen.dart';
-import 'package:flutter/foundation.dart';
+import 'package:aitrip/ui/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +14,15 @@ class TripApp extends ConsumerWidget {
     final theme = ref.watch(themeProvider);
 
     return MaterialApp(
+      routes: {
+        // '/save': (context) => SaveScreen(),
+        // '/myPage': (context) => MyPageScreen(),
+        '/setting': (context) => const SettingScreen(),
+        // '/appInfo': (context) => AppInfoScreen(),
+        // '/shareApp': (context) => ShareAppScreen(),
+        // '/termsOfService': (context) => TermsOfServiceScreen(),
+        // '/privacyPolicy': (context) => PrivacyPolicyScreen(),
+      },
       title: '音声AIアプリ',
       theme: ThemeData(
         useMaterial3: true,
