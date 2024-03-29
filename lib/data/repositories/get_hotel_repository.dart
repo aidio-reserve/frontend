@@ -1,25 +1,25 @@
 // hotel_info_service.dart
 import 'dart:convert';
 import 'package:aitrip/providers/hotel_provider.dart';
-import '../../../services/hotel_model_service.dart.dart';
-import '../../../services/hotel_service.dart';
+import 'package:aitrip/services/hotel_model_service.dart.dart';
+import 'package:aitrip/services/hotel_service.dart';
+import 'package:aitrip/services/request_url_service.dart';
 import 'package:aitrip/ui/screens/loading_screen.dart';
 import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../../../services/request_url_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HotelInfoService {
+class HotelInfoRepository {
   final HotelService hotelService;
   final TextEditingController controller = TextEditingController();
   final hotelInfoResult = StateProvider<String?>((ref) => null);
-  HotelInfoService(this.hotelService);
+  HotelInfoRepository(this.hotelService);
 
-  Future<void> sendHotelInfoToAPI(WidgetRef ref, BuildContext context) async {
-    final String hotelInfo = controller.text;
+  Future<void> sendHotelInfoToAPI(
+      String userInput, WidgetRef ref, BuildContext context) async {
     final appId = dotenv.env['RAKUTEN_API_KEY'];
-    final requestUrl = RequestUrlService.createRequestUrl(hotelInfo, appId!);
+    final requestUrl = RequestUrlService.createRequestUrl(userInput, appId!);
     debugPrint(requestUrl);
     // LoadingScreenに遷移
     Navigator.push(context,
