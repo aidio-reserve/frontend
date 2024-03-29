@@ -3,6 +3,7 @@ import 'package:aitrip/ui/screens/home_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TripApp extends ConsumerWidget {
   const TripApp({super.key});
@@ -18,13 +19,13 @@ class TripApp extends ConsumerWidget {
         useMaterial3: true,
         colorSchemeSeed: seedColor,
         brightness: Brightness.light,
-        fontFamily: kIsWeb ? 'ZenKakuGothicNew' : null,
+        textTheme: GoogleFonts.kiwiMaruTextTheme(),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: seedColor,
         brightness: Brightness.dark,
-        fontFamily: kIsWeb ? 'ZenKakuGothicNew' : null,
+        textTheme: GoogleFonts.kiwiMaruTextTheme(),
       ),
       themeMode: theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: const HomeScreen(),
