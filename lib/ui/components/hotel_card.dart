@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class HotelCard extends StatelessWidget {
   final Hotel hotel;
-  const HotelCard({Key? key, required this.hotel}) : super(key: key);
+  const HotelCard({super.key, required this.hotel});
 
   @override
   Widget build(BuildContext context) {
