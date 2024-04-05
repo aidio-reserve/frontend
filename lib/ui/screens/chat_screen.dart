@@ -4,10 +4,10 @@ import 'package:aitrip/services/hotel_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final aiScreenProvider = Provider((_) => AiScreen());
+final chatScreenProvider = Provider((_) => ChatScreen());
 
-class AiScreen extends ConsumerWidget {
-  AiScreen({super.key});
+class ChatScreen extends ConsumerWidget {
+  ChatScreen({super.key});
   final TextEditingController hotelInfoController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
   final hotelInfoServiceProvider = Provider<HotelInfoRepository>((ref) {

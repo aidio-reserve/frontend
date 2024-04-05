@@ -1,12 +1,12 @@
 import 'package:aitrip/providers/auth_state_provider.dart';
-import 'package:aitrip/ui/screens/ai_screen.dart';
+import 'package:aitrip/ui/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,7 +33,7 @@ class HomeScreen extends ConsumerWidget {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),
       ),
-      body: AiScreen(),
+      body: ChatScreen(),
       drawer: Drawer(
         child: Column(
           children: <Widget>[
