@@ -45,11 +45,15 @@ class ChatScreen extends ConsumerWidget {
                     },
                     child: const Text('実行'),
                   ),
+                  const SizedBox(height: 16),
                   Column(
                     children: [
                       Row(
                         children: [
-                          const Icon(Icons.info),
+                          const Icon(
+                            Icons.support_agent_rounded,
+                            size: 30,
+                          ),
                           const SizedBox(width: 8),
                           ChatBubble(
                             clipper: ChatBubbleClipper8(
@@ -67,7 +71,8 @@ class ChatScreen extends ConsumerWidget {
                             ),
                           ),
                         ],
-                      )
+                      ),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 ],
