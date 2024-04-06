@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -13,11 +14,11 @@ Future<void> startChat() async {
     );
 
     if (response.statusCode == 200) {
-      print('Server responded: ${response.body}');
+      debugPrint('ホテルリストの取得に成功しました: ${response.body}');
     } else {
-      print('Server error: ${response.statusCode}');
+      debugPrint('サーバーエラー: ${response.statusCode}');
     }
   } catch (e) {
-    print('Error connecting to the server: $e');
+    debugPrint('サーバーとの接続エラー: $e');
   }
 }

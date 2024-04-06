@@ -1,4 +1,3 @@
-// hotel_info_service.dart
 import 'dart:convert';
 import 'package:aitrip/providers/hotel_provider.dart';
 import 'package:aitrip/services/hotel_model_service.dart.dart';
@@ -21,7 +20,7 @@ class HotelInfoRepository {
     final appId = dotenv.env['RAKUTEN_API_KEY'];
     final requestUrl = RequestUrlService.createRequestUrl(userInput, appId!);
     debugPrint(requestUrl);
-    // LoadingScreenに遷移
+
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const LoadingScreen()));
 
@@ -31,7 +30,7 @@ class HotelInfoRepository {
     // JSONレスポンスを解析し、ホテルオブジェクトのリストを作成
     final jsonResponse = jsonDecode(response ?? '');
     List<Hotel> hotels = (jsonResponse['hotels'] as List).map((hotelData) {
-      var hotelInfo = hotelData['hotel'][0]; // hotelBasicInfoとroomInfoが含まれている
+      var hotelInfo = hotelData['hotel'][0];
       return Hotel.fromJson(hotelInfo);
     }).toList();
 
@@ -40,7 +39,6 @@ class HotelInfoRepository {
     List<Hotel> topHotels = hotels.take(5).toList();
 
     ref.read(hotelListProvider.notifier).state = topHotels;
-    // ResultScreenに遷移
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => const ResultScreen()));
 

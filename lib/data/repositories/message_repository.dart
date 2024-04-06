@@ -21,12 +21,12 @@ class MessageRepository {
       );
 
       if (response.statusCode == 200) {
-        debugPrint('/startが呼び出されました');
+        debugPrint('messageの送信が成功しました');
       } else {
-        debugPrint('Failed to send message: ${response.body}');
+        debugPrint('messageの送信に失敗しました: ${response.body}');
       }
     } catch (e) {
-      debugPrint('Error sending message: $e');
+      debugPrint('messageの送信中にエラーが発生しました: $e');
     }
   }
 }

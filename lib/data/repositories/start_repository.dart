@@ -23,12 +23,12 @@ class StartRepository {
       );
 
       if (response.statusCode == 200) {
-        debugPrint('Message sent successfully');
+        debugPrint('/startが呼び出されました');
       } else {
-        debugPrint('Failed to send message: ${response.body}');
+        debugPrint('/startの呼び出しに失敗しました: ${response.body}');
       }
     } catch (e) {
-      debugPrint('Error sending message: $e');
+      debugPrint('/startの呼び出し中にエラーが発生しました: $e');
     }
   }
 }
