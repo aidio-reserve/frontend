@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Message {
@@ -11,6 +12,8 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
 
   void addMessage(String text, bool isSender) {
     state = [...state, Message(text: text, isSender: isSender)];
+    debugPrint(
+        'Updated Message List: ${state.map((message) => 'Text: ${message.text}, IsSender: ${message.isSender}').toList()}');
   }
 }
 

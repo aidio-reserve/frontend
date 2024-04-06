@@ -60,19 +60,18 @@ class ChatScreen extends ConsumerWidget {
                           clipper: ChatBubbleClipper8(
                               type: BubbleType.receiverBubble),
                           backGroundColor:
-                              Theme.of(context).colorScheme.secondaryContainer,
+                              Theme.of(context).colorScheme.tertiaryContainer,
                           child: Text(
                             'こんにちは！どこに旅行に行きたいですか？',
                             style: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
-                                  .onSecondaryContainer,
+                                  .onTertiaryContainer,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
                   ],
                 ),
                 Expanded(
@@ -82,50 +81,9 @@ class ChatScreen extends ConsumerWidget {
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
                           final message = messages[index];
-                          return Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                message.isSender
-                                    ? Icons.face_rounded
-                                    : Icons.support_agent_rounded,
-                                size: 30,
-                              ),
-                              const SizedBox(width: 8),
-                              Flexible(
-                                child: ChatBubble(
-                                  clipper: ChatBubbleClipper8(
-                                      type: message.isSender
-                                          ? BubbleType.sendBubble
-                                          : BubbleType.receiverBubble),
-                                  alignment: message.isSender
-                                      ? Alignment.topRight
-                                      : Alignment.topLeft,
-                                  margin: const EdgeInsets.only(top: 10),
-                                  backGroundColor: message.isSender
-                                      ? Theme.of(context)
-                                          .colorScheme
-                                          .primaryContainer
-                                      : Theme.of(context)
-                                          .colorScheme
-                                          .secondaryContainer,
-                                  child: Text(
-                                    message.text,
-                                    style: TextStyle(
-                                        color: message.isSender
-                                            ? Theme.of(context)
-                                                .colorScheme
-                                                .onPrimaryContainer
-                                            : Theme.of(context)
-                                                .colorScheme
-                                                .onSecondaryContainer),
-                                    softWrap: true,
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
+                          return message.isSender
+                              ? userRow(context, message.text)
+                              : serverRow(context, message.text);
                         });
                   }),
                 ),
@@ -151,12 +109,84 @@ class ChatScreen extends ConsumerWidget {
                 final threadId = ref.read(threadIdProvider);
                 final messageService = ref.read(messageProvider);
                 final String message = messageController.text;
+                if (message.isNotEmpty) {
+                  // まずユーザーのメッセージをMessageListに追加
+                  ref
+                      .read(messageListProvider.notifier)
+                      .addMessage(message, true);
+                  debugPrint('ユーザーからのメッセージを追加しました: $message');
+
+                  // メッセージをクリア
+                  messageController.clear();
+
+                  // メッセージ送信処理
+                  debugPrint('送信したメッセージ: $message');
+                  await messageService.sendMessage(threadId, message);
+                }
                 debugPrint('送信したメッセージ: $message');
                 messageController.clear();
-                await messageService.sendMessage(threadId, message);
               },
             )
           ],
         )));
+  }
+
+  Widget userRow(BuildContext context, String message) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 38.0),
+            child: ChatBubble(
+              clipper: ChatBubbleClipper8(type: BubbleType.sendBubble),
+              alignment: Alignment.topRight,
+              margin: const EdgeInsets.only(top: 20),
+              backGroundColor: Theme.of(context).colorScheme.primaryContainer,
+              child: Text(
+                message,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+                softWrap: true,
+                overflow: TextOverflow.clip,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        const Icon(
+          Icons.face_rounded,
+          size: 30,
+        ),
+      ],
+    );
+  }
+
+  Widget serverRow(BuildContext context, String message) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Icon(
+          Icons.support_agent_rounded,
+          size: 30,
+        ),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 38.0),
+            child: ChatBubble(
+              clipper: ChatBubbleClipper8(type: BubbleType.receiverBubble),
+              margin: const EdgeInsets.only(top: 20),
+              backGroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+              child: Text(
+                message,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onTertiaryContainer),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
