@@ -1,5 +1,6 @@
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
-import 'package:aitrip/data/repositories/message_repository.dart';
+import 'package:aitrip/data/repositories/chat_repository.dart';
+import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,8 +15,8 @@ class ChatScreen extends ConsumerWidget {
   final hotelInfoServiceProvider = Provider<HotelInfoRepository>((ref) {
     return HotelInfoRepository(HotelService());
   });
-  final messageProvider = Provider<MessageRepository>((ref) {
-    return MessageRepository();
+  final messageProvider = Provider<ChatRepository>((ref) {
+    return ChatRepository();
   });
 
   @override
@@ -95,10 +96,11 @@ class ChatScreen extends ConsumerWidget {
             IconButton(
               icon: const Icon(Icons.send),
               onPressed: () async {
+                final threadId = ref.read(threadIdProvider);
                 final messageService = ref.read(messageProvider);
                 final String message = messageController.text;
                 messageController.clear();
-                await messageService.sendMessage(message);
+                await messageService.sendMessage(threadId, message);
               },
             )
           ],
