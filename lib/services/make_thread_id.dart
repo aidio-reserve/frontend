@@ -8,6 +8,6 @@ makeThreadId() {
       '${now.hour.toString().padLeft(2, '0')}'
       '${now.minute.toString().padLeft(2, '0')}'
       '${now.second.toString().padLeft(2, '0')}';
-  debugPrint(threadId);
+  debugPrint('スレッドID: $threadId');
   return threadId;
 }

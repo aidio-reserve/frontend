@@ -49,6 +49,7 @@ class ChatScreen extends ConsumerWidget {
                 Column(
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Icon(
                           Icons.support_agent_rounded,
@@ -81,19 +82,49 @@ class ChatScreen extends ConsumerWidget {
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
                           final message = messages[index];
-                          return ChatBubble(
-                            clipper: ChatBubbleClipper8(
-                                type: message.isSender
-                                    ? BubbleType.sendBubble
-                                    : BubbleType.receiverBubble),
-                            alignment: message.isSender
-                                ? Alignment.topRight
-                                : Alignment.topLeft,
-                            margin: const EdgeInsets.only(top: 10),
-                            backGroundColor:
-                                message.isSender ? Colors.blue : Colors.grey,
-                            child: Text(message.text,
-                                style: const TextStyle(color: Colors.white)),
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                message.isSender
+                                    ? Icons.face_rounded
+                                    : Icons.support_agent_rounded,
+                                size: 30,
+                              ),
+                              const SizedBox(width: 8),
+                              Flexible(
+                                child: ChatBubble(
+                                  clipper: ChatBubbleClipper8(
+                                      type: message.isSender
+                                          ? BubbleType.sendBubble
+                                          : BubbleType.receiverBubble),
+                                  alignment: message.isSender
+                                      ? Alignment.topRight
+                                      : Alignment.topLeft,
+                                  margin: const EdgeInsets.only(top: 10),
+                                  backGroundColor: message.isSender
+                                      ? Theme.of(context)
+                                          .colorScheme
+                                          .primaryContainer
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .secondaryContainer,
+                                  child: Text(
+                                    message.text,
+                                    style: TextStyle(
+                                        color: message.isSender
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .onPrimaryContainer
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .onSecondaryContainer),
+                                    softWrap: true,
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                              ),
+                            ],
                           );
                         });
                   }),
@@ -120,6 +151,7 @@ class ChatScreen extends ConsumerWidget {
                 final threadId = ref.read(threadIdProvider);
                 final messageService = ref.read(messageProvider);
                 final String message = messageController.text;
+                debugPrint('送信したメッセージ: $message');
                 messageController.clear();
                 await messageService.sendMessage(threadId, message);
               },

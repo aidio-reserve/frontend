@@ -34,6 +34,7 @@ class ChatRepository {
         ref
             .read(messageListProvider.notifier)
             .addMessage(responseMessage, false);
+        debugPrint('addMessage関数が呼び出されました');
       } else {
         debugPrint('messageの送信に失敗しました: ${response.body}');
       }
