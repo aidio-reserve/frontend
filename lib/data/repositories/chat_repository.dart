@@ -1,12 +1,15 @@
+import 'package:aitrip/models/messages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ChatRepository {
   final String apiEndpoint = 'http://localhost:5001/chatting';
   final http.Client httpClient;
+  final Ref ref;
 
-  ChatRepository() : httpClient = http.Client();
+  ChatRepository({required this.ref}) : httpClient = http.Client();
 
   Future<void> sendMessage(String threadId, String message) async {
     final Uri url = Uri.parse('http://localhost:5001/chatting');
@@ -28,6 +31,9 @@ class ChatRepository {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final String responseMessage = responseData['response'];
         debugPrint('サーバーからのレスポンス: $responseMessage');
+        ref
+            .read(messageListProvider.notifier)
+            .addMessage(responseMessage, false);
       } else {
         debugPrint('messageの送信に失敗しました: ${response.body}');
       }
