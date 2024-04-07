@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TripApp extends ConsumerWidget {
-  const TripApp({super.key});
+  final String threadId;
+  const TripApp({super.key, required this.threadId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
