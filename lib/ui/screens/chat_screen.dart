@@ -77,29 +77,24 @@ class ChatScreen extends ConsumerWidget {
                   ],
                 ),
                 Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Consumer(builder: (context, ref, _) {
-                          final messages = ref.watch(messageListProvider);
-                          return ListView.builder(
-                              itemCount: messages.length,
-                              itemBuilder: (context, index) {
-                                final message = messages[index];
-                                return message.isSender
-                                    ? userRow(context, message.text)
-                                    : serverRow(context, message.text);
-                              });
-                        }),
-                      ),
-                      Consumer(builder: (context, ref, _) {
-                        final isLoading = ref.watch(isLoadingProvider);
-                        return isLoading
-                            ? loadingMessageRow(context)
-                            : Container();
-                      })
-                    ],
-                  ),
+                  child: Consumer(builder: (context, ref, _) {
+                    final messages = ref.watch(messageListProvider);
+                    final isLoading = ref.watch(isLoadingProvider);
+
+                    return ListView.builder(
+                      itemCount:
+                          isLoading ? messages.length + 1 : messages.length,
+                      itemBuilder: (context, index) {
+                        if (index == messages.length && isLoading) {
+                          return loadingMessageRow(context);
+                        }
+                        final message = messages[index];
+                        return message.isSender
+                            ? userRow(context, message.text)
+                            : serverRow(context, message.text);
+                      },
+                    );
+                  }),
                 )
               ],
             ),
