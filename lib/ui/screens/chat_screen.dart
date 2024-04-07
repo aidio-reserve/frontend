@@ -77,25 +77,30 @@ class ChatScreen extends ConsumerWidget {
                   ],
                 ),
                 Expanded(
-                  child: Consumer(builder: (context, ref, _) {
-                    final isLoading = ref.watch(isLoadingProvider);
-                    if (isLoading) {
-                      // isLoadingがtrueの場合、ローディングインディケーターを表示
-                      return loadingMessageRow(context);
-                    } else {
-                      // isLoadingがfalseの場合、メッセージリストを表示
-                      final messages = ref.watch(messageListProvider);
-                      return ListView.builder(
-                          itemCount: messages.length,
-                          itemBuilder: (context, index) {
-                            final message = messages[index];
-                            return message.isSender
-                                ? userRow(context, message.text)
-                                : serverRow(context, message.text);
-                          });
-                    }
-                  }),
-                ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Consumer(builder: (context, ref, _) {
+                          final messages = ref.watch(messageListProvider);
+                          return ListView.builder(
+                              itemCount: messages.length,
+                              itemBuilder: (context, index) {
+                                final message = messages[index];
+                                return message.isSender
+                                    ? userRow(context, message.text)
+                                    : serverRow(context, message.text);
+                              });
+                        }),
+                      ),
+                      Consumer(builder: (context, ref, _) {
+                        final isLoading = ref.watch(isLoadingProvider);
+                        return isLoading
+                            ? loadingMessageRow(context)
+                            : Container();
+                      })
+                    ],
+                  ),
+                )
               ],
             ),
           ),
