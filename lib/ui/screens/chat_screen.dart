@@ -48,34 +48,6 @@ class ChatScreen extends ConsumerWidget {
                   child: const Text('実行'),
                 ),
                 const SizedBox(height: 16),
-                Column(
-                  children: [
-                    // Row(
-                    //   crossAxisAlignment: CrossAxisAlignment.start,
-                    //   children: [
-                    //     const Icon(
-                    //       Icons.support_agent_rounded,
-                    //       size: 30,
-                    //     ),
-                    //     const SizedBox(width: 8),
-                    //     ChatBubble(
-                    //       clipper: ChatBubbleClipper8(
-                    //           type: BubbleType.receiverBubble),
-                    //       backGroundColor:
-                    //           Theme.of(context).colorScheme.tertiaryContainer,
-                    //       child: Text(
-                    //         'こんにちは！どこに旅行に行きたいですか？',
-                    //         style: TextStyle(
-                    //           color: Theme.of(context)
-                    //               .colorScheme
-                    //               .onTertiaryContainer,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                  ],
-                ),
                 Expanded(child: Consumer(builder: (context, ref, _) {
                   final messages = ref.watch(messageListProvider);
                   final isLoading = ref.watch(isLoadingProvider);

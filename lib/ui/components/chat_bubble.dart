@@ -74,11 +74,18 @@ Widget loadingMessageRow(BuildContext context) {
       Flexible(
         child: Padding(
           padding: const EdgeInsets.only(right: 38.0),
-          child: ChatBubble(
-            clipper: ChatBubbleClipper8(type: BubbleType.receiverBubble),
-            margin: const EdgeInsets.only(top: 20),
-            backGroundColor: Theme.of(context).colorScheme.tertiaryContainer,
-            child: const CircularProgressIndicator(),
+          child: SizedBox(
+            width: 250,
+            height: 150,
+            child: ChatBubble(
+              clipper: ChatBubbleClipper8(type: BubbleType.receiverBubble),
+              margin: const EdgeInsets.only(top: 20),
+              backGroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+              child: const Center(
+                child: SizedBox(
+                    height: 30, width: 30, child: CircularProgressIndicator()),
+              ),
+            ),
           ),
         ),
       ),
