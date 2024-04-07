@@ -51,8 +51,34 @@ Widget serverRow(BuildContext context, String message) {
             child: Text(
               message,
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.onTertiaryContainer),
+                  color: Theme.of(context).colorScheme.onPrimaryContainer),
+              softWrap: true,
+              overflow: TextOverflow.clip,
             ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget loadingMessageRow(BuildContext context) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Icon(
+        Icons.support_agent_rounded,
+        size: 30,
+      ),
+      const SizedBox(width: 8),
+      Flexible(
+        child: Padding(
+          padding: const EdgeInsets.only(right: 38.0),
+          child: ChatBubble(
+            clipper: ChatBubbleClipper8(type: BubbleType.receiverBubble),
+            margin: const EdgeInsets.only(top: 20),
+            backGroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+            child: const CircularProgressIndicator(),
           ),
         ),
       ),

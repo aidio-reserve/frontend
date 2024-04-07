@@ -1,4 +1,5 @@
 import 'package:aitrip/models/messages.dart';
+import 'package:aitrip/providers/message_loading_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -34,7 +35,8 @@ class ChatRepository {
         ref
             .read(messageListProvider.notifier)
             .addMessage(responseMessage, false);
-        debugPrint('addMessage関数が呼び出されました');
+        ref.read(isLoadingProvider.notifier).state = false;
+        debugPrint('isLoadingがfalseに戻りました');
       } else {
         debugPrint('messageの送信に失敗しました: ${response.body}');
       }

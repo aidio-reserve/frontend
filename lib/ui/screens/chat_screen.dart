@@ -1,6 +1,7 @@
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
 import 'package:aitrip/data/repositories/chat_repository.dart';
 import 'package:aitrip/models/messages.dart';
+import 'package:aitrip/providers/message_loading_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
 import 'package:aitrip/ui/components/chat_bubble.dart';
@@ -77,15 +78,22 @@ class ChatScreen extends ConsumerWidget {
                 ),
                 Expanded(
                   child: Consumer(builder: (context, ref, _) {
-                    final messages = ref.watch(messageListProvider);
-                    return ListView.builder(
-                        itemCount: messages.length,
-                        itemBuilder: (context, index) {
-                          final message = messages[index];
-                          return message.isSender
-                              ? userRow(context, message.text)
-                              : serverRow(context, message.text);
-                        });
+                    final isLoading = ref.watch(isLoadingProvider);
+                    if (isLoading) {
+                      // isLoadingがtrueの場合、ローディングインディケーターを表示
+                      return loadingMessageRow(context);
+                    } else {
+                      // isLoadingがfalseの場合、メッセージリストを表示
+                      final messages = ref.watch(messageListProvider);
+                      return ListView.builder(
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final message = messages[index];
+                            return message.isSender
+                                ? userRow(context, message.text)
+                                : serverRow(context, message.text);
+                          });
+                    }
                   }),
                 ),
               ],
@@ -109,26 +117,28 @@ class ChatScreen extends ConsumerWidget {
               onPressed: () async {
                 final threadId = ref.read(threadIdProvider);
                 final messageService = ref.read(messageProvider);
-                final String message = messageController.text;
-                if (message.isNotEmpty) {
-                  // まずユーザーのメッセージをMessageListに追加
+                final String userMessage = messageController.text;
+
+                if (userMessage.isNotEmpty) {
+                  showLoading(ref).then((_) {
+                    messageService.sendMessage(threadId, userMessage);
+                  });
                   ref
                       .read(messageListProvider.notifier)
-                      .addMessage(message, true);
-                  debugPrint('ユーザーからのメッセージを追加しました: $message');
-
-                  // メッセージをクリア
+                      .addMessage(userMessage, true);
+                  debugPrint('ユーザーからのメッセージを追加しました: $userMessage');
                   messageController.clear();
-
-                  // メッセージ送信処理
-                  debugPrint('送信したメッセージ: $message');
-                  await messageService.sendMessage(threadId, message);
+                  debugPrint('送信したメッセージ: $userMessage');
                 }
-                debugPrint('送信したメッセージ: $message');
                 messageController.clear();
               },
             )
           ],
         )));
+  }
+
+  Future<void> showLoading(WidgetRef ref) async {
+    ref.read(isLoadingProvider.notifier).state = true;
+    debugPrint('isLoadingがtrueになりました');
   }
 }
