@@ -50,52 +50,57 @@ class ChatScreen extends ConsumerWidget {
                 const SizedBox(height: 16),
                 Column(
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.support_agent_rounded,
-                          size: 30,
-                        ),
-                        const SizedBox(width: 8),
-                        ChatBubble(
-                          clipper: ChatBubbleClipper8(
-                              type: BubbleType.receiverBubble),
-                          backGroundColor:
-                              Theme.of(context).colorScheme.tertiaryContainer,
-                          child: Text(
-                            'こんにちは！どこに旅行に行きたいですか？',
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onTertiaryContainer,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     const Icon(
+                    //       Icons.support_agent_rounded,
+                    //       size: 30,
+                    //     ),
+                    //     const SizedBox(width: 8),
+                    //     ChatBubble(
+                    //       clipper: ChatBubbleClipper8(
+                    //           type: BubbleType.receiverBubble),
+                    //       backGroundColor:
+                    //           Theme.of(context).colorScheme.tertiaryContainer,
+                    //       child: Text(
+                    //         'こんにちは！どこに旅行に行きたいですか？',
+                    //         style: TextStyle(
+                    //           color: Theme.of(context)
+                    //               .colorScheme
+                    //               .onTertiaryContainer,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
-                Expanded(
-                  child: Consumer(builder: (context, ref, _) {
-                    final messages = ref.watch(messageListProvider);
-                    final isLoading = ref.watch(isLoadingProvider);
+                Expanded(child: Consumer(builder: (context, ref, _) {
+                  final messages = ref.watch(messageListProvider);
+                  final isLoading = ref.watch(isLoadingProvider);
 
-                    return ListView.builder(
-                      itemCount:
-                          isLoading ? messages.length + 1 : messages.length,
-                      itemBuilder: (context, index) {
-                        if (index == messages.length && isLoading) {
-                          return loadingMessageRow(context);
-                        }
-                        final message = messages[index];
-                        return message.isSender
-                            ? userRow(context, message.text)
-                            : serverRow(context, message.text);
-                      },
-                    );
-                  }),
-                )
+                  return ListView.builder(
+                    itemCount: messages.length +
+                        1 +
+                        (isLoading ? 1 : 0), // 初期行のために+1、ローディングのために条件付きで+1
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        // 最初の行に特別なウィジェット（initialRow）を配置
+                        return initialRow(context); // 実際のinitialRowウィジェットをここに配置
+                      } else if (index == messages.length + 1 && isLoading) {
+                        // リストの最後でisLoadingがtrueの場合、ローディング行を表示
+                        return loadingMessageRow(context);
+                      }
+                      // それ以外の場合、メッセージを表示
+                      // indexが1から始まるため、メッセージのインデックスを調整
+                      final message = messages[index - 1];
+                      return message.isSender
+                          ? userRow(context, message.text)
+                          : serverRow(context, message.text);
+                    },
+                  );
+                }))
               ],
             ),
           ),

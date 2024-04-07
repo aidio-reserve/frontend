@@ -85,3 +85,26 @@ Widget loadingMessageRow(BuildContext context) {
     ],
   );
 }
+
+Widget initialRow(BuildContext context) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Icon(
+        Icons.support_agent_rounded,
+        size: 30,
+      ),
+      const SizedBox(width: 8),
+      ChatBubble(
+        clipper: ChatBubbleClipper8(type: BubbleType.receiverBubble),
+        backGroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+        child: Text(
+          'こんにちは！どこに旅行に行きたいですか？',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
+        ),
+      ),
+    ],
+  );
+}
