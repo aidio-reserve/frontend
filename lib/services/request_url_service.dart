@@ -2,11 +2,11 @@
 
 import 'dart:core';
 
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 class RequestUrlService {
-  static String createRequestUrl(String userInput, String appId) {
-    debugPrint('User input: $userInput');
+  static String createRequestUrl(String latestUserInfo, String appId) {
+    // debugPrint('User input: $userInput');
     // ユーザー入力から必要な情報を抽出する正規表現パターン
     final checkInDatePattern = RegExp(r"'checkinDate': '([0-9\-]+)'");
     final checkOutDatePattern = RegExp(r"'checkoutDate': '([0-9\-]+)'");
@@ -14,10 +14,10 @@ class RequestUrlService {
     final longitudePattern = RegExp(r"'longitude': ([0-9\.]+)");
 
     // パターンにマッチする部分をユーザー入力から探し、値を抽出
-    final checkInDateMatch = checkInDatePattern.firstMatch(userInput);
-    final checkOutDateMatch = checkOutDatePattern.firstMatch(userInput);
-    final latitudeMatch = latitudePattern.firstMatch(userInput);
-    final longitudeMatch = longitudePattern.firstMatch(userInput);
+    final checkInDateMatch = checkInDatePattern.firstMatch(latestUserInfo);
+    final checkOutDateMatch = checkOutDatePattern.firstMatch(latestUserInfo);
+    final latitudeMatch = latitudePattern.firstMatch(latestUserInfo);
+    final longitudeMatch = longitudePattern.firstMatch(latestUserInfo);
 
     // 抽出した値を変数に代入
     final checkInDate = checkInDateMatch?.group(1) ?? '';

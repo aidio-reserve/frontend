@@ -3,8 +3,6 @@ import 'package:aitrip/providers/hotel_provider.dart';
 import 'package:aitrip/services/hotel_model_service.dart.dart';
 import 'package:aitrip/services/hotel_service.dart';
 import 'package:aitrip/services/request_url_service.dart';
-import 'package:aitrip/ui/screens/loading_screen.dart';
-import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,13 +14,14 @@ class HotelInfoRepository {
   HotelInfoRepository(this.hotelService);
 
   Future<void> sendHotelInfoToAPI(
-      String userInput, WidgetRef ref, BuildContext context) async {
+      String latestUserInfo, WidgetRef ref, BuildContext context) async {
     final appId = dotenv.env['RAKUTEN_API_KEY'];
-    final requestUrl = RequestUrlService.createRequestUrl(userInput, appId!);
+    final requestUrl =
+        RequestUrlService.createRequestUrl(latestUserInfo, appId!);
     debugPrint(requestUrl);
 
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const LoadingScreen()));
+    // Navigator.push(context,
+    //     MaterialPageRoute(builder: (context) => const LoadingScreen()));
 
     final hotelService = HotelService();
     final String? response = await hotelService.sendHotelInfo(requestUrl);
@@ -39,8 +38,8 @@ class HotelInfoRepository {
     List<Hotel> topHotels = hotels.take(5).toList();
 
     ref.read(hotelListProvider.notifier).state = topHotels;
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const ResultScreen()));
+    // Navigator.pushReplacement(
+    //     context, MaterialPageRoute(builder: (context) => const ResultScreen()));
 
     Hotel hotel = Hotel.fromJson(jsonResponse['hotels'][0]['hotel'][0]);
     debugPrint('Hotel Image URL: ${hotel.hotelImageUrl}');

@@ -1,13 +1,14 @@
+import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
 import 'package:aitrip/data/repositories/chat_repository.dart';
 import 'package:aitrip/models/messages.dart';
 import 'package:aitrip/providers/message_loading_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
+import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
 import 'package:aitrip/ui/components/chat_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
 
 final chatScreenProvider = Provider((_) => ChatScreen());
 
@@ -21,6 +22,13 @@ class ChatScreen extends ConsumerWidget {
   final messageProvider = Provider<ChatRepository>((ref) {
     return ChatRepository(ref: ref);
   });
+  final exportUserInfoProvider = Provider<ExportUserInfoRepository>((ref) {
+    return ExportUserInfoRepository(ref: ref);
+  });
+  final userInfoNotifierProvider =
+      StateNotifierProvider<UserInfoNotifier, Map<String, dynamic>>((ref) {
+    return UserInfoNotifier();
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,24 +38,24 @@ class ChatScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
-                TextField(
-                  controller: hotelInfoController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'ここに、楽天APIに渡すhotel infoを入力します。',
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () async {
-                    final hotelInfoService = ref.read(hotelInfoServiceProvider);
-                    final String userInput = hotelInfoController.text;
-                    await hotelInfoService.sendHotelInfoToAPI(
-                        userInput, ref, context);
-                  },
-                  child: const Text('実行'),
-                ),
-                const SizedBox(height: 16),
+                // TextField(
+                //   controller: hotelInfoController,
+                //   decoration: const InputDecoration(
+                //     border: OutlineInputBorder(),
+                //     labelText: 'ここに、楽天APIに渡すhotel infoを入力します。',
+                //   ),
+                // ),
+                // const SizedBox(height: 16),
+                // ElevatedButton(
+                //   onPressed: () async {
+                //     final hotelInfoService = ref.read(hotelInfoServiceProvider);
+                //     final String userInput = hotelInfoController.text;
+                //     await hotelInfoService.sendHotelInfoToAPI(
+                //         userInput, ref, context);
+                //   },
+                //   child: const Text('実行'),
+                // ),
+                // const SizedBox(height: 16),
                 Expanded(child: Consumer(builder: (context, ref, _) {
                   final messages = ref.watch(messageListProvider);
                   final isLoading = ref.watch(isLoadingProvider);
@@ -92,22 +100,38 @@ class ChatScreen extends ConsumerWidget {
             IconButton(
               icon: const Icon(Icons.send),
               onPressed: () async {
+                //threadIdProviderを使用してスレッドIDを取得
                 final threadId = ref.read(threadIdProvider);
+                //messageProviderを使用してChatRepositoryを取得
                 final messageService = ref.read(messageProvider);
+                //messageControllerからユーザーのメッセージを取得
                 final String userMessage = messageController.text;
+                //exportUserInfoProviderを使用してExportUserInfoRepositoryを取得(UserInfoを取得するため)
+                final userInfoService = ref.read(exportUserInfoProvider);
+                //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
+                final hotelInfoService = ref.read(hotelInfoServiceProvider);
+                //userInfoNotifierProviderを使用してUserInfoNotifierを取得(最新のUserInfoを取得してUIに表示させるため)
+                final userInfoNotifier =
+                    ref.watch(userInfoNotifierProvider.notifier);
+                //最新のUserInfoを取得
+                Map<String, dynamic> latestUserInfo =
+                    userInfoNotifier.getLatestUserInfo(threadId);
+                //LatestUserInfoをString型に変換する
+                String latestUserInfoString = latestUserInfo.toString();
 
                 if (userMessage.isNotEmpty) {
-                  showLoading(ref).then((_) {
-                    messageService.sendMessage(threadId, userMessage);
-                  });
                   ref
                       .read(messageListProvider.notifier)
                       .addMessage(userMessage, true);
+                  showLoading(ref);
+                  await messageService.sendMessage(threadId, userMessage);
                   debugPrint('ユーザーからのメッセージを追加しました: $userMessage');
-                  messageController.clear();
                   debugPrint('送信したメッセージ: $userMessage');
+                  messageController.clear();
+                  await userInfoService.sendUserInfoRequest(threadId);
+                  await hotelInfoService.sendHotelInfoToAPI(
+                      latestUserInfoString, ref, context);
                 }
-                messageController.clear();
               },
             )
           ],
