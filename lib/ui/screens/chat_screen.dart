@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
 import 'package:aitrip/data/repositories/chat_repository.dart';
@@ -132,12 +134,13 @@ class ChatScreen extends ConsumerWidget {
                   // Map<String, dynamic> latestUserInfo =
                   //     userInfoNotifier.getLatestUserInfo(threadId);
                   // debugPrint('最新のUserInfo: $latestUserInfo');
-                  //UpdatedUserInfoをString型に変換する
-                  String updatedUserInfoString = updatedUserInfo.toString();
+
+                  //UpdatedUserInfoをJSON形式に変換する
+                  String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
                   debugPrint(
-                      '最新のUserInfoをString型に変換しました: $updatedUserInfoString');
+                      '最新のUserInfoをString型に変換しました: $jsonUpdatedUserInfo');
                   await hotelInfoService.sendHotelInfoToAPI(
-                      updatedUserInfoString, ref, context);
+                      jsonUpdatedUserInfo, ref, context);
                 }
               },
             )

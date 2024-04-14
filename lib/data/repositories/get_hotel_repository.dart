@@ -18,7 +18,7 @@ class HotelInfoRepository {
     final appId = dotenv.env['RAKUTEN_API_KEY'];
     final requestUrl =
         RequestUrlService.createRequestUrl(updatedUserInfo, appId!);
-    debugPrint(requestUrl);
+    debugPrint('リクエストURL:$requestUrl');
 
     // Navigator.push(context,
     //     MaterialPageRoute(builder: (context) => const LoadingScreen()));

@@ -1,19 +1,17 @@
-import 'dart:core';
-
-// DartのJSONパッケージをインポートします。これにより、文字列をJSONオブジェクトに変換できます。
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:flutter/material.dart';
 
 class RequestUrlService {
-  static String createRequestUrl(String latestUserInfo, String appId) {
+  static String createRequestUrl(String updatedUserInfo, String appId) {
     debugPrint('createRequestUrl()が呼び出されました');
     // JSON文字列をデコードして、DartのMapオブジェクトに変換
-    final Map<String, dynamic> userMap = jsonDecode(latestUserInfo);
-    debugPrint('latestUserInfo: $latestUserInfo');
+    final Map<String, dynamic> userMap = jsonDecode(updatedUserInfo);
+    debugPrint('latestUserInfo: $updatedUserInfo');
     debugPrint('userMap: $userMap');
     // HotelListを取得
-    final hotelList = userMap['UserInfo']['HotelList'] as Map<String, dynamic>;
+    final hotelList = userMap['hotellist'] as Map<String, dynamic>;
     debugPrint('HotelList: $hotelList');
 
     // HotelListから必要な値を取得
