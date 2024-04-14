@@ -14,10 +14,10 @@ class HotelInfoRepository {
   HotelInfoRepository(this.hotelService);
 
   Future<void> sendHotelInfoToAPI(
-      String latestUserInfo, WidgetRef ref, BuildContext context) async {
+      String updatedUserInfo, WidgetRef ref, BuildContext context) async {
     final appId = dotenv.env['RAKUTEN_API_KEY'];
     final requestUrl =
-        RequestUrlService.createRequestUrl(latestUserInfo, appId!);
+        RequestUrlService.createRequestUrl(updatedUserInfo, appId!);
     debugPrint(requestUrl);
 
     // Navigator.push(context,

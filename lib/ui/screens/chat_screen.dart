@@ -126,18 +126,18 @@ class ChatScreen extends ConsumerWidget {
                   await userInfoService.sendUserInfoRequest(threadId);
                   Map<String, dynamic> updatedUserInfo =
                       ref.read(userInfoProvider)[threadId];
-                  debugPrint(
-                      'Chat画面でのUpdated UserInfo for $threadId: $updatedUserInfo');
+                  // debugPrint(
+                  //     'Chat画面でのUpdated UserInfo for $threadId: $updatedUserInfo');
                   //最新のUserInfoを取得
-                  Map<String, dynamic> latestUserInfo =
-                      userInfoNotifier.getLatestUserInfo(threadId);
-                  debugPrint('最新のUserInfo: $latestUserInfo');
-                  //LatestUserInfoをString型に変換する
-                  String latestUserInfoString = latestUserInfo.toString();
+                  // Map<String, dynamic> latestUserInfo =
+                  //     userInfoNotifier.getLatestUserInfo(threadId);
+                  // debugPrint('最新のUserInfo: $latestUserInfo');
+                  //UpdatedUserInfoをString型に変換する
+                  String updatedUserInfoString = updatedUserInfo.toString();
                   debugPrint(
-                      '最新のUserInfoをString型に変換しました: $latestUserInfoString');
+                      '最新のUserInfoをString型に変換しました: $updatedUserInfoString');
                   await hotelInfoService.sendHotelInfoToAPI(
-                      latestUserInfoString, ref, context);
+                      updatedUserInfoString, ref, context);
                 }
               },
             )
