@@ -113,11 +113,6 @@ class ChatScreen extends ConsumerWidget {
                 //userInfoNotifierProviderを使用してUserInfoNotifierを取得(最新のUserInfoを取得してUIに表示させるため)
                 final userInfoNotifier =
                     ref.watch(userInfoNotifierProvider.notifier);
-                //最新のUserInfoを取得
-                Map<String, dynamic> latestUserInfo =
-                    userInfoNotifier.getLatestUserInfo(threadId);
-                //LatestUserInfoをString型に変換する
-                String latestUserInfoString = latestUserInfo.toString();
 
                 if (userMessage.isNotEmpty) {
                   ref
@@ -129,6 +124,18 @@ class ChatScreen extends ConsumerWidget {
                   debugPrint('送信したメッセージ: $userMessage');
                   messageController.clear();
                   await userInfoService.sendUserInfoRequest(threadId);
+                  Map<String, dynamic> updatedUserInfo =
+                      ref.read(userInfoProvider)[threadId];
+                  debugPrint(
+                      'Chat画面でのUpdated UserInfo for $threadId: $updatedUserInfo');
+                  //最新のUserInfoを取得
+                  Map<String, dynamic> latestUserInfo =
+                      userInfoNotifier.getLatestUserInfo(threadId);
+                  debugPrint('最新のUserInfo: $latestUserInfo');
+                  //LatestUserInfoをString型に変換する
+                  String latestUserInfoString = latestUserInfo.toString();
+                  debugPrint(
+                      '最新のUserInfoをString型に変換しました: $latestUserInfoString');
                   await hotelInfoService.sendHotelInfoToAPI(
                       latestUserInfoString, ref, context);
                 }
