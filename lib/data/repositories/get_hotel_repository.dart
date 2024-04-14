@@ -20,26 +20,19 @@ class HotelInfoRepository {
         RequestUrlService.createRequestUrl(updatedUserInfo, appId!);
     debugPrint('リクエストURL:$requestUrl');
 
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (context) => const LoadingScreen()));
-
     final hotelService = HotelService();
     final String? response = await hotelService.sendHotelInfo(requestUrl);
 
-    // JSONレスポンスを解析し、ホテルオブジェクトのリストを作成
     final jsonResponse = jsonDecode(response ?? '');
     List<Hotel> hotels = (jsonResponse['hotels'] as List).map((hotelData) {
       var hotelInfo = hotelData['hotel'][0];
       return Hotel.fromJson(hotelInfo);
     }).toList();
 
-    // hotelMinChargeが小さい順にソートし、上位5つのホテルを選択
     hotels.sort((a, b) => a.hotelMinCharge.compareTo(b.hotelMinCharge));
     List<Hotel> topHotels = hotels.take(5).toList();
 
     ref.read(hotelListProvider.notifier).state = topHotels;
-    // Navigator.pushReplacement(
-    //     context, MaterialPageRoute(builder: (context) => const ResultScreen()));
 
     Hotel hotel = Hotel.fromJson(jsonResponse['hotels'][0]['hotel'][0]);
     debugPrint('Hotel Image URL: ${hotel.hotelImageUrl}');

@@ -15,17 +15,4 @@ class UserInfoNotifier extends StateNotifier<Map<String, dynamic>> {
     state[threadId] = userInfo;
     state = Map.from(state); // 状態を更新してUIをリビルドする
   }
-
-  // // 特定のthreadIdに対するUserInfoを取得するメソッド
-  // Map<String, dynamic> getUserInfo(String threadId) {
-  //   return state[threadId] ?? {};
-  // }
-
-  // // 最新のUserInfoを取得するメソッド
-  // Map<String, dynamic> getLatestUserInfo(String threadId) {
-  //   if (state[threadId] != null && state[threadId].isNotEmpty) {
-  //     return state[threadId].last;
-  //   }
-  //   return {};
-  // }
 }

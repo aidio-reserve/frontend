@@ -115,30 +115,17 @@ class ChatScreen extends ConsumerWidget {
                 //userInfoNotifierProviderを使用してUserInfoNotifierを取得(最新のUserInfoを取得してUIに表示させるため)
                 final userInfoNotifier =
                     ref.watch(userInfoNotifierProvider.notifier);
-
                 if (userMessage.isNotEmpty) {
                   ref
                       .read(messageListProvider.notifier)
                       .addMessage(userMessage, true);
                   showLoading(ref);
                   await messageService.sendMessage(threadId, userMessage);
-                  debugPrint('ユーザーからのメッセージを追加しました: $userMessage');
-                  debugPrint('送信したメッセージ: $userMessage');
                   messageController.clear();
                   await userInfoService.sendUserInfoRequest(threadId);
                   Map<String, dynamic> updatedUserInfo =
                       ref.read(userInfoProvider)[threadId];
-                  // debugPrint(
-                  //     'Chat画面でのUpdated UserInfo for $threadId: $updatedUserInfo');
-                  //最新のUserInfoを取得
-                  // Map<String, dynamic> latestUserInfo =
-                  //     userInfoNotifier.getLatestUserInfo(threadId);
-                  // debugPrint('最新のUserInfo: $latestUserInfo');
-
-                  //UpdatedUserInfoをJSON形式に変換する
                   String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
-                  debugPrint(
-                      '最新のUserInfoをString型に変換しました: $jsonUpdatedUserInfo');
                   await hotelInfoService.sendHotelInfoToAPI(
                       jsonUpdatedUserInfo, ref, context);
                 }
