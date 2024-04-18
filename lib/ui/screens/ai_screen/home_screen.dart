@@ -34,7 +34,7 @@ class HomeScreen extends ConsumerWidget {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),
       ),
-      body: VoiceScreen(), //ここをVoiceScreen()に後々変更
+      body: const VoiceScreen(), //ここをVoiceScreen()に後々変更
       drawer: Drawer(
         child: Column(
           children: <Widget>[
