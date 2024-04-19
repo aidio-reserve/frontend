@@ -32,6 +32,15 @@ class HomeScreen extends ConsumerWidget {
           'みなモン',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 40.0),
+            child: GestureDetector(
+                onHorizontalDragUpdate: (details) => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ChatScreen())),
+                child: const Icon(Icons.schedule_rounded)),
+          )
+        ],
       ),
       body: ChatScreen(),
       drawer: Drawer(
