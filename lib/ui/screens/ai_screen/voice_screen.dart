@@ -12,10 +12,11 @@ class VoiceScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'ここに音声入力されたテキストが表示されます。',
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: const Text(
+                  "音声入力されたテキストを表示します",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                 ),
               ),
               const SizedBox(height: 160),
