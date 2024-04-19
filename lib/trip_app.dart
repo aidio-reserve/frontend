@@ -24,7 +24,7 @@ class TripApp extends ConsumerWidget {
         // '/shareApp': (context) => ShareAppScreen(),
         // '/termsOfService': (context) => TermsOfServiceScreen(),
         // '/privacyPolicy': (context) => PrivacyPolicyScreen(),
-        '/chatting': (context) => ChatScreen(),
+        '/chatting': (context) => ChatScreen(showAppBar: true),
       },
       title: '音声AIアプリ',
       theme: ThemeData(

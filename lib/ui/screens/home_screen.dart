@@ -36,13 +36,19 @@ class HomeScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(right: 40.0),
             child: GestureDetector(
-                onHorizontalDragUpdate: (details) => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ChatScreen())),
+                onHorizontalDragUpdate: (details) => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChatScreen(
+                              showAppBar: true,
+                            ))),
                 child: const Icon(Icons.schedule_rounded)),
           )
         ],
       ),
-      body: ChatScreen(),
+      body: ChatScreen(
+        showAppBar: false,
+      ),
       drawer: Drawer(
         child: Column(
           children: <Widget>[

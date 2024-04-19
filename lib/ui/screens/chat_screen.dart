@@ -12,10 +12,13 @@ import 'package:aitrip/ui/components/chat_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final chatScreenProvider = Provider((_) => ChatScreen());
+final chatScreenProvider = Provider((_) => ChatScreen(
+      showAppBar: true,
+    ));
 
 class ChatScreen extends ConsumerWidget {
-  ChatScreen({super.key});
+  ChatScreen({super.key, required this.showAppBar});
+  final bool showAppBar;
   final TextEditingController hotelInfoController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
   final hotelInfoServiceProvider = Provider<HotelInfoRepository>((ref) {
@@ -35,6 +38,7 @@ class ChatScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+        appBar: showAppBar ? AppBar() : null,
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
