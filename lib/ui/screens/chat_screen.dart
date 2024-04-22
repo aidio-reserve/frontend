@@ -38,7 +38,17 @@ class ChatScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        appBar: showAppBar ? AppBar() : null,
+        appBar: showAppBar
+            ? AppBar(
+                title: Text(
+                  "会話履歴",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600),
+                ),
+              )
+            : null,
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
