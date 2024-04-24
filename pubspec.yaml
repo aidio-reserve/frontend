@@ -23,6 +23,7 @@ dependencies:
   webview_flutter: ^4.7.0
   google_fonts: ^6.2.1
   flutter_chat_bubble: ^2.0.2
+  speech_to_text: ^6.6.0
 
 dev_dependencies:
   flutter_test:
