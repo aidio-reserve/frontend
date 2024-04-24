@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -22,6 +24,7 @@ final speechProvider = StateNotifierProvider<SpeechNotifier, SpeechState>(
 
 class SpeechNotifier extends StateNotifier<SpeechState> {
   final SpeechToText _speechToText = SpeechToText();
+  Timer? _silenceTimer;
 
 //SpeechNotifierのコンストラクタの作成の際に、
 //SpeechStateをインスタンス化することでSpeechNotifierの親クラスであるStateNotifierの初期化を行っており、
@@ -41,6 +44,13 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
       pauseFor: const Duration(seconds: 2),
     );
     state = state.copyWith(isListening: true);
+
+    _silenceTimer?.cancel();
+    _silenceTimer = Timer(const Duration(seconds: 2), () {
+      if (_speechToText.isNotListening) {
+        state = state.copyWith(isListening: false);
+      }
+    });
   }
 
   void stopListening() async {
@@ -48,10 +58,20 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
     state = state.copyWith(isListening: false);
     //messageProviderのsendMessage関数を呼び出す
     // sendMessage();
+
+    //タイマーをキャンセルする
+    _silenceTimer?.cancel();
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
     state = state.copyWith(lastWords: result.recognizedWords);
+
+    _silenceTimer?.cancel();
+    _silenceTimer = Timer(const Duration(seconds: 2), () {
+      if (_speechToText.isNotListening) {
+        state = state.copyWith(isListening: false);
+      }
+    });
   }
 
   void reset() {
