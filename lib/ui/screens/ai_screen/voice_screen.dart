@@ -15,6 +15,7 @@ class SpeechState {
   });
 }
 
+//StateNotifierProviderの<>は、左側には利用したいStateNotifierを、右側には返したい方を指定する。
 final speechProvider = StateNotifierProvider<SpeechNotifier, SpeechState>(
   (ref) => SpeechNotifier(),
 );
@@ -22,6 +23,9 @@ final speechProvider = StateNotifierProvider<SpeechNotifier, SpeechState>(
 class SpeechNotifier extends StateNotifier<SpeechState> {
   final SpeechToText _speechToText = SpeechToText();
 
+//SpeechNotifierのコンストラクタの作成の際に、
+//SpeechStateをインスタンス化することでSpeechNotifierの親クラスであるStateNotifierの初期化を行っており、
+//SpeechNotifierクラスが初期化される際に_initSpeechメソッドを呼び出している
   SpeechNotifier() : super(SpeechState()) {
     _initSpeech();
   }
@@ -32,13 +36,18 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
   }
 
   void startListening() async {
-    await _speechToText.listen(onResult: _onSpeechResult);
+    await _speechToText.listen(
+      onResult: _onSpeechResult,
+      pauseFor: const Duration(seconds: 2),
+    );
     state = state.copyWith(isListening: true);
   }
 
   void stopListening() async {
     await _speechToText.stop();
     state = state.copyWith(isListening: false);
+    //messageProviderのsendMessage関数を呼び出す
+    // sendMessage();
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
@@ -50,13 +59,18 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
   }
 }
 
+// void sendMessage() {
+// }
+
 extension SpeechStateCopyWith on SpeechState {
   SpeechState copyWith({
+    //下の？はnull許容型
     String? lastWords,
     bool? isListening,
     bool? isSpeechEnabled,
   }) {
     return SpeechState(
+      //下の？？はnull許容型演算子
       lastWords: lastWords ?? this.lastWords,
       isListening: isListening ?? this.isListening,
       isSpeechEnabled: isSpeechEnabled ?? this.isSpeechEnabled,
@@ -78,6 +92,10 @@ class VoiceScreen extends ConsumerWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                ),
                 child: Text(
                   speechState.lastWords,
                   style: const TextStyle(
@@ -100,9 +118,6 @@ class VoiceScreen extends ConsumerWidget {
                       }
                     : null,
               ),
-              //音声入力),
-              const SizedBox(height: 40),
-              TextButton(onPressed: () {}, child: const Text("リセット"))
             ],
           ),
         ),

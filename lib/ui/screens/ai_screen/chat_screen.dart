@@ -40,42 +40,18 @@ class ChatScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
-                // TextField(
-                //   controller: hotelInfoController,
-                //   decoration: const InputDecoration(
-                //     border: OutlineInputBorder(),
-                //     labelText: 'ここに、楽天APIに渡すhotel infoを入力します。',
-                //   ),
-                // ),
-                // const SizedBox(height: 16),
-                // ElevatedButton(
-                //   onPressed: () async {
-                //     final hotelInfoService = ref.read(hotelInfoServiceProvider);
-                //     final String userInput = hotelInfoController.text;
-                //     await hotelInfoService.sendHotelInfoToAPI(
-                //         userInput, ref, context);
-                //   },
-                //   child: const Text('実行'),
-                // ),
-                // const SizedBox(height: 16),
                 Expanded(child: Consumer(builder: (context, ref, _) {
                   final messages = ref.watch(messageListProvider);
                   final isLoading = ref.watch(isLoadingProvider);
 
                   return ListView.builder(
-                    itemCount: messages.length +
-                        1 +
-                        (isLoading ? 1 : 0), // 初期行のために+1、ローディングのために条件付きで+1
+                    itemCount: messages.length + 1 + (isLoading ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index == 0) {
-                        // 最初の行に特別なウィジェット（initialRow）を配置
-                        return initialRow(context); // 実際のinitialRowウィジェットをここに配置
+                        return initialRow(context);
                       } else if (index == messages.length + 1 && isLoading) {
-                        // リストの最後でisLoadingがtrueの場合、ローディング行を表示
                         return loadingMessageRow(context);
                       }
-                      // それ以外の場合、メッセージを表示
-                      // indexが1から始まるため、メッセージのインデックスを調整
                       final message = messages[index - 1];
                       return message.isSender
                           ? userRow(context, message.text)
