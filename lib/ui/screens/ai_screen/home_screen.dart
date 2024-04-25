@@ -20,6 +20,29 @@ class HomeScreen extends ConsumerWidget {
       error: (_, __) => false,
     );
 
+    OverlayEntry? overlayEntry;
+
+    double opacity = 0.3;
+
+    void showOverlay(BuildContext context) {
+      overlayEntry = OverlayEntry(
+        builder: (context) => Opacity(
+          opacity: opacity,
+          child: Container(
+            color: Colors.blue.withOpacity(opacity),
+            child: ChatScreen(showAppBar: true),
+          ),
+        ),
+      );
+
+      Overlay.of(context).insert(overlayEntry!);
+    }
+
+    hideOverlay() {
+      overlayEntry?.remove();
+      overlayEntry = null;
+    }
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -37,12 +60,38 @@ class HomeScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(right: 40.0),
             child: GestureDetector(
-                onHorizontalDragUpdate: (details) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChatScreen(
-                              showAppBar: true,
-                            ))),
+                onHorizontalDragUpdate: (details) {
+                  double delta = (details.primaryDelta ?? 0.0) / 200;
+
+                  void updateOpacity(double delta) {
+                    if (overlayEntry == null) {
+                      showOverlay(context);
+                    }
+                    opacity = (opacity + delta).clamp(0.0, 1.0);
+                    overlayEntry?.markNeedsBuild();
+                    debugPrint("opacity: $opacity");
+                  }
+
+                  showOverlay(context);
+                  debugPrint('showOverlayを呼び出しました。');
+                  updateOpacity(delta);
+                  debugPrint('updateOpacityを呼び出しました。');
+                },
+                onHorizontalDragEnd: (details) {
+                  debugPrint('手が離れました');
+                  if (opacity < 0.2) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                                showAppBar: true,
+                              )),
+                    );
+                  } else {
+                    debugPrint('遷移しませんでした。');
+                    hideOverlay();
+                  }
+                },
                 child: const Icon(Icons.schedule_rounded)),
           )
         ],
