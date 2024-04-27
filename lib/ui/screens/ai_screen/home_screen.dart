@@ -41,6 +41,7 @@ class HomeScreen extends ConsumerWidget {
     hideOverlay() {
       overlayEntry?.remove();
       overlayEntry = null;
+      opacity = 1.0;
     }
 
     return Scaffold(
@@ -79,7 +80,7 @@ class HomeScreen extends ConsumerWidget {
                 },
                 onHorizontalDragEnd: (details) {
                   debugPrint('手が離れました');
-                  if (opacity < 0.2) {
+                  if (opacity < 0.28) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -87,16 +88,18 @@ class HomeScreen extends ConsumerWidget {
                                 showAppBar: true,
                               )),
                     );
+                    debugPrint('遷移しました。');
+                    hideOverlay();
                   } else {
                     debugPrint('遷移しませんでした。');
-                    hideOverlay();
+                    // hideOverlay();
                   }
                 },
                 child: const Icon(Icons.schedule_rounded)),
           )
         ],
       ),
-      body: const VoiceScreen(), //ここをVoiceScreen()に後々変更
+      body: const VoiceScreen(),
       drawer: Drawer(
         child: Column(
           children: <Widget>[
