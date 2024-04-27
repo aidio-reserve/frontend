@@ -20,6 +20,37 @@ class HomeScreen extends ConsumerWidget {
       error: (_, __) => false,
     );
 
+    OverlayEntry? overlayEntry;
+
+    //ChatScreenの透明度
+    double opacity = 0.0;
+
+    void showOverlay(BuildContext context) {
+      if (overlayEntry == null) {
+        overlayEntry = OverlayEntry(
+          builder: (context) => Opacity(
+            opacity: opacity,
+            child: ChatScreen(showAppBar: true),
+          ),
+        );
+        Overlay.of(context).insert(overlayEntry!);
+        debugPrint("Overlay shown");
+      } else {
+        debugPrint("Overlay already exists, not creating a new one");
+      }
+    }
+
+    hideOverlay() {
+      if (overlayEntry != null) {
+        debugPrint("Overlay before removing: ${overlayEntry.hashCode}");
+        overlayEntry?.remove();
+        debugPrint("Overlay after removing: ${overlayEntry.hashCode}");
+        overlayEntry = null;
+        opacity = 0.0;
+        debugPrint("Opacity set to zero and overlay removed.");
+      }
+    }
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -37,17 +68,46 @@ class HomeScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(right: 40.0),
             child: GestureDetector(
-                onHorizontalDragUpdate: (details) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ChatScreen(
-                              showAppBar: true,
-                            ))),
+                onVerticalDragUpdate: (details) {
+                  double delta = (details.primaryDelta ?? 0.0) / 100;
+
+                  void updateOpacity(double delta) {
+                    if (overlayEntry == null) {
+                      showOverlay(context);
+                    }
+                    opacity = (opacity + delta).clamp(0.0, 1.0);
+                    overlayEntry?.markNeedsBuild();
+                    debugPrint("opacity: $opacity");
+                  }
+
+                  showOverlay(context);
+                  debugPrint('showOverlayを呼び出しました。');
+                  updateOpacity(delta);
+                  debugPrint('updateOpacityを呼び出しました。');
+                },
+                onVerticalDragEnd: (details) {
+                  debugPrint('手が離れました。現在のopacity値: $opacity');
+                  if (opacity > 0.5) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                                showAppBar: true,
+                              )),
+                    );
+                    debugPrint('遷移しました。');
+                    hideOverlay();
+                  } else {
+                    debugPrint('遷移しませんでした。現在のopacity値: $opacity');
+                    // Navigator.pushNamed(context, '/voice');
+                    hideOverlay();
+                  }
+                },
                 child: const Icon(Icons.schedule_rounded)),
           )
         ],
       ),
-      body: const VoiceScreen(), //ここをVoiceScreen()に後々変更
+      body: const VoiceScreen(),
       drawer: Drawer(
         child: Column(
           children: <Widget>[
