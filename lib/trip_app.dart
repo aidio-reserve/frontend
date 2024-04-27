@@ -1,6 +1,7 @@
 import 'package:aitrip/providers/theme_provider.dart';
 import 'package:aitrip/ui/screens/ai_screen/chat_screen.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
+import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:aitrip/ui/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +20,9 @@ class TripApp extends ConsumerWidget {
       routes: {
         // '/save': (context) => SaveScreen(),
         // '/myPage': (context) => MyPageScreen(),
+        '/home': (context) => const HomeScreen(),
         '/setting': (context) => const SettingScreen(),
+        '/voice': (context) => const VoiceScreen(),
         // '/appInfo': (context) => AppInfoScreen(),
         // '/shareApp': (context) => ShareAppScreen(),
         // '/termsOfService': (context) => TermsOfServiceScreen(),
