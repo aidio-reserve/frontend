@@ -121,8 +121,8 @@ class ChatScreen extends ConsumerWidget {
                       .read(messageListProvider.notifier)
                       .addMessage(userMessage, true);
                   showLoading(ref);
-                  await messageService.sendMessage(threadId, userMessage);
                   messageController.clear();
+                  await messageService.sendMessage(threadId, userMessage);
                   await userInfoService.sendUserInfoRequest(threadId);
                   Map<String, dynamic> updatedUserInfo =
                       ref.read(userInfoProvider)[threadId];
