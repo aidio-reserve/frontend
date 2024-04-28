@@ -10,7 +10,6 @@ import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
 import 'package:aitrip/ui/components/chat_bubble.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
-import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -113,9 +112,7 @@ class ChatScreen extends ConsumerWidget {
                 final userInfoService = ref.read(exportUserInfoProvider);
                 //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
                 final hotelInfoService = ref.read(hotelInfoServiceProvider);
-                //userInfoNotifierProviderを使用してUserInfoNotifierを取得(最新のUserInfoを取得してUIに表示させるため)
-                final userInfoNotifier =
-                    ref.watch(userInfoNotifierProvider.notifier);
+                ref.watch(userInfoNotifierProvider.notifier);
                 if (userMessage.isNotEmpty) {
                   ref
                       .read(messageListProvider.notifier)
