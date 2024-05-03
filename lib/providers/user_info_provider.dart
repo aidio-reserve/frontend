@@ -1,3 +1,4 @@
+import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // UserInfoの状態を管理するためのプロバイダー
@@ -16,3 +17,12 @@ class UserInfoNotifier extends StateNotifier<Map<String, dynamic>> {
     state = Map.from(state); // 状態を更新してUIをリビルドする
   }
 }
+
+final exportUserInfoProvider = Provider<ExportUserInfoRepository>((ref) {
+  return ExportUserInfoRepository(ref: ref);
+});
+
+final userInfoNotifierProvider =
+    StateNotifierProvider<UserInfoNotifier, Map<String, dynamic>>((ref) {
+  return UserInfoNotifier();
+});

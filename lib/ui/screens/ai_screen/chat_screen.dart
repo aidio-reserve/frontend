@@ -4,7 +4,7 @@ import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
 import 'package:aitrip/data/repositories/chat_repository.dart';
 import 'package:aitrip/models/messages.dart';
-import 'package:aitrip/providers/message_loading_provider.dart';
+import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
