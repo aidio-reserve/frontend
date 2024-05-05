@@ -17,9 +17,6 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
   final SpeechToText _speechToText = SpeechToText();
   Timer? _silenceTimer;
 
-//SpeechNotifierのコンストラクタの作成の際に、
-//SpeechStateをインスタンス化することでSpeechNotifierの親クラスであるStateNotifierの初期化を行っており、
-//SpeechNotifierクラスが初期化される際に_initSpeechメソッドを呼び出している
   SpeechNotifier() : super(SpeechState()) {
     _initSpeech();
   }
@@ -36,8 +33,6 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
     final userInfoService = ref.read(exportUserInfoProvider);
     final hotelInfoService = ref.read(hotelInfoServiceProvider);
 
-    debugPrint('Sending message: ${state.lastWords}');
-
     if (userMessage.isNotEmpty) {
       ref.read(messageListProvider.notifier).addMessage(userMessage, true);
       // showLoading(ref);
@@ -50,8 +45,6 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
           jsonUpdatedUserInfo, ref, context);
       clearUserMessage();
     }
-
-    debugPrint('Message sent: ${state.lastWords}');
   }
 
   void startListening(WidgetRef ref, BuildContext context) async {
@@ -94,13 +87,11 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
 
 extension SpeechStateCopyWith on SpeechState {
   SpeechState copyWith({
-    //下の？はnull許容型
     String? lastWords,
     bool? isListening,
     bool? isSpeechEnabled,
   }) {
     return SpeechState(
-      //下の？？はnull許容型演算子
       lastWords: lastWords ?? this.lastWords,
       isListening: isListening ?? this.isListening,
       isSpeechEnabled: isSpeechEnabled ?? this.isSpeechEnabled,
