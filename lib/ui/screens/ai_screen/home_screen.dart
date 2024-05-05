@@ -13,16 +13,12 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final AsyncValue<User?> user = ref.watch(authStateProvider);
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
     bool isUserLoggedIn = user.when(
       data: (User? user) => user != null,
       loading: () => false,
       error: (_, __) => false,
     );
-
     OverlayEntry? overlayEntry;
-
-    //ChatScreenの透明度
     double opacity = 0.0;
 
     void showOverlay(BuildContext context) {
@@ -34,21 +30,23 @@ class HomeScreen extends ConsumerWidget {
           ),
         );
         Overlay.of(context).insert(overlayEntry!);
-        debugPrint("Overlay shown");
-      } else {
-        debugPrint("Overlay already exists, not creating a new one");
-      }
+      } else {}
     }
 
     hideOverlay() {
       if (overlayEntry != null) {
-        debugPrint("Overlay before removing: ${overlayEntry.hashCode}");
         overlayEntry?.remove();
-        debugPrint("Overlay after removing: ${overlayEntry.hashCode}");
         overlayEntry = null;
         opacity = 0.0;
-        debugPrint("Opacity set to zero and overlay removed.");
       }
+    }
+
+    void updateOpacity(double delta) {
+      if (overlayEntry == null) {
+        showOverlay(context);
+      }
+      opacity = (opacity + delta).clamp(0.0, 1.0);
+      overlayEntry?.markNeedsBuild();
     }
 
     return Scaffold(
@@ -70,23 +68,10 @@ class HomeScreen extends ConsumerWidget {
             child: GestureDetector(
                 onVerticalDragUpdate: (details) {
                   double delta = (details.primaryDelta ?? 0.0) / 100;
-
-                  void updateOpacity(double delta) {
-                    if (overlayEntry == null) {
-                      showOverlay(context);
-                    }
-                    opacity = (opacity + delta).clamp(0.0, 1.0);
-                    overlayEntry?.markNeedsBuild();
-                    debugPrint("opacity: $opacity");
-                  }
-
                   showOverlay(context);
-                  debugPrint('showOverlayを呼び出しました。');
                   updateOpacity(delta);
-                  debugPrint('updateOpacityを呼び出しました。');
                 },
                 onVerticalDragEnd: (details) {
-                  debugPrint('手が離れました。現在のopacity値: $opacity');
                   if (opacity > 0.5) {
                     Navigator.push(
                       context,
@@ -95,11 +80,8 @@ class HomeScreen extends ConsumerWidget {
                                 showAppBar: true,
                               )),
                     );
-                    debugPrint('遷移しました。');
                     hideOverlay();
                   } else {
-                    debugPrint('遷移しませんでした。現在のopacity値: $opacity');
-                    // Navigator.pushNamed(context, '/voice');
                     hideOverlay();
                   }
                 },
@@ -248,18 +230,14 @@ class HomeScreen extends ConsumerWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Spacer(
-                                      flex: 3,
-                                    ),
+                                    const Spacer(flex: 3),
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text('キャンセル'),
                                     ),
-                                    const Spacer(
-                                      flex: 1,
-                                    ),
+                                    const Spacer(flex: 1),
                                     TextButton(
                                       onPressed: () async {
                                         Navigator.of(context).pop();
@@ -267,9 +245,7 @@ class HomeScreen extends ConsumerWidget {
                                       },
                                       child: const Text('ログアウト'),
                                     ),
-                                    const Spacer(
-                                      flex: 3,
-                                    ),
+                                    const Spacer(flex: 3),
                                   ],
                                 ),
                               ],
