@@ -33,22 +33,25 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
     final messageService = ref.read(messageProvider);
     final threadId = ref.read(threadIdProvider);
     final userMessage = state.lastWords;
-    debugPrint('userMessage: $userMessage');
     final userInfoService = ref.read(exportUserInfoProvider);
     final hotelInfoService = ref.read(hotelInfoServiceProvider);
+
+    debugPrint('Sending message: ${state.lastWords}');
 
     if (userMessage.isNotEmpty) {
       ref.read(messageListProvider.notifier).addMessage(userMessage, true);
       // showLoading(ref);
-      // messageController.clear();
+      await messageService.sendMessage(threadId, userMessage);
+      await userInfoService.sendUserInfoRequest(threadId);
+      Map<String, dynamic> updatedUserInfo =
+          ref.read(userInfoProvider)[threadId];
+      String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
+      await hotelInfoService.sendHotelInfoToAPI(
+          jsonUpdatedUserInfo, ref, context);
+      clearUserMessage();
     }
-    debugPrint('sendMessage関数が呼び出されました');
-    await messageService.sendMessage(threadId, userMessage);
-    await userInfoService.sendUserInfoRequest(threadId);
-    Map<String, dynamic> updatedUserInfo = ref.read(userInfoProvider)[threadId];
-    String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
-    await hotelInfoService.sendHotelInfoToAPI(
-        jsonUpdatedUserInfo, ref, context);
+
+    debugPrint('Message sent: ${state.lastWords}');
   }
 
   void startListening(WidgetRef ref, BuildContext context) async {
@@ -73,7 +76,7 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
 
     _silenceTimer?.cancel();
     _silenceTimer = Timer(const Duration(seconds: 2), () {
-      if (_speechToText.isNotListening) {
+      if (_speechToText.isNotListening && state.isListening) {
         state = state.copyWith(isListening: false);
         sendVoiceMessage(ref, context);
       }
@@ -81,6 +84,10 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
   }
 
   void reset() {
+    state = state.copyWith(lastWords: '');
+  }
+
+  void clearUserMessage() {
     state = state.copyWith(lastWords: '');
   }
 }
