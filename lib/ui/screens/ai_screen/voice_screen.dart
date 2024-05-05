@@ -1,15 +1,13 @@
-import 'dart:async';
-
+import 'package:aitrip/providers/speech_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 
 class SpeechState {
   final String lastWords;
   final bool isListening;
   final bool isSpeechEnabled;
 
+  //コンストラクタ
   SpeechState({
     this.lastWords = '',
     this.isListening = false,
@@ -17,86 +15,9 @@ class SpeechState {
   });
 }
 
-//StateNotifierProviderの<>は、左側には利用したいStateNotifierを、右側には返したい方を指定する。
 final speechProvider = StateNotifierProvider<SpeechNotifier, SpeechState>(
   (ref) => SpeechNotifier(),
 );
-
-class SpeechNotifier extends StateNotifier<SpeechState> {
-  final SpeechToText _speechToText = SpeechToText();
-  Timer? _silenceTimer;
-
-//SpeechNotifierのコンストラクタの作成の際に、
-//SpeechStateをインスタンス化することでSpeechNotifierの親クラスであるStateNotifierの初期化を行っており、
-//SpeechNotifierクラスが初期化される際に_initSpeechメソッドを呼び出している
-  SpeechNotifier() : super(SpeechState()) {
-    _initSpeech();
-  }
-
-  void _initSpeech() async {
-    bool available = await _speechToText.initialize();
-    state = state.copyWith(isSpeechEnabled: available);
-  }
-
-  void startListening() async {
-    await _speechToText.listen(
-      onResult: _onSpeechResult,
-      pauseFor: const Duration(seconds: 2),
-    );
-    state = state.copyWith(isListening: true);
-
-    _silenceTimer?.cancel();
-    _silenceTimer = Timer(const Duration(seconds: 2), () {
-      if (_speechToText.isNotListening) {
-        state = state.copyWith(isListening: false);
-      }
-    });
-  }
-
-  void stopListening() async {
-    await _speechToText.stop();
-    state = state.copyWith(isListening: false);
-    //messageProviderのsendMessage関数を呼び出す
-    // sendMessage();
-
-    //タイマーをキャンセルする
-    _silenceTimer?.cancel();
-  }
-
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    state = state.copyWith(lastWords: result.recognizedWords);
-
-    _silenceTimer?.cancel();
-    _silenceTimer = Timer(const Duration(seconds: 2), () {
-      if (_speechToText.isNotListening) {
-        state = state.copyWith(isListening: false);
-      }
-    });
-  }
-
-  void reset() {
-    state = state.copyWith(lastWords: '');
-  }
-}
-
-// void sendMessage() {
-// }
-
-extension SpeechStateCopyWith on SpeechState {
-  SpeechState copyWith({
-    //下の？はnull許容型
-    String? lastWords,
-    bool? isListening,
-    bool? isSpeechEnabled,
-  }) {
-    return SpeechState(
-      //下の？？はnull許容型演算子
-      lastWords: lastWords ?? this.lastWords,
-      isListening: isListening ?? this.isListening,
-      isSpeechEnabled: isSpeechEnabled ?? this.isSpeechEnabled,
-    );
-  }
-}
 
 class VoiceScreen extends ConsumerWidget {
   const VoiceScreen({super.key});
@@ -133,7 +54,9 @@ class VoiceScreen extends ConsumerWidget {
                         if (speechState.isListening) {
                           ref.read(speechProvider.notifier).stopListening();
                         } else {
-                          ref.read(speechProvider.notifier).startListening();
+                          ref
+                              .read(speechProvider.notifier)
+                              .startListening(ref, context);
                         }
                       }
                     : null,
