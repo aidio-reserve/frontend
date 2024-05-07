@@ -63,25 +63,43 @@ class ChatScreen extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(child: Consumer(builder: (context, ref, _) {
                   final messages = ref.watch(messageListProvider);
                   final isLoading = ref.watch(isLoadingProvider);
 
                   return ListView.builder(
-                    itemCount: messages.length + 1 + (isLoading ? 1 : 0),
+                    reverse: true,
+                    itemCount: messages.length + (isLoading ? 1 : 0),
                     itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return initialRow(context);
-                      } else if (index == messages.length + 1 && isLoading) {
+                      if (index == 0 && isLoading) {
                         return loadingMessageRow(context);
                       }
-                      final message = messages[index - 1];
-                      return message.isSender
-                          ? userRow(context, message.text)
-                          : serverRow(context, message.text);
+
+                      // Adjust the index properly
+                      final messageIndex = index - (isLoading ? 1 : 0);
+                      final message =
+                          messages[messages.length - messageIndex - 1];
+
+                      if (message.isSender) {
+                        return userRow(context, message.text);
+                      } else {
+                        return serverRow(context, message.text);
+                      }
                     },
                   );
+
+                  // itemBuilder: (context, index) {
+                  //   if (index == messages.length && isLoading) {
+                  //     return loadingMessageRow(context);
+                  //   }
+                  //   final message = messages[messages.length - index - 1];
+                  //   return message.isSender
+                  //       ? userRow(context, message.text)
+                  //       : serverRow(context, message.text);
+                  // },
                 }))
               ],
             ),

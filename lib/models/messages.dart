@@ -8,7 +8,8 @@ class Message {
 }
 
 class MessageListNotifier extends StateNotifier<List<Message>> {
-  MessageListNotifier() : super([]);
+  MessageListNotifier()
+      : super([Message(text: "こんにちは！どこに旅行に行きたいですか？", isSender: false)]);
 
   void addMessage(String text, bool isSender) {
     state = [...state, Message(text: text, isSender: isSender)];
