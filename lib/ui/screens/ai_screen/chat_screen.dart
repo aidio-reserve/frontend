@@ -71,14 +71,13 @@ class ChatScreen extends ConsumerWidget {
                   final isLoading = ref.watch(isLoadingProvider);
 
                   return ListView.builder(
+                    //reverseがtrueであるため、index0が一番最新の項目となる
                     reverse: true,
                     itemCount: messages.length + (isLoading ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index == 0 && isLoading) {
                         return loadingMessageRow(context);
                       }
-
-                      // Adjust the index properly
                       final messageIndex = index - (isLoading ? 1 : 0);
                       final message =
                           messages[messages.length - messageIndex - 1];
@@ -90,16 +89,6 @@ class ChatScreen extends ConsumerWidget {
                       }
                     },
                   );
-
-                  // itemBuilder: (context, index) {
-                  //   if (index == messages.length && isLoading) {
-                  //     return loadingMessageRow(context);
-                  //   }
-                  //   final message = messages[messages.length - index - 1];
-                  //   return message.isSender
-                  //       ? userRow(context, message.text)
-                  //       : serverRow(context, message.text);
-                  // },
                 }))
               ],
             ),
