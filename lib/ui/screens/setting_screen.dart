@@ -26,7 +26,10 @@ class SettingScreen extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   title: const Text('ユーザー名の変更'),
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/change_user_name');
+                  },
                 ),
                 SettingsTile.navigation(
                   leading: Icon(
@@ -34,7 +37,10 @@ class SettingScreen extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   title: const Text('AIの名前の変更'),
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/change_ai_name');
+                  },
                 ),
                 SettingsTile.navigation(
                   leading: Icon(
@@ -42,7 +48,10 @@ class SettingScreen extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   title: const Text('画面・音声'),
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/display_voice');
+                  },
                 ),
                 SettingsTile.navigation(
                   leading: Icon(
@@ -50,7 +59,10 @@ class SettingScreen extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   title: const Text('決済手段'),
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/payment_method');
+                  },
                 ),
                 SettingsTile.navigation(
                   leading: Icon(
@@ -58,7 +70,10 @@ class SettingScreen extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   title: const Text('ヘルプ'),
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/help');
+                  },
                 ),
                 SettingsTile.navigation(
                   leading: Icon(
@@ -66,7 +81,10 @@ class SettingScreen extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   title: const Text('このアプリについて'),
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/about_app');
+                  },
                 ),
                 SettingsTile.navigation(
                   leading: Icon(
@@ -74,7 +92,10 @@ class SettingScreen extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   title: const Text('利用規約'),
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/terms_of_service');
+                  },
                 ),
                 SettingsTile.navigation(
                   leading: Icon(
@@ -82,7 +103,10 @@ class SettingScreen extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   title: const Text('プライバシーポリシー'),
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/privacy_policy');
+                  },
                 ),
               ],
             ),
