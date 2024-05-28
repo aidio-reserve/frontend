@@ -52,7 +52,7 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
       onResult: (SpeechRecognitionResult result) {
         _onSpeechResult(result, ref, context);
       },
-      pauseFor: const Duration(seconds: 2),
+      pauseFor: const Duration(seconds: 1),
     );
     state = state.copyWith(isListening: true);
   }
