@@ -22,14 +22,7 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
   }
 
   void _initSpeech() async {
-    bool available = await _speechToText.initialize(
-      onStatus: (status) {
-        debugPrint('status: $status');
-      },
-      onError: (errorNotification) {
-        debugPrint('error: $errorNotification');
-      },
-    );
+    bool available = await _speechToText.initialize();
     state = state.copyWith(isSpeechEnabled: available);
   }
 

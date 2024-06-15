@@ -12,7 +12,7 @@ class SpeechState {
   SpeechState({
     this.lastWords = '',
     this.isListening = false,
-    this.isSpeechEnabled = true,
+    this.isSpeechEnabled = false,
   });
 }
 
