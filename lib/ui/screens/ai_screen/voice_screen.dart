@@ -27,7 +27,7 @@ class VoiceScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final speechState = ref.watch(speechProvider);
     final messages = ref.watch(messageListProvider);
-    final message = (messages.length > 1) ? messages[1] : null;
+    final message = (messages.length % 2 == 0) ? null : messages.last;
 
     return Scaffold(
       body: Center(
@@ -73,9 +73,9 @@ class VoiceScreen extends ConsumerWidget {
                   border: Border.all(color: Colors.black),
                 ),
                 child: Text(
-                  message?.text ?? '',
+                  message != null ? message.text : '',
                   style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w600),
+                      fontSize: 20, fontWeight: FontWeight.w600),
                 ),
               ),
             ],
