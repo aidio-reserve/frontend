@@ -12,7 +12,7 @@ class SpeechState {
   SpeechState({
     this.lastWords = '',
     this.isListening = false,
-    this.isSpeechEnabled = false,
+    this.isSpeechEnabled = true,
   });
 }
 
@@ -65,7 +65,7 @@ class VoiceScreen extends ConsumerWidget {
                       }
                     : null,
               ),
-              const SizedBox(height: 160),
+              const SizedBox(height: 100),
               Container(
                 padding: const EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width * 0.8,

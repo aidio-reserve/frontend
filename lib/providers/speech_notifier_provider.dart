@@ -22,7 +22,14 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
   }
 
   void _initSpeech() async {
-    bool available = await _speechToText.initialize();
+    bool available = await _speechToText.initialize(
+      onStatus: (status) {
+        debugPrint('status: $status');
+      },
+      onError: (errorNotification) {
+        debugPrint('error: $errorNotification');
+      },
+    );
     state = state.copyWith(isSpeechEnabled: available);
   }
 
@@ -52,7 +59,7 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
       onResult: (SpeechRecognitionResult result) {
         _onSpeechResult(result, ref, context);
       },
-      pauseFor: const Duration(seconds: 1),
+      pauseFor: const Duration(seconds: 2),
     );
     state = state.copyWith(isListening: true);
   }
