@@ -2,6 +2,7 @@ import 'package:aitrip/models/messages.dart';
 import 'package:aitrip/providers/speech_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class SpeechState {
   final String lastWords;
@@ -20,14 +21,45 @@ final speechProvider = StateNotifierProvider<SpeechNotifier, SpeechState>(
   (ref) => SpeechNotifier(),
 );
 
-class VoiceScreen extends ConsumerWidget {
-  const VoiceScreen({super.key});
+class VoiceScreen extends ConsumerStatefulWidget {
+  const VoiceScreen({super.key});  
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  VoiceScreenState createState() => VoiceScreenState();
+}
+
+
+class VoiceScreenState extends ConsumerState<VoiceScreen> {
+  late FlutterTts flutterTts;
+
+  @override
+  void initState() {
+    super.initState();
+    flutterTts = FlutterTts();
+    _setTtsLanguage();
+  }
+
+  Future<void> _setTtsLanguage() async {
+    await flutterTts.setLanguage("ja-JP");
+  }
+
+  Future<void> _speak(String text) async {
+    await flutterTts.stop();
+    await flutterTts.speak(text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final speechState = ref.watch(speechProvider);
     final messages = ref.watch(messageListProvider);
     final message = (messages.length % 2 == 0) ? null : messages.last;
+
+    // messageが更新されるたびに読み上げる
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (message != null) {
+        _speak(message.text);
+      }
+    });
 
     return Scaffold(
       body: Center(
