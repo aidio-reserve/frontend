@@ -38,13 +38,13 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
     super.initState();
     flutterTts = FlutterTts();
     _setTtsLanguage();
-    flutterTts.setVolume(0.5); //声の大きさ（）声の大きさ（0.0-1.0）
+    flutterTts.setVolume(0.5); //声の大きさ（0.0-1.0）
     flutterTts.setSpeechRate(1.0); //発話速度（0.0-1.0）
     flutterTts.setPitch(0.8); //声の高さ（0.5-2.0）
   }
 
   Future<void> _setTtsLanguage() async {
-    await flutterTts.setLanguage("ja-JP"); //言語を日本語に設定
+    await flutterTts.setLanguage("ja-JP"); //読み上げ言語を日本語に設定
   }
 
   Future<void> _speak(String text) async {
