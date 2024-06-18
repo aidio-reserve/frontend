@@ -31,16 +31,20 @@ class VoiceScreen extends ConsumerStatefulWidget {
 
 class VoiceScreenState extends ConsumerState<VoiceScreen> {
   late FlutterTts flutterTts;
+  String? lastSpokenMessage;
 
   @override
   void initState() {
     super.initState();
     flutterTts = FlutterTts();
     _setTtsLanguage();
+    flutterTts.setVolume(0.5); //声の大きさ（）声の大きさ（0.0-1.0）
+    flutterTts.setSpeechRate(1.0); //発話速度（0.0-1.0）
+    flutterTts.setPitch(0.8); //声の高さ（0.5-2.0）
   }
 
   Future<void> _setTtsLanguage() async {
-    await flutterTts.setLanguage("ja-JP");
+    await flutterTts.setLanguage("ja-JP"); //言語を日本語に設定
   }
 
   Future<void> _speak(String text) async {
@@ -54,12 +58,13 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
     final messages = ref.watch(messageListProvider);
     final message = (messages.length % 2 == 0) ? null : messages.last;
 
-    // messageが更新されるたびに読み上げる
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (message != null) {
+    // messageが更新された場合のみ読み上げる
+   if (message != null && message.text != lastSpokenMessage) {
+      lastSpokenMessage = message.text;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         _speak(message.text);
-      }
-    });
+      });
+    }
 
     return Scaffold(
       body: Center(
