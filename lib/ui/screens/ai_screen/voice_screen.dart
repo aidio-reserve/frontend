@@ -1,4 +1,4 @@
-import 'package:aitrip/models/messages.dart';
+import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/speech_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

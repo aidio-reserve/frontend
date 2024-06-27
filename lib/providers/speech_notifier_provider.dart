@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:aitrip/models/messages.dart';
 import 'package:aitrip/providers/hotel_provider.dart';
+import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';

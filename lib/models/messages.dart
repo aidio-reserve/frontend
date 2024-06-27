@@ -25,8 +25,3 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
         'Updated Message List:【 ${state.map((message) => 'Text: ${message.text}, IsSender: ${message.isSender}, DisplayHotel: ${message.displayHotel}').toList()} 】');
   }
 }
-
-final messageListProvider =
-    StateNotifierProvider<MessageListNotifier, List<Message>>((ref) {
-  return MessageListNotifier();
-});
