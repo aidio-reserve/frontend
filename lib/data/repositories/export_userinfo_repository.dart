@@ -35,7 +35,7 @@ class ExportUserInfoRepository {
         //UserInfoを出力(stateにアクセス)
         Map<String, dynamic> updatedUserInfo =
             ref.read(userInfoProvider)[threadId];
-        debugPrint('Updated UserInfo for $threadId: $updatedUserInfo');
+        debugPrint('Updated UserInfo for 【 $threadId: $updatedUserInfo 】');
       } else {
         debugPrint('exportUserInfoの取得に失敗しました: ${response.body}');
       }

@@ -31,10 +31,12 @@ class ChatRepository {
         debugPrint('messageの送信が成功しました');
         final Map<String, dynamic> responseData = json.decode(response.body);
         final String responseMessage = responseData['response'];
-        debugPrint('サーバーからのレスポンス: $responseMessage');
+        int displayHotel = responseData['display-hotel'];
+        debugPrint('サーバーからのレスポンス: $responseMessage'
+            'displayHotel: $displayHotel');
         ref
             .read(messageListProvider.notifier)
-            .addMessage(responseMessage, false);
+            .addMessage(responseMessage, false, displayHotel);
         ref.read(isLoadingProvider.notifier).state = false;
         debugPrint('isLoadingがfalseに戻りました');
       } else {

@@ -10,6 +10,7 @@ import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
 import 'package:aitrip/ui/components/chat_bubble.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
+import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -123,7 +124,8 @@ class ChatScreen extends ConsumerWidget {
                 if (userMessage.isNotEmpty) {
                   ref
                       .read(messageListProvider.notifier)
-                      .addMessage(userMessage, true);
+                      //↓の0を、一旦displayHotelが1になると、ずっと1のままになるように後々実装。
+                      .addMessage(userMessage, true, 0);
                   showLoading(ref);
                   messageController.clear();
                   await messageService.sendMessage(threadId, userMessage);
@@ -131,8 +133,21 @@ class ChatScreen extends ConsumerWidget {
                   Map<String, dynamic> updatedUserInfo =
                       ref.read(userInfoProvider)[threadId];
                   String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
-                  await hotelInfoService.sendHotelInfoToAPI(
-                      jsonUpdatedUserInfo, ref, context);
+                  //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
+                  if (updatedUserInfo['displayHotel'] == 1) {
+                    debugPrint('ホテル情報を取得します');
+                    await hotelInfoService.sendHotelInfoToAPI(
+                        jsonUpdatedUserInfo, ref, context);
+                    debugPrint('Navigating to ResultScreen');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ResultScreen()),
+                    );
+                  } else {
+                    debugPrint('displayHotelが1ではないため、ホテル情報を取得しません');
+                  }
+                  ref.read(isLoadingProvider.notifier).state = false;
                 }
               },
             )
