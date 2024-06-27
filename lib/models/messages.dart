@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class Message {
   final String text;
   final bool isSender;
-  final int displayHotel;
+  final bool displayHotel;
   Message(
       {required this.text, required this.isSender, required this.displayHotel});
 }
@@ -14,10 +14,12 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
   MessageListNotifier(this.ref)
       : super([
           Message(
-              text: "こんにちは！どこに旅行に行きたいですか？", isSender: false, displayHotel: 2)
+              text: "こんにちは！どこに旅行に行きたいですか？",
+              isSender: false,
+              displayHotel: false)
         ]);
 
-  void addMessage(String text, bool isSender, int displayHotel) {
+  void addMessage(String text, bool isSender, bool displayHotel) {
     state = [
       ...state,
       Message(text: text, isSender: isSender, displayHotel: displayHotel)

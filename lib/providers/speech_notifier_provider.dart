@@ -34,8 +34,9 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
     final hotelInfoService = ref.read(hotelInfoServiceProvider);
 
     if (userMessage.isNotEmpty) {
-      ref.read(messageListProvider.notifier).addMessage(userMessage, true, 0);
-      // showLoading(ref);
+      ref
+          .read(messageListProvider.notifier)
+          .addMessage(userMessage, true, false);
       await messageService.sendMessage(threadId, userMessage);
       await userInfoService.sendUserInfoRequest(threadId);
       Map<String, dynamic> updatedUserInfo =

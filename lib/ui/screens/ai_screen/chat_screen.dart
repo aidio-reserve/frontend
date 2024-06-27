@@ -121,14 +121,11 @@ class ChatScreen extends ConsumerWidget {
                 final userInfoService = ref.read(exportUserInfoProvider);
                 //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
                 final hotelInfoService = ref.read(hotelInfoServiceProvider);
-                //messageListから、displayHotelを取得
-                // final displayHotel = ref.watch(displayHotelProvider);
-                // ref.watch(userInfoNotifierProvider.notifier);
                 if (userMessage.isNotEmpty) {
                   ref
                       .read(messageListProvider.notifier)
-                      //↓の0を、一旦displayHotelが1になると、ずっと1のままになるように後々実装。
-                      .addMessage(userMessage, true, 0);
+                      //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
+                      .addMessage(userMessage, true, false);
                   showLoading(ref);
                   messageController.clear();
                   await messageService.sendMessage(threadId, userMessage);
@@ -137,14 +134,14 @@ class ChatScreen extends ConsumerWidget {
                       ref.read(userInfoProvider)[threadId];
                   String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
 
-                  // displayHotelProviderの更新を確実に行う
+                  // displayHotelProviderを更新する。
                   ref.read(displayHotelProvider.notifier).state =
                       ref.read(messageListProvider).last.displayHotel;
                   final displayHotel = ref.read(displayHotelProvider);
 
                   //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
                   debugPrint('displayHotel: $displayHotel');
-                  if (displayHotel == 1) {
+                  if (displayHotel == true) {
                     debugPrint('ホテル情報を取得します');
                     await hotelInfoService.sendHotelInfoToAPI(
                         jsonUpdatedUserInfo, ref, context);
@@ -155,7 +152,7 @@ class ChatScreen extends ConsumerWidget {
                           builder: (context) => const ResultScreen()),
                     );
                   } else {
-                    debugPrint('displayHotelが1ではないため、ホテル情報を取得しません');
+                    debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
                   }
                   ref.read(isLoadingProvider.notifier).state = false;
                 }
