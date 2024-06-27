@@ -22,7 +22,7 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
       Message(text: text, isSender: isSender, displayHotel: displayHotel)
     ];
     debugPrint(
-        'Updated Message List: ${state.map((message) => 'Text: ${message.text}, IsSender: ${message.isSender}').toList()}');
+        'Updated Message List:【 ${state.map((message) => 'Text: ${message.text}, IsSender: ${message.isSender}, DisplayHotel: ${message.displayHotel}').toList()} 】');
   }
 }
 
