@@ -10,10 +10,11 @@ class Message {
 }
 
 class MessageListNotifier extends StateNotifier<List<Message>> {
-  MessageListNotifier()
+  final Ref ref;
+  MessageListNotifier(this.ref)
       : super([
           Message(
-              text: "こんにちは！どこに旅行に行きたいですか？", isSender: false, displayHotel: 0)
+              text: "こんにちは！どこに旅行に行きたいですか？", isSender: false, displayHotel: 2)
         ]);
 
   void addMessage(String text, bool isSender, int displayHotel) {

@@ -1,3 +1,4 @@
+import 'package:aitrip/providers/display_hotel_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/message_provider.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class ChatRepository {
         ref
             .read(messageListProvider.notifier)
             .addMessage(responseMessage, false, displayHotel);
+        // ref.read(displayHotelProvider.notifier).state = displayHotel;
         ref.read(isLoadingProvider.notifier).state = false;
         debugPrint('isLoadingがfalseに戻りました');
       } else {

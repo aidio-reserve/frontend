@@ -3,5 +3,5 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final messageListProvider =
     StateNotifierProvider<MessageListNotifier, List<Message>>((ref) {
-  return MessageListNotifier();
+  return MessageListNotifier(ref);
 });

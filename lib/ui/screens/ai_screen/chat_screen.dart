@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
 import 'package:aitrip/data/repositories/chat_repository.dart';
+import 'package:aitrip/providers/display_hotel_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
@@ -120,7 +121,9 @@ class ChatScreen extends ConsumerWidget {
                 final userInfoService = ref.read(exportUserInfoProvider);
                 //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
                 final hotelInfoService = ref.read(hotelInfoServiceProvider);
-                ref.watch(userInfoNotifierProvider.notifier);
+                //messageListから、displayHotelを取得
+                // final displayHotel = ref.watch(displayHotelProvider);
+                // ref.watch(userInfoNotifierProvider.notifier);
                 if (userMessage.isNotEmpty) {
                   ref
                       .read(messageListProvider.notifier)
@@ -133,8 +136,15 @@ class ChatScreen extends ConsumerWidget {
                   Map<String, dynamic> updatedUserInfo =
                       ref.read(userInfoProvider)[threadId];
                   String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
+
+                  // displayHotelProviderの更新を確実に行う
+                  ref.read(displayHotelProvider.notifier).state =
+                      ref.read(messageListProvider).last.displayHotel;
+                  final displayHotel = ref.read(displayHotelProvider);
+
                   //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
-                  if (updatedUserInfo['displayHotel'] == 1) {
+                  debugPrint('displayHotel: $displayHotel');
+                  if (displayHotel == 1) {
                     debugPrint('ホテル情報を取得します');
                     await hotelInfoService.sendHotelInfoToAPI(
                         jsonUpdatedUserInfo, ref, context);
