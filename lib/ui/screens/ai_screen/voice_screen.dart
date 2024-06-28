@@ -44,7 +44,7 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
   }
 
   Future<void> _setTtsLanguage() async {
-    await flutterTts.setLanguage("ja-JP"); //読み上げ言語を日本語に設定
+    await flutterTts.setLanguage("ja-JP");
   }
 
   Future<void> _speak(String text) async {
