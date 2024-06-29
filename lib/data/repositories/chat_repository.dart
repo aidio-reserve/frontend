@@ -31,7 +31,7 @@ class ChatRepository {
         debugPrint('messageの送信が成功しました');
         final Map<String, dynamic> responseData = json.decode(response.body);
         final String responseMessage = responseData['response'];
-        bool displayHotel = responseData['display-hotel'];
+        int displayHotel = responseData['display-hotel'];
         debugPrint('サーバーからのレスポンス: $responseMessage'
             'displayHotel: $displayHotel');
         ref

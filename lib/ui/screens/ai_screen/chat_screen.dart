@@ -125,7 +125,7 @@ class ChatScreen extends ConsumerWidget {
                   ref
                       .read(messageListProvider.notifier)
                       //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
-                      .addMessage(userMessage, true, false);
+                      .addMessage(userMessage, true, 0);
                   showLoading(ref);
                   messageController.clear();
                   await messageService.sendMessage(threadId, userMessage);
@@ -141,7 +141,7 @@ class ChatScreen extends ConsumerWidget {
 
                   //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
                   debugPrint('displayHotel: $displayHotel');
-                  if (displayHotel == true) {
+                  if (displayHotel == 1) {
                     debugPrint('ホテル情報を取得します');
                     await hotelInfoService.sendHotelInfoToAPI(
                         jsonUpdatedUserInfo, ref, context);
