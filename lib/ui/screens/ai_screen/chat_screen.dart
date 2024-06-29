@@ -3,13 +3,15 @@ import 'dart:convert';
 import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
 import 'package:aitrip/data/repositories/chat_repository.dart';
-import 'package:aitrip/models/messages.dart';
+import 'package:aitrip/providers/display_hotel_provider.dart';
+import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
 import 'package:aitrip/ui/components/chat_bubble.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
+import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,7 +46,7 @@ class ChatScreen extends ConsumerWidget {
                 title: Text(
                   "会話履歴",
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 24,
                       fontWeight: FontWeight.w600),
                 ),
@@ -119,11 +121,11 @@ class ChatScreen extends ConsumerWidget {
                 final userInfoService = ref.read(exportUserInfoProvider);
                 //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
                 final hotelInfoService = ref.read(hotelInfoServiceProvider);
-                ref.watch(userInfoNotifierProvider.notifier);
                 if (userMessage.isNotEmpty) {
                   ref
                       .read(messageListProvider.notifier)
-                      .addMessage(userMessage, true);
+                      //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
+                      .addMessage(userMessage, true, 0);
                   showLoading(ref);
                   messageController.clear();
                   await messageService.sendMessage(threadId, userMessage);
@@ -131,10 +133,28 @@ class ChatScreen extends ConsumerWidget {
                   Map<String, dynamic> updatedUserInfo =
                       ref.read(userInfoProvider)[threadId];
                   String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
-                  if (context.mounted) {
+
+                  // displayHotelProviderを更新する。
+                  ref.read(displayHotelProvider.notifier).state =
+                      ref.read(messageListProvider).last.displayHotel;
+                  final displayHotel = ref.read(displayHotelProvider);
+
+                  //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
+                  debugPrint('displayHotel: $displayHotel');
+                  if (displayHotel == 1) {
+                    debugPrint('ホテル情報を取得します');
                     await hotelInfoService.sendHotelInfoToAPI(
                         jsonUpdatedUserInfo, ref, context);
+                    debugPrint('Navigating to ResultScreen');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ResultScreen()),
+                    );
+                  } else {
+                    debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
                   }
+                  ref.read(isLoadingProvider.notifier).state = false;
                 }
               },
             )

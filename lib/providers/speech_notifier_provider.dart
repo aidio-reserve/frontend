@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:aitrip/models/messages.dart';
 import 'package:aitrip/providers/hotel_provider.dart';
+import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';
@@ -34,17 +34,14 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
     final hotelInfoService = ref.read(hotelInfoServiceProvider);
 
     if (userMessage.isNotEmpty) {
-      ref.read(messageListProvider.notifier).addMessage(userMessage, true);
-      // showLoading(ref);
+      ref.read(messageListProvider.notifier).addMessage(userMessage, true, 0);
       await messageService.sendMessage(threadId, userMessage);
       await userInfoService.sendUserInfoRequest(threadId);
       Map<String, dynamic> updatedUserInfo =
           ref.read(userInfoProvider)[threadId];
       String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
-      if (context.mounted) {
-        await hotelInfoService.sendHotelInfoToAPI(
-            jsonUpdatedUserInfo, ref, context);
-      }
+      await hotelInfoService.sendHotelInfoToAPI(
+          jsonUpdatedUserInfo, ref, context);
       clearUserMessage();
     }
   }
