@@ -46,7 +46,7 @@ class ChatScreen extends ConsumerWidget {
                 title: Text(
                   "会話履歴",
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 24,
                       fontWeight: FontWeight.w600),
                 ),
@@ -143,14 +143,18 @@ class ChatScreen extends ConsumerWidget {
                   debugPrint('displayHotel: $displayHotel');
                   if (displayHotel == 1) {
                     debugPrint('ホテル情報を取得します');
-                    await hotelInfoService.sendHotelInfoToAPI(
-                        jsonUpdatedUserInfo, ref, context);
+                    if (context.mounted) {
+                      await hotelInfoService.sendHotelInfoToAPI(
+                          jsonUpdatedUserInfo, ref, context);
+                    }
                     debugPrint('Navigating to ResultScreen');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ResultScreen()),
-                    );
+                    if (context.mounted) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ResultScreen()),
+                      );
+                    }
                   } else {
                     debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
                   }
