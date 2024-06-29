@@ -46,7 +46,7 @@ class ChatScreen extends ConsumerWidget {
                 title: Text(
                   "会話履歴",
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 24,
                       fontWeight: FontWeight.w600),
                 ),
@@ -133,6 +133,7 @@ class ChatScreen extends ConsumerWidget {
                   Map<String, dynamic> updatedUserInfo =
                       ref.read(userInfoProvider)[threadId];
                   String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
+
                   // displayHotelProviderを更新する。
                   ref.read(displayHotelProvider.notifier).state =
                       ref.read(messageListProvider).last.displayHotel;

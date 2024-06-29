@@ -4,7 +4,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class HotelDetail extends StatelessWidget {
   final Hotel hotel;
-  const HotelDetail({super.key, required this.hotel});
+  const HotelDetail({Key? key, required this.hotel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -40,10 +40,8 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
       Map<String, dynamic> updatedUserInfo =
           ref.read(userInfoProvider)[threadId];
       String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
-      if (context.mounted) {
-        await hotelInfoService.sendHotelInfoToAPI(
-            jsonUpdatedUserInfo, ref, context);
-      }
+      await hotelInfoService.sendHotelInfoToAPI(
+          jsonUpdatedUserInfo, ref, context);
       clearUserMessage();
     }
   }
