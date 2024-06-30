@@ -1,5 +1,6 @@
 import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/speech_notifier_provider.dart';
+import 'package:aitrip/ui/components/voice_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,17 +36,8 @@ class VoiceScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                width: MediaQuery.of(context).size.width * 0.8,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Text(
-                  speechState.lastWords,
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.w600),
-                ),
+              UserContainer(
+                text: speechState.lastWords,
               ),
               const SizedBox(height: 160),
               IconButton(
@@ -66,17 +58,8 @@ class VoiceScreen extends ConsumerWidget {
                     : null,
               ),
               const SizedBox(height: 100),
-              Container(
-                padding: const EdgeInsets.all(8),
-                width: MediaQuery.of(context).size.width * 0.8,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Text(
-                  message != null ? message.text : '',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w600),
-                ),
+              ServerContainer(
+                text: message != null ? message.text : '',
               ),
             ],
           ),
