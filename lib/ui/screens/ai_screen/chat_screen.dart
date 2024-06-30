@@ -4,8 +4,8 @@ import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
 import 'package:aitrip/data/repositories/chat_repository.dart';
 import 'package:aitrip/providers/display_hotel_provider.dart';
-import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
+import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
@@ -104,10 +104,10 @@ class ChatScreen extends ConsumerWidget {
               child: CallbackShortcuts(
                 bindings : <ShortcutActivator, VoidCallback>{
                 LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): () async {
-                  await sendMessage(ref, context);
+                  await sendUserMessage(ref, context);
                 },
                 LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.enter): () async {
-                  await sendMessage(ref, context);
+                  await sendUserMessage(ref, context);
                 },
               },
               child: TextField(
@@ -122,7 +122,7 @@ class ChatScreen extends ConsumerWidget {
             IconButton(
               icon: const Icon(Icons.send),
               onPressed: () async{
-                  await sendMessage(ref, context);
+                  await sendUserMessage(ref, context);
               },
             )
           ],
@@ -130,7 +130,7 @@ class ChatScreen extends ConsumerWidget {
         
   }
 
- Future<void> sendMessage(WidgetRef ref, BuildContext context) async {
+ Future<void> sendUserMessage(WidgetRef ref, BuildContext context) async {
                 //threadIdProviderを使用してスレッドIDを取得
                 final threadId = ref.read(threadIdProvider);
                 //messageProviderを使用してChatRepositoryを取得
