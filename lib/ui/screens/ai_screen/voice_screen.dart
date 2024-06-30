@@ -36,22 +36,35 @@ class VoiceScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(30.0),
           child: Column(
             children: [
-              Container(
-                //声を聞き取っている場合、UserContainerを表示、そうでない場合はVoiceContainerを表示
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                switchInCurve: Curves.easeIn,
+                switchOutCurve: Curves.easeOut,
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  // フェードインとスライドインのアニメーションを組み合わせる
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: child.key == const ValueKey('user')
+                            ? const Offset(0, 0.5) // 下から上
+                            : const Offset(0, -0.5), // 上から下
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  );
+                },
+                //声を聞き取っている場合、ServerContainerを表示、そうでない場合はUserContainerを表示
                 child: speechState.isListening
-                    ? ServerContainer(
-                        text: message != null ? message.text : '',
-                      )
-                    : UserContainer(
+                    ? UserContainer(
+                        key: const ValueKey('user'), //Keyを指定
                         text: speechState.lastWords,
+                      )
+                    : ServerContainer(
+                        key: const ValueKey('server'), //Keyを指定
+                        text: message != null ? message.text : '',
                       ),
-              ),
-              UserContainer(
-                text: speechState.lastWords,
-              ),
-              const SizedBox(height: 20),
-              ServerContainer(
-                text: message != null ? message.text : '',
               ),
               const SizedBox(height: 20),
               IconButton(
@@ -70,6 +83,13 @@ class VoiceScreen extends ConsumerWidget {
                         }
                       }
                     : null,
+              ),
+              ServerContainer(
+                text: message != null ? message.text : '',
+              ),
+              const SizedBox(height: 20),
+              UserContainer(
+                text: speechState.lastWords,
               ),
             ],
           ),
