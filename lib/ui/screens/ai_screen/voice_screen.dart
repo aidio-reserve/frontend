@@ -33,17 +33,21 @@ class VoiceScreen extends ConsumerWidget {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(30.0),
           child: Column(
             children: [
               UserContainer(
                 text: speechState.lastWords,
               ),
-              const SizedBox(height: 160),
+              const SizedBox(height: 20),
+              ServerContainer(
+                text: message != null ? message.text : '',
+              ),
+              const SizedBox(height: 20),
               IconButton(
                 icon: const Icon(
                   Icons.mic_rounded,
-                  size: 100,
+                  size: 40,
                 ),
                 onPressed: speechState.isSpeechEnabled
                     ? () {
@@ -56,10 +60,6 @@ class VoiceScreen extends ConsumerWidget {
                         }
                       }
                     : null,
-              ),
-              const SizedBox(height: 100),
-              ServerContainer(
-                text: message != null ? message.text : '',
               ),
             ],
           ),
