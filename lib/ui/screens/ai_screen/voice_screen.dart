@@ -36,6 +36,16 @@ class VoiceScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(30.0),
           child: Column(
             children: [
+              Container(
+                //声を聞き取っている場合、UserContainerを表示、そうでない場合はVoiceContainerを表示
+                child: speechState.isListening
+                    ? ServerContainer(
+                        text: message != null ? message.text : '',
+                      )
+                    : UserContainer(
+                        text: speechState.lastWords,
+                      ),
+              ),
               UserContainer(
                 text: speechState.lastWords,
               ),
