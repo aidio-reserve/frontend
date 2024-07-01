@@ -1,3 +1,4 @@
+import 'package:aitrip/providers/loading_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/speech_notifier_provider.dart';
 import 'package:aitrip/ui/components/voice_container.dart';
@@ -29,6 +30,7 @@ class VoiceScreen extends ConsumerWidget {
     final speechState = ref.watch(speechProvider);
     final messages = ref.watch(messageListProvider);
     final message = (messages.length % 2 == 0) ? null : messages.last;
+    final isLoading = ref.watch(isLoadingProvider);
 
     return Scaffold(
       body: Center(
@@ -46,9 +48,7 @@ class VoiceScreen extends ConsumerWidget {
                     opacity: animation,
                     child: SlideTransition(
                       position: Tween<Offset>(
-                        begin: child.key == const ValueKey('user')
-                            ? const Offset(0, 0.5) // 下から上
-                            : const Offset(0, -0.5), // 上から下
+                        begin: const Offset(0, 0.5),
                         end: Offset.zero,
                       ).animate(animation),
                       child: child,
@@ -56,15 +56,17 @@ class VoiceScreen extends ConsumerWidget {
                   );
                 },
                 //声を聞き取っている場合、ServerContainerを表示、そうでない場合はUserContainerを表示
-                child: speechState.isListening
-                    ? UserContainer(
-                        key: const ValueKey('user'), //Keyを指定
-                        text: speechState.lastWords,
-                      )
-                    : ServerContainer(
-                        key: const ValueKey('server'), //Keyを指定
-                        text: message != null ? message.text : '',
-                      ),
+                child: isLoading
+                    ? const LoadingContainer()
+                    : speechState.isListening
+                        ? UserContainer(
+                            key: const ValueKey('user'), //Keyを指定
+                            text: speechState.lastWords,
+                          )
+                        : ServerContainer(
+                            key: const ValueKey('server'), //Keyを指定
+                            text: message != null ? message.text : '',
+                          ),
               ),
               const SizedBox(height: 20),
               IconButton(
