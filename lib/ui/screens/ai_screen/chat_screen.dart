@@ -104,10 +104,10 @@ class ChatScreen extends ConsumerWidget {
               child: CallbackShortcuts(
                 bindings : <ShortcutActivator, VoidCallback>{
                 LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): () async {
-                  await sendUserMessage(ref, context);
+                  await sendTextMessage(ref, context);
                 },
                 LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.enter): () async {
-                  await sendUserMessage(ref, context);
+                  await sendTextMessage(ref, context);
                 },
               },
               child: TextField(
@@ -122,7 +122,7 @@ class ChatScreen extends ConsumerWidget {
             IconButton(
               icon: const Icon(Icons.send),
               onPressed: () async{
-                  await sendUserMessage(ref, context);
+                  await sendTextMessage(ref, context);
               },
             )
           ],
@@ -130,7 +130,7 @@ class ChatScreen extends ConsumerWidget {
         
   }
 
- Future<void> sendUserMessage(WidgetRef ref, BuildContext context) async {
+ Future<void> sendTextMessage(WidgetRef ref, BuildContext context) async {
                 //threadIdProviderを使用してスレッドIDを取得
                 final threadId = ref.read(threadIdProvider);
                 //messageProviderを使用してChatRepositoryを取得
