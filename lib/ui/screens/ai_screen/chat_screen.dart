@@ -13,6 +13,7 @@ import 'package:aitrip/ui/components/chat_bubble.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
 import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final chatScreenProvider = Provider((_) => ChatScreen(
@@ -100,17 +101,36 @@ class ChatScreen extends ConsumerWidget {
             child: Row(
           children: <Widget>[
             Expanded(
+              child: CallbackShortcuts(
+                bindings : <ShortcutActivator, VoidCallback>{
+                LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): () async {
+                  await sendTextMessage(ref, context);
+                },
+                LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.enter): () async {
+                  await sendTextMessage(ref, context);
+                },
+              },
               child: TextField(
                 controller: messageController,
                 decoration: const InputDecoration(
                   labelText: "メッセージを入力します",
                   border: OutlineInputBorder(),
+                  ),
                 ),
               ),
             ),
             IconButton(
               icon: const Icon(Icons.send),
-              onPressed: () async {
+              onPressed: () async{
+                  await sendTextMessage(ref, context);
+              },
+            )
+          ],
+        )));
+        
+  }
+
+ Future<void> sendTextMessage(WidgetRef ref, BuildContext context) async {
                 //threadIdProviderを使用してスレッドIDを取得
                 final threadId = ref.read(threadIdProvider);
                 //messageProviderを使用してChatRepositoryを取得
@@ -121,6 +141,7 @@ class ChatScreen extends ConsumerWidget {
                 final userInfoService = ref.read(exportUserInfoProvider);
                 //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
                 final hotelInfoService = ref.read(hotelInfoServiceProvider);
+                ref.watch(userInfoNotifierProvider.notifier);
                 if (userMessage.isNotEmpty) {
                   ref
                       .read(messageListProvider.notifier)
@@ -133,7 +154,7 @@ class ChatScreen extends ConsumerWidget {
                   Map<String, dynamic> updatedUserInfo =
                       ref.read(userInfoProvider)[threadId];
                   String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
-
+                  
                   // displayHotelProviderを更新する。
                   ref.read(displayHotelProvider.notifier).state =
                       ref.read(messageListProvider).last.displayHotel;
@@ -160,11 +181,7 @@ class ChatScreen extends ConsumerWidget {
                   }
                   ref.read(isLoadingProvider.notifier).state = false;
                 }
-              },
-            )
-          ],
-        )));
-  }
+              }
 
   Future<void> showLoading(WidgetRef ref) async {
     ref.read(isLoadingProvider.notifier).state = true;
