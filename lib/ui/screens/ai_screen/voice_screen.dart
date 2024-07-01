@@ -69,6 +69,21 @@ class VoiceScreen extends ConsumerWidget {
                           ),
               ),
               const SizedBox(height: 20),
+              Column(
+                children: <Widget>[
+                  const Text("開発用"),
+                  ServerContainer(
+                    text: message != null ? message.text : '',
+                  ),
+                  const SizedBox(height: 20),
+                  UserContainer(
+                    text: speechState.lastWords,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.5,
+              ),
               IconButton(
                 icon: const Icon(
                   Icons.mic_rounded,
@@ -85,13 +100,6 @@ class VoiceScreen extends ConsumerWidget {
                         }
                       }
                     : null,
-              ),
-              ServerContainer(
-                text: message != null ? message.text : '',
-              ),
-              const SizedBox(height: 20),
-              UserContainer(
-                text: speechState.lastWords,
               ),
             ],
           ),
