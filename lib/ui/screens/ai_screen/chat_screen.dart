@@ -104,12 +104,14 @@ class ChatScreen extends ConsumerWidget {
                 controller: messageController,
                 decoration: const InputDecoration(
                   labelText: "メッセージを入力します",
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 ),
               ),
             ),
+            const SizedBox(width: 8),
             IconButton(
-              icon: const Icon(Icons.send),
+              icon: const Icon(Icons.send_rounded),
               onPressed: () async {
                 //threadIdProviderを使用してスレッドIDを取得
                 final threadId = ref.read(threadIdProvider);
