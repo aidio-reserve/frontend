@@ -3,6 +3,7 @@ import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/speech_notifier_provider.dart';
 import 'package:aitrip/ui/components/voice_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SpeechState {
@@ -33,18 +34,20 @@ class VoiceScreen extends ConsumerWidget {
     final isLoading = ref.watch(isLoadingProvider);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Center(
-            child: Padding(
+      body: Center(
+        child: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.all(30.0),
               child: Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
                   color: Theme.of(context)
                       .colorScheme
                       .inverseSurface
                       .withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(12.0), // 角を丸くする
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -82,49 +85,107 @@ class VoiceScreen extends ConsumerWidget {
                                     text: message != null ? message.text : '',
                                   ),
                       ),
-                      const SizedBox(height: 20),
-                      Column(
-                        children: <Widget>[
-                          const Text("開発用"),
-                          ServerContainer(
-                            text: message != null ? message.text : '',
-                          ),
-                          const SizedBox(height: 20),
-                          UserContainer(
-                            text: speechState.lastWords,
-                          ),
-                        ],
-                      ),
+                      // const SizedBox(height: 20),
+                      // Column(
+                      //   children: <Widget>[
+                      //     const Text("開発用"),
+                      //     ServerContainer(
+                      //       text: message != null ? message.text : '',
+                      //     ),
+                      //     const SizedBox(height: 20),
+                      //     UserContainer(
+                      //       text: speechState.lastWords,
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.mic_rounded,
-                  size: 40,
-                ),
-                onPressed: speechState.isSpeechEnabled
-                    ? () {
-                        if (speechState.isListening) {
-                          ref.read(speechProvider.notifier).stopListening();
-                        } else {
-                          ref
-                              .read(speechProvider.notifier)
-                              .startListening(ref, context);
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 30.0,
+                right: 30.0,
+              ),
+              child: Container(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .inverseSurface
+                        .withOpacity(0.05),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(30.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "宿泊先",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "日程",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "人数",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "値段帯",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "部屋のサイズ",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "ベッドサイズ",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "ベッドの種類",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ]),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.1,
+                alignment: Alignment.bottomCenter,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.mic_rounded,
+                    size: 40,
+                  ),
+                  onPressed: speechState.isSpeechEnabled
+                      ? () {
+                          if (speechState.isListening) {
+                            ref.read(speechProvider.notifier).stopListening();
+                          } else {
+                            ref
+                                .read(speechProvider.notifier)
+                                .startListening(ref, context);
+                          }
                         }
-                      }
-                    : null,
+                      : null,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

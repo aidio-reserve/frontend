@@ -12,14 +12,12 @@ class UserContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Container(
+        margin: const EdgeInsets.only(top: 20),
         alignment: Alignment.center,
         padding: const EdgeInsets.all(8),
         width: MediaQuery.of(context).size.width * 0.7,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primaryContainer,
-          // border: Border.all(
-          //     color: Theme.of(context).colorScheme.onTertiaryContainer,
-          //     width: 3.0),
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Text(
@@ -44,26 +42,24 @@ class ServerContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Flexible(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 38.0),
-            child: Container(
-              margin: const EdgeInsets.only(top: 20),
-              padding: const EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.tertiaryContainer,
-                borderRadius: BorderRadius.circular(12.0),
+          child: Container(
+            margin: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.all(8.0),
+            width: MediaQuery.of(context).size.width * 0.7,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.tertiaryContainer,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onTertiaryContainer,
               ),
-              child: Text(
-                text,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onTertiaryContainer,
-                ),
-                softWrap: true,
-                overflow: TextOverflow.clip,
-              ),
+              softWrap: true,
+              overflow: TextOverflow.clip,
             ),
           ),
         ),
@@ -80,27 +76,22 @@ class LoadingContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Flexible(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 38.0),
-            child: Container(
-              margin: const EdgeInsets.only(top: 20),
-              padding: const EdgeInsets.all(12.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.tertiaryContainer,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: Text(
-                "Loading...",
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onTertiaryContainer,
-                ),
-                softWrap: true,
-                overflow: TextOverflow.clip,
-              ),
+        Container(
+          margin: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.tertiaryContainer,
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Text(
+            "Loading...",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onTertiaryContainer,
             ),
+            softWrap: true,
+            overflow: TextOverflow.clip,
           ),
         ),
       ],
