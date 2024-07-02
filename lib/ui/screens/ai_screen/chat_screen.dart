@@ -43,10 +43,14 @@ class ChatScreen extends ConsumerWidget {
     return Scaffold(
         appBar: showAppBar
             ? AppBar(
+                backgroundColor: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withOpacity(0.5),
                 title: Text(
                   "会話履歴",
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
                       fontSize: 24,
                       fontWeight: FontWeight.w600),
                 ),
@@ -63,108 +67,127 @@ class ChatScreen extends ConsumerWidget {
             : null,
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(child: Consumer(builder: (context, ref, _) {
-                  final messages = ref.watch(messageListProvider);
-                  final isLoading = ref.watch(isLoadingProvider);
+            padding: const EdgeInsets.only(
+                left: 20.0, right: 20.0, top: 8.0, bottom: 8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0),
+                color: Theme.of(context)
+                    .colorScheme
+                    .inverseSurface
+                    .withOpacity(0.05),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(child: Consumer(builder: (context, ref, _) {
+                      final messages = ref.watch(messageListProvider);
+                      final isLoading = ref.watch(isLoadingProvider);
 
-                  return ListView.builder(
-                    //reverseがtrueであるため、index0が一番最新の項目となる
-                    reverse: true,
-                    itemCount: messages.length + (isLoading ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index == 0 && isLoading) {
-                        return loadingMessageRow(context);
-                      }
-                      final messageIndex = index - (isLoading ? 1 : 0);
-                      final message =
-                          messages[messages.length - messageIndex - 1];
+                      return ListView.builder(
+                        //reverseがtrueであるため、index0が一番最新の項目となる
+                        reverse: true,
+                        itemCount: messages.length + (isLoading ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index == 0 && isLoading) {
+                            return loadingMessageRow(context);
+                          }
+                          final messageIndex = index - (isLoading ? 1 : 0);
+                          final message =
+                              messages[messages.length - messageIndex - 1];
 
-                      if (message.isSender) {
-                        return userRow(context, message.text);
-                      } else {
-                        return serverRow(context, message.text);
-                      }
-                    },
-                  );
-                }))
-              ],
+                          if (message.isSender) {
+                            return userRow(context, message.text);
+                          } else {
+                            return serverRow(context, message.text);
+                          }
+                        },
+                      );
+                    }))
+                  ],
+                ),
+              ),
             ),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-            child: Row(
-          children: <Widget>[
-            Expanded(
-              child: TextField(
-                controller: messageController,
-                decoration: const InputDecoration(
-                  labelText: "メッセージを入力します",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            child: Padding(
+          padding: const EdgeInsets.only(
+            left: 30.0,
+            right: 30.0,
+          ),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: messageController,
+                  decoration: const InputDecoration(
+                    labelText: "メッセージを入力します",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 8),
-            IconButton(
-              icon: const Icon(Icons.send_rounded),
-              onPressed: () async {
-                //threadIdProviderを使用してスレッドIDを取得
-                final threadId = ref.read(threadIdProvider);
-                //messageProviderを使用してChatRepositoryを取得
-                final messageService = ref.read(messageProvider);
-                //messageControllerからユーザーのメッセージを取得
-                final String userMessage = messageController.text;
-                //exportUserInfoProviderを使用してExportUserInfoRepositoryを取得(UserInfoを取得するため)
-                final userInfoService = ref.read(exportUserInfoProvider);
-                //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
-                final hotelInfoService = ref.read(hotelInfoServiceProvider);
-                if (userMessage.isNotEmpty) {
-                  ref
-                      .read(messageListProvider.notifier)
-                      //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
-                      .addMessage(userMessage, true, 0);
-                  showLoading(ref);
-                  messageController.clear();
-                  await messageService.sendMessage(threadId, userMessage);
-                  await userInfoService.sendUserInfoRequest(threadId);
-                  Map<String, dynamic> updatedUserInfo =
-                      ref.read(userInfoProvider)[threadId];
-                  String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
+              const SizedBox(width: 8),
+              IconButton(
+                icon: const Icon(Icons.send_rounded),
+                onPressed: () async {
+                  //threadIdProviderを使用してスレッドIDを取得
+                  final threadId = ref.read(threadIdProvider);
+                  //messageProviderを使用してChatRepositoryを取得
+                  final messageService = ref.read(messageProvider);
+                  //messageControllerからユーザーのメッセージを取得
+                  final String userMessage = messageController.text;
+                  //exportUserInfoProviderを使用してExportUserInfoRepositoryを取得(UserInfoを取得するため)
+                  final userInfoService = ref.read(exportUserInfoProvider);
+                  //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
+                  final hotelInfoService = ref.read(hotelInfoServiceProvider);
+                  if (userMessage.isNotEmpty) {
+                    ref
+                        .read(messageListProvider.notifier)
+                        //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
+                        .addMessage(userMessage, true, 0);
+                    showLoading(ref);
+                    messageController.clear();
+                    await messageService.sendMessage(threadId, userMessage);
+                    await userInfoService.sendUserInfoRequest(threadId);
+                    Map<String, dynamic> updatedUserInfo =
+                        ref.read(userInfoProvider)[threadId];
+                    String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
 
-                  // displayHotelProviderを更新する。
-                  ref.read(displayHotelProvider.notifier).state =
-                      ref.read(messageListProvider).last.displayHotel;
-                  final displayHotel = ref.read(displayHotelProvider);
+                    // displayHotelProviderを更新する。
+                    ref.read(displayHotelProvider.notifier).state =
+                        ref.read(messageListProvider).last.displayHotel;
+                    final displayHotel = ref.read(displayHotelProvider);
 
-                  //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
-                  debugPrint('displayHotel: $displayHotel');
-                  if (displayHotel == 1) {
-                    debugPrint('ホテル情報を取得します');
-                    if (context.mounted) {
-                      await hotelInfoService.sendHotelInfoToAPI(
-                          jsonUpdatedUserInfo, ref, context);
+                    //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
+                    debugPrint('displayHotel: $displayHotel');
+                    if (displayHotel == 1) {
+                      debugPrint('ホテル情報を取得します');
+                      if (context.mounted) {
+                        await hotelInfoService.sendHotelInfoToAPI(
+                            jsonUpdatedUserInfo, ref, context);
+                      }
+                      debugPrint('Navigating to ResultScreen');
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ResultScreen()),
+                        );
+                      }
+                    } else {
+                      debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
                     }
-                    debugPrint('Navigating to ResultScreen');
-                    if (context.mounted) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ResultScreen()),
-                      );
-                    }
-                  } else {
-                    debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
+                    ref.read(isLoadingProvider.notifier).state = false;
                   }
-                  ref.read(isLoadingProvider.notifier).state = false;
-                }
-              },
-            )
-          ],
+                },
+              )
+            ],
+          ),
         )));
   }
 
