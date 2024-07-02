@@ -33,58 +33,66 @@ class VoiceScreen extends ConsumerWidget {
     final isLoading = ref.watch(isLoadingProvider);
 
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                switchInCurve: Curves.easeIn,
-                switchOutCurve: Curves.easeOut,
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  // フェードインとスライドインのアニメーションを組み合わせる
-                  return FadeTransition(
-                    opacity: animation,
-                    child: SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0, 0.5),
-                        end: Offset.zero,
-                      ).animate(animation),
-                      child: child,
-                    ),
-                  );
-                },
-                //声を聞き取っている場合、ServerContainerを表示、そうでない場合はUserContainerを表示
-                child: isLoading
-                    ? const LoadingContainer()
-                    : speechState.isListening
-                        ? UserContainer(
-                            key: const ValueKey('user'), //Keyを指定
-                            text: speechState.lastWords,
-                          )
-                        : ServerContainer(
-                            key: const ValueKey('server'), //Keyを指定
-                            text: message != null ? message.text : '',
-                          ),
-              ),
-              const SizedBox(height: 20),
-              Column(
-                children: <Widget>[
-                  const Text("開発用"),
-                  ServerContainer(
-                    text: message != null ? message.text : '',
+      body: Stack(
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                children: [
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    switchInCurve: Curves.easeIn,
+                    switchOutCurve: Curves.easeOut,
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                      // フェードインとスライドインのアニメーションを組み合わせる
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0, 0.5),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        ),
+                      );
+                    },
+                    //声を聞き取っている場合、ServerContainerを表示、そうでない場合はUserContainerを表示
+                    child: isLoading
+                        ? const LoadingContainer()
+                        : speechState.isListening
+                            ? UserContainer(
+                                key: const ValueKey('user'), //Keyを指定
+                                text: speechState.lastWords,
+                              )
+                            : ServerContainer(
+                                key: const ValueKey('server'), //Keyを指定
+                                text: message != null ? message.text : '',
+                              ),
                   ),
                   const SizedBox(height: 20),
-                  UserContainer(
-                    text: speechState.lastWords,
+                  Column(
+                    children: <Widget>[
+                      const Text("開発用"),
+                      ServerContainer(
+                        text: message != null ? message.text : '',
+                      ),
+                      const SizedBox(height: 20),
+                      UserContainer(
+                        text: speechState.lastWords,
+                      ),
+                    ],
                   ),
                 ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.5,
-              ),
-              IconButton(
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              child: IconButton(
                 icon: const Icon(
                   Icons.mic_rounded,
                   size: 40,
@@ -101,9 +109,9 @@ class VoiceScreen extends ConsumerWidget {
                       }
                     : null,
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

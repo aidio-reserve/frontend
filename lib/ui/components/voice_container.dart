@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
 
 class UserContainer extends StatelessWidget {
   final String text;
@@ -17,18 +16,19 @@ class UserContainer extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         width: MediaQuery.of(context).size.width * 0.7,
         decoration: BoxDecoration(
-          border: Border.all(
-              color: Theme.of(context).colorScheme.onTertiaryContainer,
-              width: 3.0),
+          color: Theme.of(context).colorScheme.primaryContainer,
+          // border: Border.all(
+          //     color: Theme.of(context).colorScheme.onTertiaryContainer,
+          //     width: 3.0),
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Text(
           text,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+          style: const TextStyle(
+            fontSize: 12,
+          ),
         ),
       ),
-      const SizedBox(width: 8),
-      const Icon(Icons.face_rounded, size: 30),
     ]);
   }
 }
@@ -46,22 +46,21 @@ class ServerContainer extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(
-          Icons.support_agent_rounded,
-          size: 30,
-        ),
-        const SizedBox(width: 8),
         Flexible(
           child: Padding(
             padding: const EdgeInsets.only(right: 38.0),
-            child: ChatBubble(
-              clipper: ChatBubbleClipper8(type: BubbleType.receiverBubble),
+            child: Container(
               margin: const EdgeInsets.only(top: 20),
-              backGroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+              padding: const EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.tertiaryContainer,
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               child: Text(
                 text,
                 style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+                  color: Theme.of(context).colorScheme.onTertiaryContainer,
+                ),
                 softWrap: true,
                 overflow: TextOverflow.clip,
               ),
@@ -83,22 +82,21 @@ class LoadingContainer extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(
-          Icons.support_agent_rounded,
-          size: 30,
-        ),
-        const SizedBox(width: 8),
         Flexible(
           child: Padding(
             padding: const EdgeInsets.only(right: 38.0),
-            child: ChatBubble(
-              clipper: ChatBubbleClipper8(type: BubbleType.receiverBubble),
+            child: Container(
               margin: const EdgeInsets.only(top: 20),
-              backGroundColor: Theme.of(context).colorScheme.tertiaryContainer,
+              padding: const EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.tertiaryContainer,
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               child: Text(
                 "Loading...",
                 style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+                  color: Theme.of(context).colorScheme.onTertiaryContainer,
+                ),
                 softWrap: true,
                 overflow: TextOverflow.clip,
               ),
