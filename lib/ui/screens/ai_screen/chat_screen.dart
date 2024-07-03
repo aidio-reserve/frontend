@@ -119,94 +119,91 @@ class ChatScreen extends ConsumerWidget {
           children: <Widget>[
             Expanded(
               child: CallbackShortcuts(
-                bindings : <ShortcutActivator, VoidCallback>{
-                LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): () async {
-                  await sendTextMessage(ref, context);
+                bindings: <ShortcutActivator, VoidCallback>{
+                  LogicalKeySet(
+                          LogicalKeyboardKey.control, LogicalKeyboardKey.enter):
+                      () async {
+                    await sendTextMessage(ref, context);
+                  },
+                  LogicalKeySet(
+                          LogicalKeyboardKey.meta, LogicalKeyboardKey.enter):
+                      () async {
+                    await sendTextMessage(ref, context);
+                  },
                 },
-                LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.enter): () async {
-                  await sendTextMessage(ref, context);
-                },
-              },
-              child: TextField(
-                controller: messageController,
-                decoration: const InputDecoration(
-                  labelText: "メッセージを入力します",
-                  border: OutlineInputBorder(),
+                child: TextField(
+                  controller: messageController,
+                  decoration: const InputDecoration(
+                    labelText: "メッセージを入力します",
+                    border: OutlineInputBorder(),
                   ),
                 ),
               ),
             ),
             IconButton(
               icon: const Icon(Icons.send),
-              onPressed: () async{
-                  await sendTextMessage(ref, context);
+              onPressed: () async {
+                await sendTextMessage(ref, context);
               },
             )
           ],
         )));
-        
   }
 
- Future<void> sendTextMessage(WidgetRef ref, BuildContext context) async {
-                //threadIdProviderを使用してスレッドIDを取得
-                final threadId = ref.read(threadIdProvider);
-                //messageProviderを使用してChatRepositoryを取得
-                final messageService = ref.read(messageProvider);
-                //messageControllerからユーザーのメッセージを取得
-                final String userMessage = messageController.text;
-                //exportUserInfoProviderを使用してExportUserInfoRepositoryを取得(UserInfoを取得するため)
-                final userInfoService = ref.read(exportUserInfoProvider);
-                //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
-                final hotelInfoService = ref.read(hotelInfoServiceProvider);
-                ref.watch(userInfoNotifierProvider.notifier);
-                if (userMessage.isNotEmpty) {
-                  ref
-                      .read(messageListProvider.notifier)
-                      //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
-                      .addMessage(userMessage, true, 0);
-                  showLoading(ref);
-                  messageController.clear();
-                  await messageService.sendMessage(threadId, userMessage);
-                  await userInfoService.sendUserInfoRequest(threadId);
-                  Map<String, dynamic> updatedUserInfo =
-                      ref.read(userInfoProvider)[threadId];
-                  String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
-                  
-                  // displayHotelProviderを更新する。
-                  ref.read(displayHotelProvider.notifier).state =
-                      ref.read(messageListProvider).last.displayHotel;
-                  final displayHotel = ref.read(displayHotelProvider);
+  Future<void> sendTextMessage(WidgetRef ref, BuildContext context) async {
+    //threadIdProviderを使用してスレッドIDを取得
+    final threadId = ref.read(threadIdProvider);
+    //messageProviderを使用してChatRepositoryを取得
+    final messageService = ref.read(messageProvider);
+    //messageControllerからユーザーのメッセージを取得
+    final String userMessage = messageController.text;
+    //exportUserInfoProviderを使用してExportUserInfoRepositoryを取得(UserInfoを取得するため)
+    final userInfoService = ref.read(exportUserInfoProvider);
+    //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
+    final hotelInfoService = ref.read(hotelInfoServiceProvider);
+    ref.watch(userInfoNotifierProvider.notifier);
+    if (userMessage.isNotEmpty) {
+      ref
+          .read(messageListProvider.notifier)
+          //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
+          .addMessage(userMessage, true, 0);
+      showLoading(ref);
+      messageController.clear();
+      await messageService.sendMessage(threadId, userMessage);
+      await userInfoService.sendUserInfoRequest(threadId);
+      Map<String, dynamic> updatedUserInfo =
+          ref.read(userInfoProvider)[threadId];
+      String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
 
-                    //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
-                    debugPrint('displayHotel: $displayHotel');
-                    if (displayHotel == 1) {
-                      debugPrint('ホテル情報を取得します');
-                      if (context.mounted) {
-                        await hotelInfoService.sendHotelInfoToAPI(
-                            jsonUpdatedUserInfo, ref, context);
-                      }
-                      debugPrint('Navigating to ResultScreen');
-                      if (context.mounted) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ResultScreen()),
-                        );
-                      }
-                    } else {
-                      debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
-                    }
-                    ref.read(isLoadingProvider.notifier).state = false;
-                  }
-                },
-              )
-            ],
-          ),
-        )));
-  }
+      // displayHotelProviderを更新する。
+      ref.read(displayHotelProvider.notifier).state =
+          ref.read(messageListProvider).last.displayHotel;
+      final displayHotel = ref.read(displayHotelProvider);
 
-  Future<void> showLoading(WidgetRef ref) async {
-    ref.read(isLoadingProvider.notifier).state = true;
-    debugPrint('isLoadingがtrueになりました');
+      //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
+      debugPrint('displayHotel: $displayHotel');
+      if (displayHotel == 1) {
+        debugPrint('ホテル情報を取得します');
+        if (context.mounted) {
+          await hotelInfoService.sendHotelInfoToAPI(
+              jsonUpdatedUserInfo, ref, context);
+        }
+        debugPrint('Navigating to ResultScreen');
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ResultScreen()),
+          );
+        }
+      } else {
+        debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
+      }
+      ref.read(isLoadingProvider.notifier).state = false;
+    }
   }
+}
+
+Future<void> showLoading(WidgetRef ref) async {
+  ref.read(isLoadingProvider.notifier).state = true;
+  debugPrint('isLoadingがtrueになりました');
 }
