@@ -13,6 +13,7 @@ import 'package:aitrip/ui/components/chat_bubble.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
 import 'package:aitrip/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final chatScreenProvider = Provider((_) => ChatScreen(
@@ -114,54 +115,67 @@ class ChatScreen extends ConsumerWidget {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-            child: Padding(
-          padding: const EdgeInsets.only(
-            left: 30.0,
-            right: 30.0,
-          ),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: TextField(
-                  controller: messageController,
-                  decoration: const InputDecoration(
-                    labelText: "メッセージを入力します",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            child: Row(
+          children: <Widget>[
+            Expanded(
+              child: CallbackShortcuts(
+                bindings : <ShortcutActivator, VoidCallback>{
+                LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.enter): () async {
+                  await sendTextMessage(ref, context);
+                },
+                LogicalKeySet(LogicalKeyboardKey.meta, LogicalKeyboardKey.enter): () async {
+                  await sendTextMessage(ref, context);
+                },
+              },
+              child: TextField(
+                controller: messageController,
+                decoration: const InputDecoration(
+                  labelText: "メッセージを入力します",
+                  border: OutlineInputBorder(),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
-              IconButton(
-                icon: const Icon(Icons.send_rounded),
-                onPressed: () async {
-                  //threadIdProviderを使用してスレッドIDを取得
-                  final threadId = ref.read(threadIdProvider);
-                  //messageProviderを使用してChatRepositoryを取得
-                  final messageService = ref.read(messageProvider);
-                  //messageControllerからユーザーのメッセージを取得
-                  final String userMessage = messageController.text;
-                  //exportUserInfoProviderを使用してExportUserInfoRepositoryを取得(UserInfoを取得するため)
-                  final userInfoService = ref.read(exportUserInfoProvider);
-                  //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
-                  final hotelInfoService = ref.read(hotelInfoServiceProvider);
-                  if (userMessage.isNotEmpty) {
-                    ref
-                        .read(messageListProvider.notifier)
-                        //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
-                        .addMessage(userMessage, true, 0);
-                    showLoading(ref);
-                    messageController.clear();
-                    await messageService.sendMessage(threadId, userMessage);
-                    await userInfoService.sendUserInfoRequest(threadId);
-                    Map<String, dynamic> updatedUserInfo =
-                        ref.read(userInfoProvider)[threadId];
-                    String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
+            ),
+            IconButton(
+              icon: const Icon(Icons.send),
+              onPressed: () async{
+                  await sendTextMessage(ref, context);
+              },
+            )
+          ],
+        )));
+        
+  }
 
-                    // displayHotelProviderを更新する。
-                    ref.read(displayHotelProvider.notifier).state =
-                        ref.read(messageListProvider).last.displayHotel;
-                    final displayHotel = ref.read(displayHotelProvider);
+ Future<void> sendTextMessage(WidgetRef ref, BuildContext context) async {
+                //threadIdProviderを使用してスレッドIDを取得
+                final threadId = ref.read(threadIdProvider);
+                //messageProviderを使用してChatRepositoryを取得
+                final messageService = ref.read(messageProvider);
+                //messageControllerからユーザーのメッセージを取得
+                final String userMessage = messageController.text;
+                //exportUserInfoProviderを使用してExportUserInfoRepositoryを取得(UserInfoを取得するため)
+                final userInfoService = ref.read(exportUserInfoProvider);
+                //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
+                final hotelInfoService = ref.read(hotelInfoServiceProvider);
+                ref.watch(userInfoNotifierProvider.notifier);
+                if (userMessage.isNotEmpty) {
+                  ref
+                      .read(messageListProvider.notifier)
+                      //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
+                      .addMessage(userMessage, true, 0);
+                  showLoading(ref);
+                  messageController.clear();
+                  await messageService.sendMessage(threadId, userMessage);
+                  await userInfoService.sendUserInfoRequest(threadId);
+                  Map<String, dynamic> updatedUserInfo =
+                      ref.read(userInfoProvider)[threadId];
+                  String jsonUpdatedUserInfo = jsonEncode(updatedUserInfo);
+                  
+                  // displayHotelProviderを更新する。
+                  ref.read(displayHotelProvider.notifier).state =
+                      ref.read(messageListProvider).last.displayHotel;
+                  final displayHotel = ref.read(displayHotelProvider);
 
                     //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
                     debugPrint('displayHotel: $displayHotel');
