@@ -5,7 +5,7 @@ import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:aitrip/ui/screens/drawer/bookmark_screen.dart';
 import 'package:aitrip/ui/screens/drawer/manual_screen.dart';
 import 'package:aitrip/ui/screens/drawer/profile_screen.dart';
-import 'package:aitrip/ui/screens/setting_screen.dart';
+import 'package:aitrip/ui/screens/drawer/setting_screen.dart';
 import 'package:aitrip/ui/screens/settings/about_app_scren.dart';
 import 'package:aitrip/ui/screens/settings/change_ai_name_screen.dart';
 import 'package:aitrip/ui/screens/settings/change_user_name_screen.dart';

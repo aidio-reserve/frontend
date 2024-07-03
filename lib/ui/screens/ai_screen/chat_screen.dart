@@ -11,7 +11,7 @@ import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
 import 'package:aitrip/ui/components/chat_bubble.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
-import 'package:aitrip/ui/screens/result_screen.dart';
+import 'package:aitrip/ui/screens/hotel_screen/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
