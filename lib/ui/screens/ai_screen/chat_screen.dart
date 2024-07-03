@@ -4,8 +4,8 @@ import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
 import 'package:aitrip/data/repositories/chat_repository.dart';
 import 'package:aitrip/providers/display_hotel_provider.dart';
+import 'package:aitrip/providers/loading_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
-import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/services/hotel_service.dart';
@@ -44,10 +44,14 @@ class ChatScreen extends ConsumerWidget {
     return Scaffold(
         appBar: showAppBar
             ? AppBar(
+                backgroundColor: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withOpacity(0.5),
                 title: Text(
                   "会話履歴",
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
                       fontSize: 24,
                       fontWeight: FontWeight.w600),
                 ),
@@ -64,36 +68,49 @@ class ChatScreen extends ConsumerWidget {
             : null,
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(child: Consumer(builder: (context, ref, _) {
-                  final messages = ref.watch(messageListProvider);
-                  final isLoading = ref.watch(isLoadingProvider);
+            padding: const EdgeInsets.only(
+                left: 20.0, right: 20.0, top: 8.0, bottom: 8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.0),
+                color: Theme.of(context)
+                    .colorScheme
+                    .inverseSurface
+                    .withOpacity(0.05),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(child: Consumer(builder: (context, ref, _) {
+                      final messages = ref.watch(messageListProvider);
+                      final isLoading = ref.watch(isLoadingProvider);
 
-                  return ListView.builder(
-                    //reverseがtrueであるため、index0が一番最新の項目となる
-                    reverse: true,
-                    itemCount: messages.length + (isLoading ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index == 0 && isLoading) {
-                        return loadingMessageRow(context);
-                      }
-                      final messageIndex = index - (isLoading ? 1 : 0);
-                      final message =
-                          messages[messages.length - messageIndex - 1];
+                      return ListView.builder(
+                        //reverseがtrueであるため、index0が一番最新の項目となる
+                        reverse: true,
+                        itemCount: messages.length + (isLoading ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index == 0 && isLoading) {
+                            return loadingMessageRow(context);
+                          }
+                          final messageIndex = index - (isLoading ? 1 : 0);
+                          final message =
+                              messages[messages.length - messageIndex - 1];
 
-                      if (message.isSender) {
-                        return userRow(context, message.text);
-                      } else {
-                        return serverRow(context, message.text);
-                      }
-                    },
-                  );
-                }))
-              ],
+                          if (message.isSender) {
+                            return userRow(context, message.text);
+                          } else {
+                            return serverRow(context, message.text);
+                          }
+                        },
+                      );
+                    }))
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -160,28 +177,33 @@ class ChatScreen extends ConsumerWidget {
                       ref.read(messageListProvider).last.displayHotel;
                   final displayHotel = ref.read(displayHotelProvider);
 
-                  //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
-                  debugPrint('displayHotel: $displayHotel');
-                  if (displayHotel == 1) {
-                    debugPrint('ホテル情報を取得します');
-                    if (context.mounted) {
-                      await hotelInfoService.sendHotelInfoToAPI(
-                          jsonUpdatedUserInfo, ref, context);
+                    //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
+                    debugPrint('displayHotel: $displayHotel');
+                    if (displayHotel == 1) {
+                      debugPrint('ホテル情報を取得します');
+                      if (context.mounted) {
+                        await hotelInfoService.sendHotelInfoToAPI(
+                            jsonUpdatedUserInfo, ref, context);
+                      }
+                      debugPrint('Navigating to ResultScreen');
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ResultScreen()),
+                        );
+                      }
+                    } else {
+                      debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
                     }
-                    debugPrint('Navigating to ResultScreen');
-                    if (context.mounted) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ResultScreen()),
-                      );
-                    }
-                  } else {
-                    debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
+                    ref.read(isLoadingProvider.notifier).state = false;
                   }
-                  ref.read(isLoadingProvider.notifier).state = false;
-                }
-              }
+                },
+              )
+            ],
+          ),
+        )));
+  }
 
   Future<void> showLoading(WidgetRef ref) async {
     ref.read(isLoadingProvider.notifier).state = true;

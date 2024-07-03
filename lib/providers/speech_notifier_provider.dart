@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:aitrip/providers/hotel_provider.dart';
+import 'package:aitrip/providers/loading_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
@@ -53,7 +54,7 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
       onResult: (SpeechRecognitionResult result) {
         _onSpeechResult(result, ref, context);
       },
-      pauseFor: const Duration(seconds: 2),
+      pauseFor: const Duration(seconds: 3),
     );
     state = state.copyWith(isListening: true);
   }
@@ -72,6 +73,7 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
     _silenceTimer = Timer(const Duration(seconds: 2), () {
       if (_speechToText.isNotListening && state.isListening) {
         state = state.copyWith(isListening: false);
+        showLoading(ref);
         sendVoiceMessage(ref, context);
       }
     });
@@ -84,6 +86,11 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
   void clearUserMessage() {
     state = state.copyWith(lastWords: '');
   }
+}
+
+Future<void> showLoading(WidgetRef ref) async {
+  ref.read(isLoadingProvider.notifier).state = true;
+  debugPrint('isLoadingがtrueになりました');
 }
 
 extension SpeechStateCopyWith on SpeechState {
