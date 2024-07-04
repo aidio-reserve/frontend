@@ -2,7 +2,7 @@ import 'package:aitrip/data/repositories/start_repository.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'trip_app.dart';
+import 'aidio_reserve.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
@@ -20,7 +20,7 @@ Future<void> main() async {
               future: startRepository.accessToStart(threadId),
               builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return TripApp(threadId: threadId);
+                  return AidioReserve(threadId: threadId);
                 } else {
                   return const CircularProgressIndicator();
                 }

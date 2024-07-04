@@ -18,9 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TripApp extends ConsumerWidget {
+class AidioReserve extends ConsumerWidget {
   final String threadId;
-  const TripApp({super.key, required this.threadId});
+  const AidioReserve({super.key, required this.threadId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,7 +47,7 @@ class TripApp extends ConsumerWidget {
               showAppBar: true,
             ),
       },
-      title: '音声AIアプリ',
+      title: 'aidio-reserve',
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: seedColor,
