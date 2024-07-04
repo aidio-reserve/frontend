@@ -106,7 +106,8 @@ class VoiceScreen extends ConsumerWidget {
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(30.0),
-                    child: Column(
+                    child: SingleChildScrollView(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -143,7 +144,9 @@ class VoiceScreen extends ConsumerWidget {
                             "ベッドの種類：",
                             style: TextStyle(fontSize: 16),
                           ),
-                        ]),
+                        ],
+                      ),
+                    ),
                   )),
             ),
             Padding(
