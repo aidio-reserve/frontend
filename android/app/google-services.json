@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "673968607580",
+    "project_id": "aidio-reserve",
+    "storage_bucket": "aidio-reserve.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673968607580:android:409efc5593fac362947199",
+        "android_client_info": {
+          "package_name": "app.web.ai_trip2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqiF5b7Jwn0FGK0t0MpybiVjLFfNK07kk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
