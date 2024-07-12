@@ -1,6 +1,5 @@
 import 'package:aitrip/data/repositories/start_repository.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'trip_app.dart';
