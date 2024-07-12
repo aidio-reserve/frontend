@@ -68,10 +68,18 @@ class ProfileScreen extends ConsumerWidget {
                       child: CircularProgressIndicator(),
                     ),
                     data: (users) {
+                      if (users.isEmpty) {
+                        return const Center(
+                          child: Text('ユーザーが見つかりませんでした'),
+                        );
+                      }
+                      debugPrint('ユーザーが見つかりました');
                       return ListView.builder(
                         itemCount: users.length,
                         itemBuilder: (context, index) {
                           final user = users[index];
+                          debugPrint('user:$user');
+                          debugPrint('Rendering user: ${user.toString()}');
                           return ListTile(
                             title: Text(user.name),
                             subtitle: Column(
@@ -86,18 +94,23 @@ class ProfileScreen extends ConsumerWidget {
                         },
                       );
                     },
-                    error: (error, stack) => Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('エラーが発生しました：$error'),
-                          ElevatedButton(
-                            onPressed: () => ref.refresh(userProvider),
-                            child: const Text('再読み込み'),
-                          ),
-                        ],
-                      ),
-                    ),
+                    error: (error, stack) {
+                      // エラーメッセージを詳細にログに出力
+                      debugPrint('Error occurred: $error');
+                      debugPrint('Stack trace: $stack');
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('エラーが発生しました：$error'),
+                            ElevatedButton(
+                              onPressed: () => ref.refresh(userProvider),
+                              child: const Text('再読み込み'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -109,7 +122,7 @@ class ProfileScreen extends ConsumerWidget {
         body: Center(child: CircularProgressIndicator()),
       ),
       error: (error, stackTrace) => Scaffold(
-        body: Center(child: Text('エラーが発生しました：$error')),
+        body: Center(child: Text('エラーが発生しました。：$error')),
       ),
     );
   }

@@ -14,5 +14,5 @@
   },
   "conventionalCommits.scopes": ["app", "core", "feature"],
   "eslint.workingDirectories": ["./functions"],
-  "cSpell.words": ["aitrip", "dotenv", "Firestore"]
+  "cSpell.words": ["aitrip", "dotenv", "Firestore", "riverpod"]
 }
