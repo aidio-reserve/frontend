@@ -23,7 +23,7 @@ class AddUserInfoScreenState extends State<AddUserInfoScreen> {
     final user = User(
       uid: widget.uid,
       name: _nameController.text,
-      age: int.parse(_ageController.text),
+      age: int.parse(_ageController.text), //ageは半角でないと保存されない
       phoneNumber: _phoneNumberController.text,
       address: _addressController.text,
     );
