@@ -1,13 +1,18 @@
-import 'package:aitrip/providers/user_provider.dart';
 import 'package:aitrip/ui/screens/firebase/add_ai_info_screen.dart';
 import 'package:aitrip/ui/screens/firebase/add_user_info_screen.dart';
 import 'package:aitrip/ui/screens/firebase/login_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authStateProvider = StreamProvider<User?>((ref) {
   return FirebaseAuth.instance.authStateChanges();
+});
+
+final userDocProvider =
+    StreamProvider.family<DocumentSnapshot?, String>((ref, uid) {
+  return FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
 });
 
 class ProfileScreen extends ConsumerWidget {
@@ -28,7 +33,7 @@ class ProfileScreen extends ConsumerWidget {
             body: Center(child: CircularProgressIndicator()),
           );
         } else {
-          final userData = ref.watch(userProvider(user.uid));
+          final userDoc = ref.watch(userDocProvider(user.uid));
           return Scaffold(
             appBar: AppBar(
               title: const Text('プロフィール'),
@@ -65,30 +70,28 @@ class ProfileScreen extends ConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                userData.when(
-                                  data: (user) {
-                                    if (user == null) {
+                                userDoc.when(
+                                  data: (doc) {
+                                    if (doc == null || !doc.exists) {
                                       return Center(
                                           child: Column(
                                         children: [
                                           const Text(
-                                              'ユーザー情報が未登録です。\nユーザー情報を登録することで、ホテルの予約の際の個人情報入力がスムーズになります。'),
+                                              'ユーザー情報が未登録です。\nユーザー情報を登録することで、ホテルの予約の際に個人情報入力をスムーズに行うことができます。'),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               ElevatedButton(
                                                 onPressed: () {
-                                                  if (user != null) {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AddUserInfoScreen(
-                                                                user.uid),
-                                                      ),
-                                                    );
-                                                  }
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AddUserInfoScreen(
+                                                              user.uid),
+                                                    ),
+                                                  );
                                                 },
                                                 child: const Row(
                                                   children: [
@@ -105,90 +108,123 @@ class ProfileScreen extends ConsumerWidget {
                                           ),
                                         ],
                                       ));
-                                    }
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.05),
-                                            const Text(
-                                              'ユーザー情報',
-                                              style: TextStyle(fontSize: 24),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 4),
-                                        const Divider(),
-                                        const SizedBox(height: 4),
-                                        Column(children: [
+                                    } else {
+                                      final userData =
+                                          doc.data() as Map<String, dynamic>;
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
                                           Row(
                                             children: [
                                               SizedBox(
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width *
-                                                      0.10),
-                                              Text(
-                                                '名前 : ${user.name}',
-                                                style: const TextStyle(
-                                                    fontSize: 16),
+                                                      0.05),
+                                              const Text(
+                                                'ユーザー情報',
+                                                style: TextStyle(fontSize: 24),
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 2),
+                                          const SizedBox(height: 4),
                                           const Divider(),
-                                          const SizedBox(height: 2),
-                                          Row(children: [
-                                            SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.10),
-                                            Text(
-                                              '住所 : ${user.address}',
-                                              style:
-                                                  const TextStyle(fontSize: 16),
+                                          const SizedBox(height: 4),
+                                          Column(children: [
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.10),
+                                                Text(
+                                                  '名前 : ${userData['name']}',
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                ),
+                                              ],
                                             ),
+                                            const SizedBox(height: 2),
+                                            const Divider(),
+                                            const SizedBox(height: 2),
+                                            Row(children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.10),
+                                              Text(
+                                                '住所 : ${userData['address']}',
+                                                style: const TextStyle(
+                                                    fontSize: 16),
+                                              ),
+                                            ]),
+                                            const SizedBox(height: 2),
+                                            const Divider(),
+                                            const SizedBox(height: 2),
+                                            Row(children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.10),
+                                              Text(
+                                                '年齢 : ${userData['age']}歳',
+                                                style: const TextStyle(
+                                                    fontSize: 16),
+                                              ),
+                                            ]),
+                                            const SizedBox(height: 2),
+                                            const Divider(),
+                                            const SizedBox(height: 2),
+                                            Row(children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.10),
+                                              Text(
+                                                '電話番号 : ${userData['phoneNumber']}',
+                                                style: const TextStyle(
+                                                    fontSize: 16),
+                                              ),
+                                            ]),
                                           ]),
-                                          const SizedBox(height: 2),
-                                          const Divider(),
-                                          const SizedBox(height: 2),
-                                          Row(children: [
-                                            SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.10),
-                                            Text(
-                                              '年齢 : ${user.age}歳',
-                                              style:
-                                                  const TextStyle(fontSize: 16),
-                                            ),
-                                          ]),
-                                          const SizedBox(height: 2),
-                                          const Divider(),
-                                          const SizedBox(height: 2),
-                                          Row(children: [
-                                            SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.10),
-                                            Text(
-                                              '電話番号 : ${user.phoneNumber}',
-                                              style:
-                                                  const TextStyle(fontSize: 16),
-                                            ),
-                                          ]),
-                                        ]),
-                                      ],
-                                    );
+                                          const SizedBox(height: 16),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AddUserInfoScreen(
+                                                              user.uid),
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.update,
+                                                      size: 20,
+                                                    ),
+                                                    SizedBox(width: 8.0),
+                                                    Text('ユーザー情報を更新する'),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    }
                                   },
                                   loading: () => const Center(
                                     child: CircularProgressIndicator(),
@@ -196,33 +232,6 @@ class ProfileScreen extends ConsumerWidget {
                                   error: (error, stackTrace) => Center(
                                     child: Text('エラーが発生しました：$error'),
                                   ),
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                AddUserInfoScreen(user.uid),
-                                          ),
-                                        );
-                                      },
-                                      child: const Row(
-                                        children: [
-                                          Icon(
-                                            Icons.update,
-                                            size: 20,
-                                          ),
-                                          SizedBox(width: 8.0),
-                                          Text('ユーザー情報を更新する'),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
                                 ),
                               ],
                             ),
