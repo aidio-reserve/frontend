@@ -1,3 +1,5 @@
+import 'package:aitrip/providers/user_provider.dart';
+import 'package:aitrip/ui/screens/firebase/add_user_info_screen.dart';
 import 'package:aitrip/ui/screens/firebase/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,8 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
+    final users = ref.watch(userProvider);
+
     return authState.when(
       data: (user) {
         if (user == null) {
@@ -36,6 +40,55 @@ class ProfileScreen extends ConsumerWidget {
                     FirebaseAuth.instance.signOut();
                   },
                   child: const Text('ログアウト'),
+                ),
+                const Text("ユーザー情報入力に進む"),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddUserInfoScreen(user.uid)));
+                  },
+                  child: const Text('ユーザー情報入力へ'),
+                ),
+                Expanded(
+                  child: users.when(
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    data: (users) {
+                      return ListView.builder(
+                        itemCount: users.length,
+                        itemBuilder: (context, index) {
+                          final user = users[index];
+                          return ListTile(
+                            title: Text(user.name),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Email: ${user.email}'),
+                                Text('Age: ${user.age}'),
+                                Text('Phone: ${user.phoneNumber}'),
+                                Text('Address: ${user.address}'),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    error: (error, stack) => Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('エラーが発生しました：$error'),
+                          ElevatedButton(
+                            onPressed: () => ref.refresh(userProvider),
+                            child: const Text('再読み込み'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

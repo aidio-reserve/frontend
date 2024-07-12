@@ -16,16 +16,13 @@ import 'package:aitrip/ui/screens/settings/help_screen.dart';
 import 'package:aitrip/ui/screens/settings/payment_method_screen.dart';
 import 'package:aitrip/ui/screens/settings/privacy_policy_screen.dart';
 import 'package:aitrip/ui/screens/settings/terms_of_service_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TripApp extends ConsumerWidget {
   final String threadId;
-  TripApp({super.key, required this.threadId});
-  //dbの定義
-  final db = FirebaseFirestore.instance;
+  const TripApp({super.key, required this.threadId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -12,7 +12,12 @@
           "package_name": "app.web.ai_trip2"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "673968607580-s8s956ov8vfmd07t4up4rso2euhf9asv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDqiF5b7Jwn0FGK0t0MpybiVjLFfNK07kk"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "673968607580-s8s956ov8vfmd07t4up4rso2euhf9asv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "673968607580-fnsusblkoveqdnv10s5l5buapo95mdqd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.web.aiTrip2"
+              }
+            }
+          ]
         }
       }
     }

@@ -13,5 +13,6 @@
     "*.dart": "$(capture).freezed.dart, $(capture).g.dart"
   },
   "conventionalCommits.scopes": ["app", "core", "feature"],
-  "eslint.workingDirectories": ["./functions"]
+  "eslint.workingDirectories": ["./functions"],
+  "cSpell.words": ["aitrip", "dotenv", "Firestore"]
 }
