@@ -134,16 +134,16 @@ class VoiceScreen extends ConsumerWidget {
                             "部屋のサイズ：",
                             style: TextStyle(fontSize: 16),
                           ),
-                          SizedBox(height: 8),
-                          Text(
-                            "ベッドサイズ：",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            "ベッドの種類：",
-                            style: TextStyle(fontSize: 16),
-                          ),
+                          // SizedBox(height: 8),
+                          // Text(
+                          //   "ベッドサイズ：",
+                          //   style: TextStyle(fontSize: 16),
+                          // ),
+                          // SizedBox(height: 8),
+                          // Text(
+                          //   "ベッドの種類：",
+                          //   style: TextStyle(fontSize: 16),
+                          // ),
                         ],
                       ),
                     ),
