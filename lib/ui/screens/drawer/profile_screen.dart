@@ -17,7 +17,6 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
-    final users = ref.watch(userProvider);
 
     return authState.when(
       data: (user) {
@@ -29,58 +28,57 @@ class ProfileScreen extends ConsumerWidget {
             body: Center(child: CircularProgressIndicator()),
           );
         } else {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('プロフィール'),
-            ),
-            body: Column(
-              children: [
-                Text('ユーザー情報：${user.email}'),
-                ElevatedButton(
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                  child: const Text('ログアウト'),
+          // 現在ログインしているユーザーの UID を使用して userProvider を監視
+          final userData = ref.watch(userProvider(user.uid));
+
+          return userData.when(
+            data: (user) {
+              if (user == null) {
+                return const Scaffold(
+                  body: Center(child: Text('ユーザー情報が見つかりません')),
+                );
+              }
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text('プロフィール'),
                 ),
-                const Text("ユーザー情報入力に進む"),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddUserInfoScreen(user.uid)));
-                  },
-                  child: const Text('ユーザー情報入力へ'),
-                ),
-                const Text("AIのカスタマイズに進む"),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddAiInfoScreen(user.uid)));
-                  },
-                  child: const Text('AIのカスタマイズへ'),
-                ),
-                Expanded(
-                  child: users.when(
-                    loading: () => const Center(
-                      child: CircularProgressIndicator(),
+                body: Column(
+                  children: [
+                    Text('ユーザー情報：${user.name}'),
+                    ElevatedButton(
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                      },
+                      child: const Text('ログアウト'),
                     ),
-                    data: (users) {
-                      if (users.isEmpty) {
-                        return const Center(
-                          child: Text('ユーザーが見つかりませんでした'),
+                    const Text("ユーザー情報入力に進む"),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddUserInfoScreen(user.uid),
+                          ),
                         );
-                      }
-                      debugPrint('ユーザーが見つかりました');
-                      return ListView.builder(
-                        itemCount: users.length,
-                        itemBuilder: (context, index) {
-                          final user = users[index];
-                          debugPrint('user:$user');
-                          debugPrint('Rendering user: ${user.toString()}');
-                          return ListTile(
+                      },
+                      child: const Text('ユーザー情報入力へ'),
+                    ),
+                    const Text("AIのカスタマイズに進む"),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddAiInfoScreen(user.uid),
+                          ),
+                        );
+                      },
+                      child: const Text('AIのカスタマイズへ'),
+                    ),
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          ListTile(
                             title: Text(user.name),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,30 +88,19 @@ class ProfileScreen extends ConsumerWidget {
                                 Text('Address: ${user.address}'),
                               ],
                             ),
-                          );
-                        },
-                      );
-                    },
-                    error: (error, stack) {
-                      // エラーメッセージを詳細にログに出力
-                      debugPrint('Error occurred: $error');
-                      debugPrint('Stack trace: $stack');
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('エラーが発生しました：$error'),
-                            ElevatedButton(
-                              onPressed: () => ref.refresh(userProvider),
-                              child: const Text('再読み込み'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              );
+            },
+            loading: () => const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            ),
+            error: (error, stackTrace) => Scaffold(
+              body: Center(child: Text('エラーが発生しました：$error')),
             ),
           );
         }
@@ -122,7 +109,7 @@ class ProfileScreen extends ConsumerWidget {
         body: Center(child: CircularProgressIndicator()),
       ),
       error: (error, stackTrace) => Scaffold(
-        body: Center(child: Text('エラーが発生しました。：$error')),
+        body: Center(child: Text('エラーが発生しました：$error')),
       ),
     );
   }
