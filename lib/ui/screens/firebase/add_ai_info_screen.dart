@@ -1,4 +1,4 @@
-import 'package:aitrip/models/ai.dart';
+import 'package:aitrip/models/AI/ai.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
