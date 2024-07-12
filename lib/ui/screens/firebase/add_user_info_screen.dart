@@ -24,8 +24,10 @@ class AddUserInfoScreenState extends State<AddUserInfoScreen> {
       uid: widget.uid,
       name: _nameController.text,
       age: int.parse(_ageController.text), //ageは半角でないと保存されない
-      phoneNumber: _phoneNumberController.text,
-      address: _addressController.text,
+      phoneNumber: _phoneNumberController.text.isEmpty
+          ? ""
+          : _phoneNumberController.text,
+      address: _addressController.text.isEmpty ? "" : _addressController.text,
     );
 
     debugPrint('widget.uid:${widget.uid}');
@@ -63,27 +65,27 @@ class AddUserInfoScreenState extends State<AddUserInfoScreen> {
               TextField(
                 controller: _nameController,
                 decoration: const InputDecoration(
-                  labelText: '名前',
+                  labelText: '名前(必須)',
                 ),
               ),
               TextField(
                 controller: _ageController,
                 decoration: const InputDecoration(
-                  labelText: '年齢',
+                  labelText: '年齢(半角入力,必須)',
                 ),
                 keyboardType: TextInputType.number,
               ),
               TextField(
                 controller: _phoneNumberController,
                 decoration: const InputDecoration(
-                  labelText: '電話番号',
+                  labelText: '電話番号(任意)',
                 ),
                 keyboardType: TextInputType.phone,
               ),
               TextField(
                 controller: _addressController,
                 decoration: const InputDecoration(
-                  labelText: '住所',
+                  labelText: '住所(任意)',
                 ),
               ),
               ElevatedButton(

@@ -40,7 +40,7 @@ class LoginScreenState extends State<LoginScreen> {
         _showErrorDialog('パスワードが間違っています。');
       } else {
         debugPrint('Login error: ${e.message}');
-        _showErrorDialog('メールアドレスまたはパスワードが間違っています。');
+        _showErrorDialog('メールアドレスまたはパスワードが間違っています。\nアカウントが存在しない場合は登録してください。');
       }
     }
   }

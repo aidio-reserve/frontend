@@ -76,8 +76,10 @@ class ProfileScreen extends ConsumerWidget {
                                       return Center(
                                           child: Column(
                                         children: [
+                                          const SizedBox(height: 32),
                                           const Text(
                                               'ユーザー情報が未登録です。\nユーザー情報を登録することで、ホテルの予約の際に個人情報入力をスムーズに行うことができます。'),
+                                          const SizedBox(height: 40),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -157,7 +159,7 @@ class ProfileScreen extends ConsumerWidget {
                                                           .width *
                                                       0.10),
                                               Text(
-                                                '住所 : ${userData['address']}',
+                                                '年齢 : ${userData['age']}歳',
                                                 style: const TextStyle(
                                                     fontSize: 16),
                                               ),
@@ -172,7 +174,7 @@ class ProfileScreen extends ConsumerWidget {
                                                           .width *
                                                       0.10),
                                               Text(
-                                                '年齢 : ${userData['age']}歳',
+                                                '住所 : ${userData['address']}',
                                                 style: const TextStyle(
                                                     fontSize: 16),
                                               ),
