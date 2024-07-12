@@ -1,4 +1,5 @@
 import 'package:aitrip/providers/user_provider.dart';
+import 'package:aitrip/ui/screens/firebase/add_ai_info_screen.dart';
 import 'package:aitrip/ui/screens/firebase/add_user_info_screen.dart';
 import 'package:aitrip/ui/screens/firebase/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,6 +52,16 @@ class ProfileScreen extends ConsumerWidget {
                   },
                   child: const Text('ユーザー情報入力へ'),
                 ),
+                const Text("AIのカスタマイズに進む"),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddAiInfoScreen(user.uid)));
+                  },
+                  child: const Text('AIのカスタマイズへ'),
+                ),
                 Expanded(
                   child: users.when(
                     loading: () => const Center(
@@ -66,7 +77,6 @@ class ProfileScreen extends ConsumerWidget {
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Email: ${user.email}'),
                                 Text('Age: ${user.age}'),
                                 Text('Phone: ${user.phoneNumber}'),
                                 Text('Address: ${user.address}'),

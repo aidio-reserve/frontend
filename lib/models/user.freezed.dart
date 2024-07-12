@@ -20,9 +20,8 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$User {
+  String get uid => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError; // 1:male,2:female,3:other
   String get phoneNumber => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
@@ -39,9 +38,8 @@ abstract class $UserCopyWith<$Res> {
       _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call(
-      {String name,
-      String email,
-      String password,
+      {String uid,
+      String name,
       int age,
       String phoneNumber,
       String address,
@@ -61,26 +59,21 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uid = null,
     Object? name = null,
-    Object? email = null,
-    Object? password = null,
     Object? age = null,
     Object? phoneNumber = null,
     Object? address = null,
     Object? isPremium = null,
   }) {
     return _then(_value.copyWith(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
               as String,
       age: null == age
           ? _value.age
@@ -110,9 +103,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
-      String email,
-      String password,
+      {String uid,
+      String name,
       int age,
       String phoneNumber,
       String address,
@@ -129,26 +121,21 @@ class __$$UserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uid = null,
     Object? name = null,
-    Object? email = null,
-    Object? password = null,
     Object? age = null,
     Object? phoneNumber = null,
     Object? address = null,
     Object? isPremium = null,
   }) {
     return _then(_$UserImpl(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
               as String,
       age: null == age
           ? _value.age
@@ -174,9 +161,8 @@ class __$$UserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserImpl implements _User {
   _$UserImpl(
-      {required this.name,
-      required this.email,
-      required this.password,
+      {required this.uid,
+      required this.name,
       required this.age,
       required this.phoneNumber,
       required this.address,
@@ -186,11 +172,9 @@ class _$UserImpl implements _User {
       _$$UserImplFromJson(json);
 
   @override
+  final String uid;
+  @override
   final String name;
-  @override
-  final String email;
-  @override
-  final String password;
   @override
   final int age;
 // 1:male,2:female,3:other
@@ -204,7 +188,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(name: $name, email: $email, password: $password, age: $age, phoneNumber: $phoneNumber, address: $address, isPremium: $isPremium)';
+    return 'User(uid: $uid, name: $name, age: $age, phoneNumber: $phoneNumber, address: $address, isPremium: $isPremium)';
   }
 
   @override
@@ -212,10 +196,8 @@ class _$UserImpl implements _User {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
+            (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.password, password) ||
-                other.password == password) &&
             (identical(other.age, age) || other.age == age) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
@@ -226,8 +208,8 @@ class _$UserImpl implements _User {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, name, email, password, age, phoneNumber, address, isPremium);
+  int get hashCode =>
+      Object.hash(runtimeType, uid, name, age, phoneNumber, address, isPremium);
 
   @JsonKey(ignore: true)
   @override
@@ -245,9 +227,8 @@ class _$UserImpl implements _User {
 
 abstract class _User implements User {
   factory _User(
-      {required final String name,
-      required final String email,
-      required final String password,
+      {required final String uid,
+      required final String name,
       required final int age,
       required final String phoneNumber,
       required final String address,
@@ -256,11 +237,9 @@ abstract class _User implements User {
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
+  String get uid;
+  @override
   String get name;
-  @override
-  String get email;
-  @override
-  String get password;
   @override
   int get age;
   @override // 1:male,2:female,3:other

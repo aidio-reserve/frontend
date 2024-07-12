@@ -1,5 +1,5 @@
 //Roomで言うと、Daoの役割を持つファイル
-import 'package:aitrip/models/user/user.dart';
+import 'package:aitrip/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

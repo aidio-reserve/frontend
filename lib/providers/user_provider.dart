@@ -1,5 +1,5 @@
 import 'package:aitrip/data/repositories/user_repository.dart';
-import 'package:aitrip/models/user/user.dart';
+import 'package:aitrip/models/user.dart';
 import 'package:aitrip/services/user_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

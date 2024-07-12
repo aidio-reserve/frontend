@@ -7,9 +7,8 @@ part 'user.g.dart';
 class User with _$User {
   //プロパティを指定
   factory User({
+    required String uid,
     required String name,
-    required String email,
-    required String password,
     required int age, // 1:male,2:female,3:other
     required String phoneNumber,
     required String address,
