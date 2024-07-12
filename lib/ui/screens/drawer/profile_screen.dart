@@ -68,9 +68,43 @@ class ProfileScreen extends ConsumerWidget {
                                 userData.when(
                                   data: (user) {
                                     if (user == null) {
-                                      return const Center(
-                                          child: Text(
-                                              'ユーザー情報が未登録です。\nユーザー情報を登録することで、ホテルの予約の際の個人情報入力がスムーズになります。'));
+                                      return Center(
+                                          child: Column(
+                                        children: [
+                                          const Text(
+                                              'ユーザー情報が未登録です。\nユーザー情報を登録することで、ホテルの予約の際の個人情報入力がスムーズになります。'),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  if (user != null) {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AddUserInfoScreen(
+                                                                user.uid),
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                                child: const Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.person_add,
+                                                      size: 20,
+                                                    ),
+                                                    SizedBox(width: 8.0),
+                                                    Text('ユーザー情報を登録する'),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ));
                                     }
                                     return Column(
                                       crossAxisAlignment:
@@ -180,11 +214,11 @@ class ProfileScreen extends ConsumerWidget {
                                       child: const Row(
                                         children: [
                                           Icon(
-                                            Icons.person_add,
+                                            Icons.update,
                                             size: 20,
                                           ),
                                           SizedBox(width: 8.0),
-                                          Text('ユーザー情報を登録する'),
+                                          Text('ユーザー情報を更新する'),
                                         ],
                                       ),
                                     ),
