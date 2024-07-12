@@ -1,6 +1,7 @@
 import 'package:aitrip/ui/screens/firebase/add_ai_info_screen.dart';
 import 'package:aitrip/ui/screens/firebase/add_user_info_screen.dart';
 import 'package:aitrip/ui/screens/firebase/login_screen.dart';
+import 'package:aitrip/ui/screens/firebase/update_user_info_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,10 @@ class ProfileScreen extends ConsumerWidget {
           final userDoc = ref.watch(userDocProvider(user.uid));
           return Scaffold(
             appBar: AppBar(
-              title: const Text('プロフィール'),
+              title: const Text(
+                'プロフィール',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              ),
               backgroundColor: Theme.of(context)
                   .colorScheme
                   .primaryContainer
@@ -126,7 +130,10 @@ class ProfileScreen extends ConsumerWidget {
                                                       0.05),
                                               const Text(
                                                 'ユーザー情報',
-                                                style: TextStyle(fontSize: 24),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               ),
                                             ],
                                           ),
@@ -206,7 +213,7 @@ class ProfileScreen extends ConsumerWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>
-                                                          AddUserInfoScreen(
+                                                          UpdateUserInfoScreen(
                                                               user.uid),
                                                     ),
                                                   );

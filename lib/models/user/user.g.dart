@@ -9,7 +9,8 @@ part of 'user.dart';
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       uid: json['uid'] as String,
       name: json['name'] as String,
-      age: (json['age'] as num).toInt(),
+      age: json['age'] as String,
+      gender: json['gender'] as String,
       phoneNumber: json['phoneNumber'] as String,
       address: json['address'] as String,
       isPremium: json['isPremium'] as bool? ?? false,
@@ -20,6 +21,7 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'uid': instance.uid,
       'name': instance.name,
       'age': instance.age,
+      'gender': instance.gender,
       'phoneNumber': instance.phoneNumber,
       'address': instance.address,
       'isPremium': instance.isPremium,

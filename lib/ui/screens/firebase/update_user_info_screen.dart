@@ -2,15 +2,15 @@ import 'package:aitrip/models/user/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AddUserInfoScreen extends StatefulWidget {
+class UpdateUserInfoScreen extends StatefulWidget {
   final String uid;
-  const AddUserInfoScreen(this.uid, {super.key});
+  const UpdateUserInfoScreen(this.uid, {super.key});
 
   @override
-  AddUserInfoScreenState createState() => AddUserInfoScreenState();
+  UpdateUserInfoScreenState createState() => UpdateUserInfoScreenState();
 }
 
-class AddUserInfoScreenState extends State<AddUserInfoScreen> {
+class UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -38,7 +38,7 @@ class AddUserInfoScreenState extends State<AddUserInfoScreen> {
       await userDb
           .collection('users')
           .doc(widget.uid)
-          .set(user.toJson(), SetOptions(merge: true))
+          .update(user.toJson())
           .onError((e, _) => debugPrint("Error: $e"));
 
       ScaffoldMessenger.of(context).showSnackBar(

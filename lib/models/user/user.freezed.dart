@@ -22,7 +22,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   String get uid => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  int get age => throw _privateConstructorUsedError; // 1:male,2:female,3:other
+  String get age => throw _privateConstructorUsedError;
+  String get gender =>
+      throw _privateConstructorUsedError; // 1:male,2:female,3:other
   String get phoneNumber => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   bool get isPremium => throw _privateConstructorUsedError;
@@ -40,7 +42,8 @@ abstract class $UserCopyWith<$Res> {
   $Res call(
       {String uid,
       String name,
-      int age,
+      String age,
+      String gender,
       String phoneNumber,
       String address,
       bool isPremium});
@@ -62,6 +65,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? uid = null,
     Object? name = null,
     Object? age = null,
+    Object? gender = null,
     Object? phoneNumber = null,
     Object? address = null,
     Object? isPremium = null,
@@ -78,7 +82,11 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -105,7 +113,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   $Res call(
       {String uid,
       String name,
-      int age,
+      String age,
+      String gender,
       String phoneNumber,
       String address,
       bool isPremium});
@@ -124,6 +133,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? uid = null,
     Object? name = null,
     Object? age = null,
+    Object? gender = null,
     Object? phoneNumber = null,
     Object? address = null,
     Object? isPremium = null,
@@ -140,7 +150,11 @@ class __$$UserImplCopyWithImpl<$Res>
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
+      gender: null == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -164,6 +178,7 @@ class _$UserImpl implements _User {
       {required this.uid,
       required this.name,
       required this.age,
+      required this.gender,
       required this.phoneNumber,
       required this.address,
       this.isPremium = false});
@@ -176,7 +191,9 @@ class _$UserImpl implements _User {
   @override
   final String name;
   @override
-  final int age;
+  final String age;
+  @override
+  final String gender;
 // 1:male,2:female,3:other
   @override
   final String phoneNumber;
@@ -188,7 +205,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(uid: $uid, name: $name, age: $age, phoneNumber: $phoneNumber, address: $address, isPremium: $isPremium)';
+    return 'User(uid: $uid, name: $name, age: $age, gender: $gender, phoneNumber: $phoneNumber, address: $address, isPremium: $isPremium)';
   }
 
   @override
@@ -199,6 +216,7 @@ class _$UserImpl implements _User {
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.age, age) || other.age == age) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 other.phoneNumber == phoneNumber) &&
             (identical(other.address, address) || other.address == address) &&
@@ -208,8 +226,8 @@ class _$UserImpl implements _User {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, uid, name, age, phoneNumber, address, isPremium);
+  int get hashCode => Object.hash(
+      runtimeType, uid, name, age, gender, phoneNumber, address, isPremium);
 
   @JsonKey(ignore: true)
   @override
@@ -229,7 +247,8 @@ abstract class _User implements User {
   factory _User(
       {required final String uid,
       required final String name,
-      required final int age,
+      required final String age,
+      required final String gender,
       required final String phoneNumber,
       required final String address,
       final bool isPremium}) = _$UserImpl;
@@ -241,7 +260,9 @@ abstract class _User implements User {
   @override
   String get name;
   @override
-  int get age;
+  String get age;
+  @override
+  String get gender;
   @override // 1:male,2:female,3:other
   String get phoneNumber;
   @override
