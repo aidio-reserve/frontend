@@ -17,6 +17,14 @@ final userDocProvider =
   return FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
 });
 
+final aiDocProvider = StreamProvider.family<QuerySnapshot?, String>((ref, uid) {
+  return FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .collection('ai')
+      .snapshots();
+});
+
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
   static const routeName = '/profile';
@@ -24,7 +32,6 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
-
     return authState.when(
       data: (user) {
         if (user == null) {
@@ -36,6 +43,7 @@ class ProfileScreen extends ConsumerWidget {
           );
         } else {
           final userDoc = ref.watch(userDocProvider(user.uid));
+          final aiDoc = ref.watch(aiDocProvider(user.uid));
           return Scaffold(
             appBar: AppBar(
               title: const Text(
@@ -167,10 +175,26 @@ class ProfileScreen extends ConsumerWidget {
                                                           .size
                                                           .width *
                                                       0.10),
-                                              Text(
-                                                '年齢 : ${userData['age']}歳',
-                                                style: const TextStyle(
-                                                    fontSize: 16),
+                                              userEmailAsyncValue.when(
+                                                data: (email) {
+                                                  const int maxLength = 16;
+                                                  final displayEmail = email
+                                                              .length >
+                                                          maxLength
+                                                      ? '${email.substring(0, maxLength)}...'
+                                                      : email;
+                                                  return Text(
+                                                    'メールアドレス: $displayEmail',
+                                                    style: const TextStyle(
+                                                        fontSize: 16),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  );
+                                                },
+                                                loading: () =>
+                                                    const CircularProgressIndicator(),
+                                                error: (error, stack) => Text(
+                                                    'メールアドレスの取得中にエラーが発生しました: $error'),
                                               ),
                                             ]),
                                             const SizedBox(height: 2),
@@ -182,16 +206,10 @@ class ProfileScreen extends ConsumerWidget {
                                                           .size
                                                           .width *
                                                       0.10),
-                                              userEmailAsyncValue.when(
-                                                data: (email) => Text(
-                                                  'メールアドレス: $email',
-                                                  style: const TextStyle(
-                                                      fontSize: 16),
-                                                ),
-                                                loading: () =>
-                                                    const CircularProgressIndicator(),
-                                                error: (error, stack) =>
-                                                    Text('エラーが発生しました: $error'),
+                                              Text(
+                                                '年齢 : ${userData['age']}歳',
+                                                style: const TextStyle(
+                                                    fontSize: 16),
                                               ),
                                             ]),
                                             const SizedBox(height: 2),
@@ -284,24 +302,167 @@ class ProfileScreen extends ConsumerWidget {
                             .withOpacity(0.05),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                          children: [
-                            const Text("AIのカスタマイズに進む"),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddAiInfoScreen(user.uid),
-                                  ),
-                                );
-                              },
-                              child: const Text('AIのカスタマイズへ'),
-                            ),
-                          ],
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            children: [
+                              aiDoc.when(
+                                data: (querySnapshot) {
+                                  if (querySnapshot == null ||
+                                      querySnapshot.docs.isEmpty) {
+                                    return Center(
+                                        child: Column(
+                                      children: [
+                                        const SizedBox(height: 32),
+                                        const Text(
+                                            'AIのカスタマイズをすることができます。\nAIの名前や、話す速度の変更等ができます。'),
+                                        const SizedBox(height: 40),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AddAiInfoScreen(
+                                                            user.uid),
+                                                  ),
+                                                );
+                                              },
+                                              child: const Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons
+                                                        .precision_manufacturing_rounded,
+                                                    size: 20,
+                                                  ),
+                                                  SizedBox(width: 8.0),
+                                                  Text('AIのカスタマイズに進む'),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ));
+                                  } else {
+                                    final doc = querySnapshot.docs.first;
+                                    final aiData =
+                                        doc.data() as Map<String, dynamic>;
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.05),
+                                            const Text(
+                                              'AIの情報',
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 4),
+                                        const Divider(),
+                                        const SizedBox(height: 4),
+                                        Column(children: [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.10),
+                                              Text(
+                                                'AIの名前 : ${aiData['aiName']}',
+                                                style: const TextStyle(
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 2),
+                                          const Divider(),
+                                          const SizedBox(height: 2),
+                                          Row(children: [
+                                            SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.10),
+                                            Text(
+                                              'AIの声 : ${aiData['aiType']}',
+                                              style:
+                                                  const TextStyle(fontSize: 16),
+                                            ),
+                                          ]),
+                                          const SizedBox(height: 2),
+                                          const Divider(),
+                                          const SizedBox(height: 2),
+                                          Row(children: [
+                                            SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.10),
+                                            Text(
+                                              '話す速度 : ${aiData['aiSpeed']}',
+                                              style:
+                                                  const TextStyle(fontSize: 16),
+                                            ),
+                                          ]),
+                                        ]),
+                                        const SizedBox(height: 16),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UpdateUserInfoScreen(
+                                                            user.uid),
+                                                  ),
+                                                );
+                                              },
+                                              child: const Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.update,
+                                                    size: 20,
+                                                  ),
+                                                  SizedBox(width: 8.0),
+                                                  Text('AI情報を更新する'),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                },
+                                loading: () => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                error: (error, stackTrace) => Center(
+                                  child: Text('エラーが発生しました：$error'),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
