@@ -1,4 +1,4 @@
-import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
+import 'package:aitrip/ui/screens/drawer/profile/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +26,8 @@ class RegisterScreenState extends State<RegisterScreen> {
         password: password,
       );
       debugPrint('Registration successful: ${userCredential.user?.email}');
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ProfileScreen()));
     } on FirebaseAuthException catch (e) {
       debugPrint('Registration error: ${e.message}');
     }

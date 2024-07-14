@@ -1,7 +1,8 @@
-import 'package:aitrip/ui/screens/firebase/add_ai_info_screen.dart';
-import 'package:aitrip/ui/screens/firebase/add_user_info_screen.dart';
+import 'package:aitrip/providers/user_email_provider.dart';
+import 'package:aitrip/ui/screens/drawer/profile/ai/add_ai_info_screen.dart';
+import 'package:aitrip/ui/screens/drawer/profile/user/add_user_info_screen.dart';
 import 'package:aitrip/ui/screens/firebase/login_screen.dart';
-import 'package:aitrip/ui/screens/firebase/update_user_info_screen.dart';
+import 'package:aitrip/ui/screens/drawer/profile/user/update_user_info_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -61,13 +62,12 @@ class ProfileScreen extends ConsumerWidget {
                             .withOpacity(0.05),
                         borderRadius: BorderRadius.circular(12.0),
                       ),
-                      child: SingleChildScrollView(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight: 0,
-                            maxHeight:
-                                MediaQuery.of(context).size.height * 0.35,
-                          ),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: 0,
+                          maxHeight: MediaQuery.of(context).size.height * 0.35,
+                        ),
+                        child: SingleChildScrollView(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 top: 20, left: 30, right: 30, bottom: 16),
@@ -117,6 +117,8 @@ class ProfileScreen extends ConsumerWidget {
                                     } else {
                                       final userData =
                                           doc.data() as Map<String, dynamic>;
+                                      final userEmailAsyncValue =
+                                          ref.watch(currentUserEmailProvider);
                                       return Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -169,6 +171,27 @@ class ProfileScreen extends ConsumerWidget {
                                                 '年齢 : ${userData['age']}歳',
                                                 style: const TextStyle(
                                                     fontSize: 16),
+                                              ),
+                                            ]),
+                                            const SizedBox(height: 2),
+                                            const Divider(),
+                                            const SizedBox(height: 2),
+                                            Row(children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.10),
+                                              userEmailAsyncValue.when(
+                                                data: (email) => Text(
+                                                  'メールアドレス: $email',
+                                                  style: const TextStyle(
+                                                      fontSize: 16),
+                                                ),
+                                                loading: () =>
+                                                    const CircularProgressIndicator(),
+                                                error: (error, stack) =>
+                                                    Text('エラーが発生しました: $error'),
                                               ),
                                             ]),
                                             const SizedBox(height: 2),

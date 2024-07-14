@@ -15,8 +15,8 @@ class AddAiInfoScreen extends StatefulWidget {
 
 class AddAiInfoScreenState extends State<AddAiInfoScreen> {
   final TextEditingController _aiNameController = TextEditingController();
-  final TextEditingController _aiTypeController = TextEditingController();
-  final TextEditingController _aiSpeedController = TextEditingController();
+  String _aiGender = '男';
+  double _aiSpeed = 1.0;
 
   Future<void> _saveAi() async {
     final aiDb = FirebaseFirestore.instance;
@@ -27,8 +27,8 @@ class AddAiInfoScreenState extends State<AddAiInfoScreen> {
     final ai = Ai(
       aiId: aiId,
       aiName: _aiNameController.text,
-      aiType: _aiTypeController.text,
-      aiSpeed: _aiSpeedController.text,
+      aiType: _aiGender,
+      aiSpeed: _aiSpeed.toString(),
     );
 
     debugPrint('aiId:$aiId');
@@ -58,7 +58,7 @@ class AddAiInfoScreenState extends State<AddAiInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AIのカスタマイズ'),
+        title: const Text('AI情報の更新'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -71,20 +71,51 @@ class AddAiInfoScreenState extends State<AddAiInfoScreen> {
                   labelText: 'AIの名前',
                 ),
               ),
-              TextField(
-                controller: _aiTypeController,
-                decoration: const InputDecoration(
-                  labelText: 'AIの声の種類',
-                ),
-                keyboardType: TextInputType.number,
+              const SizedBox(height: 16.0),
+              Row(
+                children: [
+                  const Text('AIの声の種類: '),
+                  Radio<String>(
+                    value: '男声',
+                    groupValue: _aiGender,
+                    onChanged: (value) {
+                      setState(() {
+                        _aiGender = value!;
+                      });
+                    },
+                  ),
+                  const Text('男声'),
+                  Radio<String>(
+                    value: '女声',
+                    groupValue: _aiGender,
+                    onChanged: (value) {
+                      setState(() {
+                        _aiGender = value!;
+                      });
+                    },
+                  ),
+                  const Text('女声'),
+                ],
               ),
-              TextField(
-                controller: _aiSpeedController,
-                decoration: const InputDecoration(
-                  labelText: 'AIの喋る速さ',
-                ),
-                keyboardType: TextInputType.phone,
+              const SizedBox(height: 16.0),
+              Column(
+                children: [
+                  const Text('AIの喋る速さ: '),
+                  Slider(
+                    value: _aiSpeed,
+                    min: 1.0,
+                    max: 5.0,
+                    divisions: 4,
+                    label: _aiSpeed.round().toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _aiSpeed = value;
+                      });
+                    },
+                  ),
+                ],
               ),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _saveAi,
                 child: const Text('保存'),
