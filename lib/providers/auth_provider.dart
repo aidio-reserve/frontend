@@ -38,6 +38,15 @@ class AuthStateNotifier extends StateNotifier<AsyncValue<User?>> {
     }
   }
 
+  Future<void> login(String email, String password) async {
+    try {
+      await _authService.signInWithEmailAndPassword(email, password);
+      state = AsyncValue.data(_authService.currentUser);
+    } on FirebaseAuthException catch (e, stackTrace) {
+      state = AsyncValue.error(e, stackTrace);
+    }
+  }
+
   Future<void> signOut() async {
     await _authService.signOut();
     state = const AsyncValue.data(null);

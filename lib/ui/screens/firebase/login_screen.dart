@@ -1,19 +1,20 @@
+import 'package:aitrip/providers/auth_provider.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
 import 'package:aitrip/ui/screens/firebase/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
   static const routeName = '/login';
   @override
   LoginScreenState createState() => LoginScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   Future<void> _login() async {
     try {
       final email = _emailController.text;
@@ -21,12 +22,7 @@ class LoginScreenState extends State<LoginScreen> {
       debugPrint('email:$email');
       debugPrint('password:$password');
 
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      debugPrint('Login successful: ${userCredential.user?.email}');
+      await ref.read(authStateProvider.notifier).login(email, password);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
