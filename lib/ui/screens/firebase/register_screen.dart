@@ -20,7 +20,8 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> {
       final email = _emailController.text;
       final password = _passwordController.text;
 
-      await ref.read(authStateProvider.notifier).register(email, password);
+      UserCredential userCredential =
+          await ref.read(authStateProvider.notifier).register(email, password);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ProfileScreen()));
     } on FirebaseAuthException catch (e) {
@@ -31,6 +32,24 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> {
             return AlertDialog(
               title: const Text('エラー'),
               content: Text(e.message.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          });
+    } catch (e) {
+      debugPrint('Unexpected error: $e');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('エラー'),
+              content: Text('アカウント登録中にエラーが発生しました。'),
               actions: [
                 TextButton(
                   onPressed: () {

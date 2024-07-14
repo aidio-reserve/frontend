@@ -28,22 +28,27 @@ class AuthStateNotifier extends StateNotifier<AsyncValue<User?>> {
     }
   }
 
-  Future<void> register(String email, String password) async {
+  Future<UserCredential> register(String email, String password) async {
     try {
       UserCredential userCredential =
           await _authService.registerWithEmailAndPassword(email, password);
       state = AsyncValue.data(userCredential.user);
+      return userCredential;
     } on FirebaseAuthException catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
+      rethrow;
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<UserCredential> login(String email, String password) async {
     try {
-      await _authService.signInWithEmailAndPassword(email, password);
-      state = AsyncValue.data(_authService.currentUser);
+      UserCredential userCredential =
+          await _authService.signInWithEmailAndPassword(email, password);
+      state = AsyncValue.data(userCredential.user);
+      return userCredential;
     } on FirebaseAuthException catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
+      rethrow;
     }
   }
 

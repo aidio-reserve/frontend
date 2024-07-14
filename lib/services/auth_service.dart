@@ -6,13 +6,12 @@ class AuthService {
   Future<UserCredential> registerWithEmailAndPassword(
       String email, String password) async {
     return await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+        email: email, password: password);
   }
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await _firebaseAuth.signInWithEmailAndPassword(
+  Future<UserCredential> signInWithEmailAndPassword(
+      String email, String password) async {
+    return await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );

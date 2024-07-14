@@ -1,5 +1,5 @@
 import 'package:aitrip/providers/auth_provider.dart';
-import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
+import 'package:aitrip/ui/screens/drawer/profile/profile_screen.dart';
 import 'package:aitrip/ui/screens/firebase/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +19,13 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     try {
       final email = _emailController.text;
       final password = _passwordController.text;
-      debugPrint('email:$email');
-      debugPrint('password:$password');
 
-      await ref.read(authStateProvider.notifier).login(email, password);
+      UserCredential userCredential =
+          await ref.read(authStateProvider.notifier).login(email, password);
+      debugPrint('Login successful: ${userCredential.user?.email}');
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const ProfileScreen()),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -38,6 +38,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         debugPrint('Login error: ${e.message}');
         _showErrorDialog('メールアドレスまたはパスワードが間違っています。\nアカウントが存在しない場合は登録してください。');
       }
+    } catch (e) {
+      debugPrint('Login error: $e');
+      _showErrorDialog('ログイン中にエラーが発生しました。');
     }
   }
 
