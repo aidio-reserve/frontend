@@ -1,6 +1,7 @@
 import 'package:aitrip/data/repositories/user_repository.dart';
 import 'package:aitrip/models/user/user.dart';
 
+//UserDBに関するService
 class UserService {
   const UserService({
     required UserRepository repository,
