@@ -15,6 +15,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 class LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
+
   Future<void> _login() async {
     try {
       final email = _emailController.text;
@@ -73,7 +75,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
             Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(40.0),
+        padding:
+            const EdgeInsets.only(top: 40.0, bottom: 40, left: 70, right: 70),
         child: Center(
           child: Column(
             children: [
@@ -85,9 +88,24 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'パスワード',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
+                obscureText: !_isPasswordVisible,
+                obscuringCharacter: '●',
               ),
               const SizedBox(height: 20),
               ElevatedButton(

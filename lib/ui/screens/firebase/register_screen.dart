@@ -14,6 +14,7 @@ class RegisterScreen extends ConsumerStatefulWidget {
 class RegisterScreenState extends ConsumerState<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
 
   Future<void> _register() async {
     try {
@@ -49,7 +50,7 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text('エラー'),
-              content: Text('アカウント登録中にエラーが発生しました。'),
+              content: const Text('アカウント登録中にエラーが発生しました。'),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -68,9 +69,12 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('アカウント登録'),
+        backgroundColor:
+            Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding:
+            const EdgeInsets.only(top: 40.0, bottom: 40, left: 70, right: 70),
         child: Center(
           child: Column(
             children: [
@@ -82,16 +86,33 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> {
               ),
               TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'パスワード',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
+                obscureText: !_isPasswordVisible,
+                obscuringCharacter: '●',
               ),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   _register();
                 },
                 child: const Text('登録'),
               ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
