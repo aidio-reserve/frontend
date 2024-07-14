@@ -472,7 +472,49 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      FirebaseAuth.instance.signOut();
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                'ログアウト',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onErrorContainer,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              content: Text('ログアウトしますか？',
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer)),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.errorContainer,
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('キャンセル',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onErrorContainer
+                                              .withOpacity(0.5))),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    FirebaseAuth.instance.signOut();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('ログアウト',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onErrorContainer)),
+                                ),
+                              ],
+                            );
+                          });
                     },
                     child: const Text('ログアウト'),
                   ),
