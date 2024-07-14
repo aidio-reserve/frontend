@@ -51,14 +51,22 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('ログインエラー'),
-          content: Text(message),
+          title: Text('ログインエラー',
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                  fontWeight: FontWeight.w500)),
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+          content: Text(message,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onErrorContainer)),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('OK'),
+              child: Text('OK',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onErrorContainer)),
             ),
           ],
         );

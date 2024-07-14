@@ -31,14 +31,26 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('エラー'),
-              content: Text(e.message.toString()),
+              title: Text(
+                'エラー',
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                    fontWeight: FontWeight.w500),
+              ),
+              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+              content: Text('メールアドレスまたはパスワードが正しくありません。',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  )),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('OK'),
+                  child: Text('OK',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onErrorContainer,
+                      )),
                 ),
               ],
             );
