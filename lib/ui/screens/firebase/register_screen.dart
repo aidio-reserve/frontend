@@ -30,6 +30,22 @@ class RegisterScreenState extends State<RegisterScreen> {
           MaterialPageRoute(builder: (context) => const ProfileScreen()));
     } on FirebaseAuthException catch (e) {
       debugPrint('Registration error: ${e.message}');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('エラー'),
+              content: Text(e.message.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          });
     }
   }
 
