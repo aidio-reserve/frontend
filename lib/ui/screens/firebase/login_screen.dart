@@ -69,9 +69,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('aidioにログイン'),
+        backgroundColor:
+            Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(40.0),
         child: Center(
           child: Column(
             children: [
@@ -87,18 +89,21 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   labelText: 'パスワード',
                 ),
               ),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   _login();
                 },
                 child: const Text('ログイン'),
               ),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(RegisterScreen.routeName);
                 },
                 child: const Text('アカウントをお持ちでない場合 登録'),
               ),
+              //以下に、Googleアカウントでのログイン機能などを後々実装
             ],
           ),
         ),
