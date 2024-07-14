@@ -1,3 +1,4 @@
+import 'package:aitrip/providers/auth_provider.dart';
 import 'package:aitrip/providers/user_email_provider.dart';
 import 'package:aitrip/ui/screens/drawer/profile/ai/add_ai_info_screen.dart';
 import 'package:aitrip/ui/screens/drawer/profile/user/add_user_info_screen.dart';
@@ -6,11 +7,8 @@ import 'package:aitrip/ui/screens/drawer/profile/user/update_user_info_screen.da
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final authStateProvider = StreamProvider<User?>((ref) {
-  return FirebaseAuth.instance.authStateChanges();
-});
 
 final userDocProvider =
     StreamProvider.family<DocumentSnapshot?, String>((ref, uid) {
@@ -32,6 +30,7 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
+
     return authState.when(
       data: (user) {
         if (user == null) {
@@ -503,7 +502,9 @@ class ProfileScreen extends ConsumerWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    FirebaseAuth.instance.signOut();
+                                    ref
+                                        .read(authStateProvider.notifier)
+                                        .signOut();
                                     Navigator.pop(context);
                                   },
                                   child: Text('ログアウト',

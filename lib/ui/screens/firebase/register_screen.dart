@@ -1,15 +1,17 @@
+import 'package:aitrip/providers/auth_provider.dart';
 import 'package:aitrip/ui/screens/drawer/profile/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
   static const routeName = '/register';
   @override
   RegisterScreenState createState() => RegisterScreenState();
 }
 
-class RegisterScreenState extends State<RegisterScreen> {
+class RegisterScreenState extends ConsumerState<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -17,15 +19,8 @@ class RegisterScreenState extends State<RegisterScreen> {
     try {
       final email = _emailController.text;
       final password = _passwordController.text;
-      debugPrint('email:$email');
-      debugPrint('password:$password');
 
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      debugPrint('Registration successful: ${userCredential.user?.email}');
+      await ref.read(authStateProvider.notifier).register(email, password);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ProfileScreen()));
     } on FirebaseAuthException catch (e) {
