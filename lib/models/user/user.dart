@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user.freezed.dart';
@@ -22,13 +21,6 @@ class User with _$User {
 
   factory User.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
     final data = doc.data()!;
-    debugPrint('Document data: $data');
-    debugPrint('uid: ${doc.id}');
-    debugPrint('name: ${data['name']}');
-    debugPrint('age: ${data['age']}');
-    debugPrint('phoneNumber: ${data['phoneNumber']}');
-    debugPrint('address: ${data['address']}');
-    debugPrint('isPremium: ${data['isPremium']}');
 
     return User.fromJson({
       'uid': doc.id,
