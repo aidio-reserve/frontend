@@ -10,25 +10,37 @@ _$HotelImpl _$$HotelImplFromJson(Map<String, dynamic> json) => _$HotelImpl(
       hotelId: json['hotelId'] as String,
       hotelName: json['hotelName'] as String,
       hotelImageUrl: json['hotelImageUrl'] as String,
-      hotelLocation: json['hotelLocation'] as String,
-      priceRange: json['priceRange'] as String,
-      roomSize: json['roomSize'] as String,
-      bed: json['bed'] as String,
+      hotelLocation:
+          HotelLocation.fromJson(json['hotelLocation'] as Map<String, dynamic>),
+      priceRange: (json['priceRange'] as num).toInt(),
+      roomSize: (json['roomSize'] as num).toInt(),
+      bed: Bed.fromJson(json['bed'] as Map<String, dynamic>),
       isSmoking: json['isSmoking'] as bool? ?? true,
       isBreakfast: json['isBreakfast'] as bool? ?? false,
       isAccessibility: json['isAccessibility'] as bool? ?? false,
-      hotelReviews: json['hotelReviews'] as String,
-      walkTimeFromNearestStation: json['walkTimeFromNearestStation'] as String,
-      nearbyAttractions: json['nearbyAttractions'] as String,
-      onSiteFacilities: json['onSiteFacilities'] as String,
-      mapInformation: json['mapInformation'] as String,
-      inRoomAmenities: json['inRoomAmenities'] as String,
-      paymentOptions: json['paymentOptions'] as String,
+      walkTimeFromNearestStation:
+          (json['walkTimeFromNearestStation'] as num).toInt(),
+      nearbyAttractions: (json['nearbyAttractions'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      onSiteFacilities: (json['onSiteFacilities'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      inRoomFacilities: (json['inRoomFacilities'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      paymentOptions: (json['paymentOptions'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       isParking: json['isParking'] as bool? ?? false,
-      amenities: json['amenities'] as String,
-      cancellationPolicy: json['cancellationPolicy'] as String,
+      amenities:
+          (json['amenities'] as List<dynamic>).map((e) => e as String).toList(),
+      cancellationPolicy: (json['cancellationPolicy'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       checkInTime: json['checkInTime'] as String,
-      isBookmark: json['isBookmark'] as bool? ?? false,
+      viewedCount: (json['viewedCount'] as num).toInt(),
+      likedCount: (json['likedCount'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$HotelImplToJson(_$HotelImpl instance) =>
@@ -43,16 +55,15 @@ Map<String, dynamic> _$$HotelImplToJson(_$HotelImpl instance) =>
       'isSmoking': instance.isSmoking,
       'isBreakfast': instance.isBreakfast,
       'isAccessibility': instance.isAccessibility,
-      'hotelReviews': instance.hotelReviews,
       'walkTimeFromNearestStation': instance.walkTimeFromNearestStation,
       'nearbyAttractions': instance.nearbyAttractions,
       'onSiteFacilities': instance.onSiteFacilities,
-      'mapInformation': instance.mapInformation,
-      'inRoomAmenities': instance.inRoomAmenities,
+      'inRoomFacilities': instance.inRoomFacilities,
       'paymentOptions': instance.paymentOptions,
       'isParking': instance.isParking,
       'amenities': instance.amenities,
       'cancellationPolicy': instance.cancellationPolicy,
       'checkInTime': instance.checkInTime,
-      'isBookmark': instance.isBookmark,
+      'viewedCount': instance.viewedCount,
+      'likedCount': instance.likedCount,
     };

@@ -23,25 +23,26 @@ mixin _$Hotel {
   String get hotelId => throw _privateConstructorUsedError;
   String get hotelName => throw _privateConstructorUsedError;
   String get hotelImageUrl => throw _privateConstructorUsedError;
-  String get hotelLocation => throw _privateConstructorUsedError;
-  String get priceRange => throw _privateConstructorUsedError;
-  String get roomSize => throw _privateConstructorUsedError;
-  String get bed => throw _privateConstructorUsedError;
+  HotelLocation get hotelLocation => throw _privateConstructorUsedError;
+  int get priceRange => throw _privateConstructorUsedError;
+  int get roomSize => throw _privateConstructorUsedError;
+  Bed get bed => throw _privateConstructorUsedError;
   bool get isSmoking => throw _privateConstructorUsedError; //falseが禁煙、trueが喫煙
   bool get isBreakfast => throw _privateConstructorUsedError;
   bool get isAccessibility => throw _privateConstructorUsedError; //障害者への対応ありなし
-  String get hotelReviews => throw _privateConstructorUsedError;
-  String get walkTimeFromNearestStation => throw _privateConstructorUsedError;
-  String get nearbyAttractions => throw _privateConstructorUsedError; //周辺の観光地
-  String get onSiteFacilities => throw _privateConstructorUsedError; //館内施設の有無
-  String get mapInformation => throw _privateConstructorUsedError; //地図情報
-  String get inRoomAmenities => throw _privateConstructorUsedError;
-  String get paymentOptions => throw _privateConstructorUsedError;
+  int get walkTimeFromNearestStation => throw _privateConstructorUsedError;
+  List<String> get nearbyAttractions =>
+      throw _privateConstructorUsedError; //周辺の観光地
+  List<String> get onSiteFacilities =>
+      throw _privateConstructorUsedError; //館内施設の有無
+  List<String> get inRoomFacilities => throw _privateConstructorUsedError;
+  List<String> get paymentOptions => throw _privateConstructorUsedError;
   bool get isParking => throw _privateConstructorUsedError;
-  String get amenities => throw _privateConstructorUsedError;
-  String get cancellationPolicy => throw _privateConstructorUsedError;
+  List<String> get amenities => throw _privateConstructorUsedError;
+  List<String> get cancellationPolicy => throw _privateConstructorUsedError;
   String get checkInTime => throw _privateConstructorUsedError;
-  bool get isBookmark => throw _privateConstructorUsedError;
+  int get viewedCount => throw _privateConstructorUsedError;
+  int get likedCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -57,25 +58,27 @@ abstract class $HotelCopyWith<$Res> {
       {String hotelId,
       String hotelName,
       String hotelImageUrl,
-      String hotelLocation,
-      String priceRange,
-      String roomSize,
-      String bed,
+      HotelLocation hotelLocation,
+      int priceRange,
+      int roomSize,
+      Bed bed,
       bool isSmoking,
       bool isBreakfast,
       bool isAccessibility,
-      String hotelReviews,
-      String walkTimeFromNearestStation,
-      String nearbyAttractions,
-      String onSiteFacilities,
-      String mapInformation,
-      String inRoomAmenities,
-      String paymentOptions,
+      int walkTimeFromNearestStation,
+      List<String> nearbyAttractions,
+      List<String> onSiteFacilities,
+      List<String> inRoomFacilities,
+      List<String> paymentOptions,
       bool isParking,
-      String amenities,
-      String cancellationPolicy,
+      List<String> amenities,
+      List<String> cancellationPolicy,
       String checkInTime,
-      bool isBookmark});
+      int viewedCount,
+      int likedCount});
+
+  $HotelLocationCopyWith<$Res> get hotelLocation;
+  $BedCopyWith<$Res> get bed;
 }
 
 /// @nodoc
@@ -101,18 +104,17 @@ class _$HotelCopyWithImpl<$Res, $Val extends Hotel>
     Object? isSmoking = null,
     Object? isBreakfast = null,
     Object? isAccessibility = null,
-    Object? hotelReviews = null,
     Object? walkTimeFromNearestStation = null,
     Object? nearbyAttractions = null,
     Object? onSiteFacilities = null,
-    Object? mapInformation = null,
-    Object? inRoomAmenities = null,
+    Object? inRoomFacilities = null,
     Object? paymentOptions = null,
     Object? isParking = null,
     Object? amenities = null,
     Object? cancellationPolicy = null,
     Object? checkInTime = null,
-    Object? isBookmark = null,
+    Object? viewedCount = null,
+    Object? likedCount = null,
   }) {
     return _then(_value.copyWith(
       hotelId: null == hotelId
@@ -130,19 +132,19 @@ class _$HotelCopyWithImpl<$Res, $Val extends Hotel>
       hotelLocation: null == hotelLocation
           ? _value.hotelLocation
           : hotelLocation // ignore: cast_nullable_to_non_nullable
-              as String,
+              as HotelLocation,
       priceRange: null == priceRange
           ? _value.priceRange
           : priceRange // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       roomSize: null == roomSize
           ? _value.roomSize
           : roomSize // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       bed: null == bed
           ? _value.bed
           : bed // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Bed,
       isSmoking: null == isSmoking
           ? _value.isSmoking
           : isSmoking // ignore: cast_nullable_to_non_nullable
@@ -155,34 +157,26 @@ class _$HotelCopyWithImpl<$Res, $Val extends Hotel>
           ? _value.isAccessibility
           : isAccessibility // ignore: cast_nullable_to_non_nullable
               as bool,
-      hotelReviews: null == hotelReviews
-          ? _value.hotelReviews
-          : hotelReviews // ignore: cast_nullable_to_non_nullable
-              as String,
       walkTimeFromNearestStation: null == walkTimeFromNearestStation
           ? _value.walkTimeFromNearestStation
           : walkTimeFromNearestStation // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       nearbyAttractions: null == nearbyAttractions
           ? _value.nearbyAttractions
           : nearbyAttractions // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       onSiteFacilities: null == onSiteFacilities
           ? _value.onSiteFacilities
           : onSiteFacilities // ignore: cast_nullable_to_non_nullable
-              as String,
-      mapInformation: null == mapInformation
-          ? _value.mapInformation
-          : mapInformation // ignore: cast_nullable_to_non_nullable
-              as String,
-      inRoomAmenities: null == inRoomAmenities
-          ? _value.inRoomAmenities
-          : inRoomAmenities // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
+      inRoomFacilities: null == inRoomFacilities
+          ? _value.inRoomFacilities
+          : inRoomFacilities // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       paymentOptions: null == paymentOptions
           ? _value.paymentOptions
           : paymentOptions // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       isParking: null == isParking
           ? _value.isParking
           : isParking // ignore: cast_nullable_to_non_nullable
@@ -190,20 +184,40 @@ class _$HotelCopyWithImpl<$Res, $Val extends Hotel>
       amenities: null == amenities
           ? _value.amenities
           : amenities // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       cancellationPolicy: null == cancellationPolicy
           ? _value.cancellationPolicy
           : cancellationPolicy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       checkInTime: null == checkInTime
           ? _value.checkInTime
           : checkInTime // ignore: cast_nullable_to_non_nullable
               as String,
-      isBookmark: null == isBookmark
-          ? _value.isBookmark
-          : isBookmark // ignore: cast_nullable_to_non_nullable
-              as bool,
+      viewedCount: null == viewedCount
+          ? _value.viewedCount
+          : viewedCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      likedCount: null == likedCount
+          ? _value.likedCount
+          : likedCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HotelLocationCopyWith<$Res> get hotelLocation {
+    return $HotelLocationCopyWith<$Res>(_value.hotelLocation, (value) {
+      return _then(_value.copyWith(hotelLocation: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BedCopyWith<$Res> get bed {
+    return $BedCopyWith<$Res>(_value.bed, (value) {
+      return _then(_value.copyWith(bed: value) as $Val);
+    });
   }
 }
 
@@ -218,25 +232,29 @@ abstract class _$$HotelImplCopyWith<$Res> implements $HotelCopyWith<$Res> {
       {String hotelId,
       String hotelName,
       String hotelImageUrl,
-      String hotelLocation,
-      String priceRange,
-      String roomSize,
-      String bed,
+      HotelLocation hotelLocation,
+      int priceRange,
+      int roomSize,
+      Bed bed,
       bool isSmoking,
       bool isBreakfast,
       bool isAccessibility,
-      String hotelReviews,
-      String walkTimeFromNearestStation,
-      String nearbyAttractions,
-      String onSiteFacilities,
-      String mapInformation,
-      String inRoomAmenities,
-      String paymentOptions,
+      int walkTimeFromNearestStation,
+      List<String> nearbyAttractions,
+      List<String> onSiteFacilities,
+      List<String> inRoomFacilities,
+      List<String> paymentOptions,
       bool isParking,
-      String amenities,
-      String cancellationPolicy,
+      List<String> amenities,
+      List<String> cancellationPolicy,
       String checkInTime,
-      bool isBookmark});
+      int viewedCount,
+      int likedCount});
+
+  @override
+  $HotelLocationCopyWith<$Res> get hotelLocation;
+  @override
+  $BedCopyWith<$Res> get bed;
 }
 
 /// @nodoc
@@ -260,18 +278,17 @@ class __$$HotelImplCopyWithImpl<$Res>
     Object? isSmoking = null,
     Object? isBreakfast = null,
     Object? isAccessibility = null,
-    Object? hotelReviews = null,
     Object? walkTimeFromNearestStation = null,
     Object? nearbyAttractions = null,
     Object? onSiteFacilities = null,
-    Object? mapInformation = null,
-    Object? inRoomAmenities = null,
+    Object? inRoomFacilities = null,
     Object? paymentOptions = null,
     Object? isParking = null,
     Object? amenities = null,
     Object? cancellationPolicy = null,
     Object? checkInTime = null,
-    Object? isBookmark = null,
+    Object? viewedCount = null,
+    Object? likedCount = null,
   }) {
     return _then(_$HotelImpl(
       hotelId: null == hotelId
@@ -289,19 +306,19 @@ class __$$HotelImplCopyWithImpl<$Res>
       hotelLocation: null == hotelLocation
           ? _value.hotelLocation
           : hotelLocation // ignore: cast_nullable_to_non_nullable
-              as String,
+              as HotelLocation,
       priceRange: null == priceRange
           ? _value.priceRange
           : priceRange // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       roomSize: null == roomSize
           ? _value.roomSize
           : roomSize // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       bed: null == bed
           ? _value.bed
           : bed // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Bed,
       isSmoking: null == isSmoking
           ? _value.isSmoking
           : isSmoking // ignore: cast_nullable_to_non_nullable
@@ -314,54 +331,50 @@ class __$$HotelImplCopyWithImpl<$Res>
           ? _value.isAccessibility
           : isAccessibility // ignore: cast_nullable_to_non_nullable
               as bool,
-      hotelReviews: null == hotelReviews
-          ? _value.hotelReviews
-          : hotelReviews // ignore: cast_nullable_to_non_nullable
-              as String,
       walkTimeFromNearestStation: null == walkTimeFromNearestStation
           ? _value.walkTimeFromNearestStation
           : walkTimeFromNearestStation // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       nearbyAttractions: null == nearbyAttractions
-          ? _value.nearbyAttractions
+          ? _value._nearbyAttractions
           : nearbyAttractions // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       onSiteFacilities: null == onSiteFacilities
-          ? _value.onSiteFacilities
+          ? _value._onSiteFacilities
           : onSiteFacilities // ignore: cast_nullable_to_non_nullable
-              as String,
-      mapInformation: null == mapInformation
-          ? _value.mapInformation
-          : mapInformation // ignore: cast_nullable_to_non_nullable
-              as String,
-      inRoomAmenities: null == inRoomAmenities
-          ? _value.inRoomAmenities
-          : inRoomAmenities // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
+      inRoomFacilities: null == inRoomFacilities
+          ? _value._inRoomFacilities
+          : inRoomFacilities // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       paymentOptions: null == paymentOptions
-          ? _value.paymentOptions
+          ? _value._paymentOptions
           : paymentOptions // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       isParking: null == isParking
           ? _value.isParking
           : isParking // ignore: cast_nullable_to_non_nullable
               as bool,
       amenities: null == amenities
-          ? _value.amenities
+          ? _value._amenities
           : amenities // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       cancellationPolicy: null == cancellationPolicy
-          ? _value.cancellationPolicy
+          ? _value._cancellationPolicy
           : cancellationPolicy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as List<String>,
       checkInTime: null == checkInTime
           ? _value.checkInTime
           : checkInTime // ignore: cast_nullable_to_non_nullable
               as String,
-      isBookmark: null == isBookmark
-          ? _value.isBookmark
-          : isBookmark // ignore: cast_nullable_to_non_nullable
-              as bool,
+      viewedCount: null == viewedCount
+          ? _value.viewedCount
+          : viewedCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      likedCount: null == likedCount
+          ? _value.likedCount
+          : likedCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -380,18 +393,23 @@ class _$HotelImpl implements _Hotel {
       this.isSmoking = true,
       this.isBreakfast = false,
       this.isAccessibility = false,
-      required this.hotelReviews,
       required this.walkTimeFromNearestStation,
-      required this.nearbyAttractions,
-      required this.onSiteFacilities,
-      required this.mapInformation,
-      required this.inRoomAmenities,
-      required this.paymentOptions,
+      required final List<String> nearbyAttractions,
+      required final List<String> onSiteFacilities,
+      required final List<String> inRoomFacilities,
+      required final List<String> paymentOptions,
       this.isParking = false,
-      required this.amenities,
-      required this.cancellationPolicy,
+      required final List<String> amenities,
+      required final List<String> cancellationPolicy,
       required this.checkInTime,
-      this.isBookmark = false});
+      required this.viewedCount,
+      required this.likedCount})
+      : _nearbyAttractions = nearbyAttractions,
+        _onSiteFacilities = onSiteFacilities,
+        _inRoomFacilities = inRoomFacilities,
+        _paymentOptions = paymentOptions,
+        _amenities = amenities,
+        _cancellationPolicy = cancellationPolicy;
 
   factory _$HotelImpl.fromJson(Map<String, dynamic> json) =>
       _$$HotelImplFromJson(json);
@@ -403,13 +421,13 @@ class _$HotelImpl implements _Hotel {
   @override
   final String hotelImageUrl;
   @override
-  final String hotelLocation;
+  final HotelLocation hotelLocation;
   @override
-  final String priceRange;
+  final int priceRange;
   @override
-  final String roomSize;
+  final int roomSize;
   @override
-  final String bed;
+  final Bed bed;
   @override
   @JsonKey()
   final bool isSmoking;
@@ -422,38 +440,76 @@ class _$HotelImpl implements _Hotel {
   final bool isAccessibility;
 //障害者への対応ありなし
   @override
-  final String hotelReviews;
+  final int walkTimeFromNearestStation;
+  final List<String> _nearbyAttractions;
   @override
-  final String walkTimeFromNearestStation;
-  @override
-  final String nearbyAttractions;
+  List<String> get nearbyAttractions {
+    if (_nearbyAttractions is EqualUnmodifiableListView)
+      return _nearbyAttractions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_nearbyAttractions);
+  }
+
+//周辺の観光地
+  final List<String> _onSiteFacilities;
 //周辺の観光地
   @override
-  final String onSiteFacilities;
+  List<String> get onSiteFacilities {
+    if (_onSiteFacilities is EqualUnmodifiableListView)
+      return _onSiteFacilities;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_onSiteFacilities);
+  }
+
+//館内施設の有無
+  final List<String> _inRoomFacilities;
 //館内施設の有無
   @override
-  final String mapInformation;
-//地図情報
+  List<String> get inRoomFacilities {
+    if (_inRoomFacilities is EqualUnmodifiableListView)
+      return _inRoomFacilities;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_inRoomFacilities);
+  }
+
+  final List<String> _paymentOptions;
   @override
-  final String inRoomAmenities;
-  @override
-  final String paymentOptions;
+  List<String> get paymentOptions {
+    if (_paymentOptions is EqualUnmodifiableListView) return _paymentOptions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_paymentOptions);
+  }
+
   @override
   @JsonKey()
   final bool isParking;
+  final List<String> _amenities;
   @override
-  final String amenities;
+  List<String> get amenities {
+    if (_amenities is EqualUnmodifiableListView) return _amenities;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_amenities);
+  }
+
+  final List<String> _cancellationPolicy;
   @override
-  final String cancellationPolicy;
+  List<String> get cancellationPolicy {
+    if (_cancellationPolicy is EqualUnmodifiableListView)
+      return _cancellationPolicy;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cancellationPolicy);
+  }
+
   @override
   final String checkInTime;
   @override
-  @JsonKey()
-  final bool isBookmark;
+  final int viewedCount;
+  @override
+  final int likedCount;
 
   @override
   String toString() {
-    return 'Hotel(hotelId: $hotelId, hotelName: $hotelName, hotelImageUrl: $hotelImageUrl, hotelLocation: $hotelLocation, priceRange: $priceRange, roomSize: $roomSize, bed: $bed, isSmoking: $isSmoking, isBreakfast: $isBreakfast, isAccessibility: $isAccessibility, hotelReviews: $hotelReviews, walkTimeFromNearestStation: $walkTimeFromNearestStation, nearbyAttractions: $nearbyAttractions, onSiteFacilities: $onSiteFacilities, mapInformation: $mapInformation, inRoomAmenities: $inRoomAmenities, paymentOptions: $paymentOptions, isParking: $isParking, amenities: $amenities, cancellationPolicy: $cancellationPolicy, checkInTime: $checkInTime, isBookmark: $isBookmark)';
+    return 'Hotel(hotelId: $hotelId, hotelName: $hotelName, hotelImageUrl: $hotelImageUrl, hotelLocation: $hotelLocation, priceRange: $priceRange, roomSize: $roomSize, bed: $bed, isSmoking: $isSmoking, isBreakfast: $isBreakfast, isAccessibility: $isAccessibility, walkTimeFromNearestStation: $walkTimeFromNearestStation, nearbyAttractions: $nearbyAttractions, onSiteFacilities: $onSiteFacilities, inRoomFacilities: $inRoomFacilities, paymentOptions: $paymentOptions, isParking: $isParking, amenities: $amenities, cancellationPolicy: $cancellationPolicy, checkInTime: $checkInTime, viewedCount: $viewedCount, likedCount: $likedCount)';
   }
 
   @override
@@ -479,32 +535,30 @@ class _$HotelImpl implements _Hotel {
                 other.isBreakfast == isBreakfast) &&
             (identical(other.isAccessibility, isAccessibility) ||
                 other.isAccessibility == isAccessibility) &&
-            (identical(other.hotelReviews, hotelReviews) ||
-                other.hotelReviews == hotelReviews) &&
             (identical(other.walkTimeFromNearestStation,
                     walkTimeFromNearestStation) ||
                 other.walkTimeFromNearestStation ==
                     walkTimeFromNearestStation) &&
-            (identical(other.nearbyAttractions, nearbyAttractions) ||
-                other.nearbyAttractions == nearbyAttractions) &&
-            (identical(other.onSiteFacilities, onSiteFacilities) ||
-                other.onSiteFacilities == onSiteFacilities) &&
-            (identical(other.mapInformation, mapInformation) ||
-                other.mapInformation == mapInformation) &&
-            (identical(other.inRoomAmenities, inRoomAmenities) ||
-                other.inRoomAmenities == inRoomAmenities) &&
-            (identical(other.paymentOptions, paymentOptions) ||
-                other.paymentOptions == paymentOptions) &&
+            const DeepCollectionEquality()
+                .equals(other._nearbyAttractions, _nearbyAttractions) &&
+            const DeepCollectionEquality()
+                .equals(other._onSiteFacilities, _onSiteFacilities) &&
+            const DeepCollectionEquality()
+                .equals(other._inRoomFacilities, _inRoomFacilities) &&
+            const DeepCollectionEquality()
+                .equals(other._paymentOptions, _paymentOptions) &&
             (identical(other.isParking, isParking) ||
                 other.isParking == isParking) &&
-            (identical(other.amenities, amenities) ||
-                other.amenities == amenities) &&
-            (identical(other.cancellationPolicy, cancellationPolicy) ||
-                other.cancellationPolicy == cancellationPolicy) &&
+            const DeepCollectionEquality()
+                .equals(other._amenities, _amenities) &&
+            const DeepCollectionEquality()
+                .equals(other._cancellationPolicy, _cancellationPolicy) &&
             (identical(other.checkInTime, checkInTime) ||
                 other.checkInTime == checkInTime) &&
-            (identical(other.isBookmark, isBookmark) ||
-                other.isBookmark == isBookmark));
+            (identical(other.viewedCount, viewedCount) ||
+                other.viewedCount == viewedCount) &&
+            (identical(other.likedCount, likedCount) ||
+                other.likedCount == likedCount));
   }
 
   @JsonKey(ignore: true)
@@ -521,18 +575,17 @@ class _$HotelImpl implements _Hotel {
         isSmoking,
         isBreakfast,
         isAccessibility,
-        hotelReviews,
         walkTimeFromNearestStation,
-        nearbyAttractions,
-        onSiteFacilities,
-        mapInformation,
-        inRoomAmenities,
-        paymentOptions,
+        const DeepCollectionEquality().hash(_nearbyAttractions),
+        const DeepCollectionEquality().hash(_onSiteFacilities),
+        const DeepCollectionEquality().hash(_inRoomFacilities),
+        const DeepCollectionEquality().hash(_paymentOptions),
         isParking,
-        amenities,
-        cancellationPolicy,
+        const DeepCollectionEquality().hash(_amenities),
+        const DeepCollectionEquality().hash(_cancellationPolicy),
         checkInTime,
-        isBookmark
+        viewedCount,
+        likedCount
       ]);
 
   @JsonKey(ignore: true)
@@ -554,25 +607,24 @@ abstract class _Hotel implements Hotel {
       {required final String hotelId,
       required final String hotelName,
       required final String hotelImageUrl,
-      required final String hotelLocation,
-      required final String priceRange,
-      required final String roomSize,
-      required final String bed,
+      required final HotelLocation hotelLocation,
+      required final int priceRange,
+      required final int roomSize,
+      required final Bed bed,
       final bool isSmoking,
       final bool isBreakfast,
       final bool isAccessibility,
-      required final String hotelReviews,
-      required final String walkTimeFromNearestStation,
-      required final String nearbyAttractions,
-      required final String onSiteFacilities,
-      required final String mapInformation,
-      required final String inRoomAmenities,
-      required final String paymentOptions,
+      required final int walkTimeFromNearestStation,
+      required final List<String> nearbyAttractions,
+      required final List<String> onSiteFacilities,
+      required final List<String> inRoomFacilities,
+      required final List<String> paymentOptions,
       final bool isParking,
-      required final String amenities,
-      required final String cancellationPolicy,
+      required final List<String> amenities,
+      required final List<String> cancellationPolicy,
       required final String checkInTime,
-      final bool isBookmark}) = _$HotelImpl;
+      required final int viewedCount,
+      required final int likedCount}) = _$HotelImpl;
 
   factory _Hotel.fromJson(Map<String, dynamic> json) = _$HotelImpl.fromJson;
 
@@ -583,13 +635,13 @@ abstract class _Hotel implements Hotel {
   @override
   String get hotelImageUrl;
   @override
-  String get hotelLocation;
+  HotelLocation get hotelLocation;
   @override
-  String get priceRange;
+  int get priceRange;
   @override
-  String get roomSize;
+  int get roomSize;
   @override
-  String get bed;
+  Bed get bed;
   @override
   bool get isSmoking;
   @override //falseが禁煙、trueが喫煙
@@ -597,29 +649,27 @@ abstract class _Hotel implements Hotel {
   @override
   bool get isAccessibility;
   @override //障害者への対応ありなし
-  String get hotelReviews;
+  int get walkTimeFromNearestStation;
   @override
-  String get walkTimeFromNearestStation;
-  @override
-  String get nearbyAttractions;
+  List<String> get nearbyAttractions;
   @override //周辺の観光地
-  String get onSiteFacilities;
+  List<String> get onSiteFacilities;
   @override //館内施設の有無
-  String get mapInformation;
-  @override //地図情報
-  String get inRoomAmenities;
+  List<String> get inRoomFacilities;
   @override
-  String get paymentOptions;
+  List<String> get paymentOptions;
   @override
   bool get isParking;
   @override
-  String get amenities;
+  List<String> get amenities;
   @override
-  String get cancellationPolicy;
+  List<String> get cancellationPolicy;
   @override
   String get checkInTime;
   @override
-  bool get isBookmark;
+  int get viewedCount;
+  @override
+  int get likedCount;
   @override
   @JsonKey(ignore: true)
   _$$HotelImplCopyWith<_$HotelImpl> get copyWith =>
