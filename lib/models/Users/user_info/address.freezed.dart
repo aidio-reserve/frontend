@@ -20,7 +20,6 @@ Address _$AddressFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Address {
-  String get addressId => throw _privateConstructorUsedError;
   String get postalCode => throw _privateConstructorUsedError; //郵便番号
   String get address => throw _privateConstructorUsedError;
   String get street => throw _privateConstructorUsedError;
@@ -35,8 +34,7 @@ abstract class $AddressCopyWith<$Res> {
   factory $AddressCopyWith(Address value, $Res Function(Address) then) =
       _$AddressCopyWithImpl<$Res, Address>;
   @useResult
-  $Res call(
-      {String addressId, String postalCode, String address, String street});
+  $Res call({String postalCode, String address, String street});
 }
 
 /// @nodoc
@@ -52,16 +50,11 @@ class _$AddressCopyWithImpl<$Res, $Val extends Address>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? addressId = null,
     Object? postalCode = null,
     Object? address = null,
     Object? street = null,
   }) {
     return _then(_value.copyWith(
-      addressId: null == addressId
-          ? _value.addressId
-          : addressId // ignore: cast_nullable_to_non_nullable
-              as String,
       postalCode: null == postalCode
           ? _value.postalCode
           : postalCode // ignore: cast_nullable_to_non_nullable
@@ -85,8 +78,7 @@ abstract class _$$AddressImplCopyWith<$Res> implements $AddressCopyWith<$Res> {
       __$$AddressImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String addressId, String postalCode, String address, String street});
+  $Res call({String postalCode, String address, String street});
 }
 
 /// @nodoc
@@ -100,16 +92,11 @@ class __$$AddressImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? addressId = null,
     Object? postalCode = null,
     Object? address = null,
     Object? street = null,
   }) {
     return _then(_$AddressImpl(
-      addressId: null == addressId
-          ? _value.addressId
-          : addressId // ignore: cast_nullable_to_non_nullable
-              as String,
       postalCode: null == postalCode
           ? _value.postalCode
           : postalCode // ignore: cast_nullable_to_non_nullable
@@ -130,16 +117,11 @@ class __$$AddressImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AddressImpl implements _Address {
   const _$AddressImpl(
-      {required this.addressId,
-      required this.postalCode,
-      required this.address,
-      required this.street});
+      {required this.postalCode, required this.address, required this.street});
 
   factory _$AddressImpl.fromJson(Map<String, dynamic> json) =>
       _$$AddressImplFromJson(json);
 
-  @override
-  final String addressId;
   @override
   final String postalCode;
 //郵便番号
@@ -150,7 +132,7 @@ class _$AddressImpl implements _Address {
 
   @override
   String toString() {
-    return 'Address(addressId: $addressId, postalCode: $postalCode, address: $address, street: $street)';
+    return 'Address(postalCode: $postalCode, address: $address, street: $street)';
   }
 
   @override
@@ -158,8 +140,6 @@ class _$AddressImpl implements _Address {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AddressImpl &&
-            (identical(other.addressId, addressId) ||
-                other.addressId == addressId) &&
             (identical(other.postalCode, postalCode) ||
                 other.postalCode == postalCode) &&
             (identical(other.address, address) || other.address == address) &&
@@ -168,8 +148,7 @@ class _$AddressImpl implements _Address {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, addressId, postalCode, address, street);
+  int get hashCode => Object.hash(runtimeType, postalCode, address, street);
 
   @JsonKey(ignore: true)
   @override
@@ -187,15 +166,12 @@ class _$AddressImpl implements _Address {
 
 abstract class _Address implements Address {
   const factory _Address(
-      {required final String addressId,
-      required final String postalCode,
+      {required final String postalCode,
       required final String address,
       required final String street}) = _$AddressImpl;
 
   factory _Address.fromJson(Map<String, dynamic> json) = _$AddressImpl.fromJson;
 
-  @override
-  String get addressId;
   @override
   String get postalCode;
   @override //郵便番号

@@ -8,8 +8,8 @@ class Ai with _$Ai {
   factory Ai({
     required String aiId,
     required String aiName,
-    required String aiType,
-    required String aiSpeed,
+    required int aiType,
+    required int aiSpeed,
   }) = _Ai;
 
   factory Ai.fromJson(Map<String, dynamic> json) => _$AiFromJson(json);

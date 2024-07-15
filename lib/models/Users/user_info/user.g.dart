@@ -9,10 +9,10 @@ part of 'user.dart';
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       uid: json['uid'] as String,
       name: json['name'] as String,
-      age: json['age'] as String,
-      gender: json['gender'] as String,
+      age: (json['age'] as num).toInt(),
+      gender: (json['gender'] as num).toInt(),
       phoneNumber: json['phoneNumber'] as String,
-      address: json['address'] as String,
+      address: Address.fromJson(json['address'] as Map<String, dynamic>),
       isPremium: json['isPremium'] as bool? ?? false,
     );
 

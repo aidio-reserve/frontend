@@ -1,3 +1,4 @@
+import 'package:aitrip/models/Users/user_info/address.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -6,14 +7,13 @@ part 'user.g.dart';
 
 @freezed
 class User with _$User {
-  //プロパティを指定
   factory User({
     required String uid,
     required String name,
-    required String age,
-    required String gender, // 1:male,2:female,3:other
+    required int age,
+    required int gender, // 1:male,2:female,3:other
     required String phoneNumber,
-    required String address,
+    required Address address,
     @Default(false) bool isPremium,
   }) = _User;
 

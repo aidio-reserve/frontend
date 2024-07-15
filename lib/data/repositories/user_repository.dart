@@ -1,4 +1,4 @@
-import 'package:aitrip/models/user/user.dart';
+import 'package:aitrip/models/Users/user_info/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserRepository {

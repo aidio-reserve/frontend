@@ -22,8 +22,8 @@ Ai _$AiFromJson(Map<String, dynamic> json) {
 mixin _$Ai {
   String get aiId => throw _privateConstructorUsedError;
   String get aiName => throw _privateConstructorUsedError;
-  String get aiType => throw _privateConstructorUsedError;
-  String get aiSpeed => throw _privateConstructorUsedError;
+  int get aiType => throw _privateConstructorUsedError;
+  int get aiSpeed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $AiCopyWith<$Res> {
   factory $AiCopyWith(Ai value, $Res Function(Ai) then) =
       _$AiCopyWithImpl<$Res, Ai>;
   @useResult
-  $Res call({String aiId, String aiName, String aiType, String aiSpeed});
+  $Res call({String aiId, String aiName, int aiType, int aiSpeed});
 }
 
 /// @nodoc
@@ -67,11 +67,11 @@ class _$AiCopyWithImpl<$Res, $Val extends Ai> implements $AiCopyWith<$Res> {
       aiType: null == aiType
           ? _value.aiType
           : aiType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       aiSpeed: null == aiSpeed
           ? _value.aiSpeed
           : aiSpeed // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ) as $Val);
   }
 }
@@ -82,7 +82,7 @@ abstract class _$$AiImplCopyWith<$Res> implements $AiCopyWith<$Res> {
       __$$AiImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String aiId, String aiName, String aiType, String aiSpeed});
+  $Res call({String aiId, String aiName, int aiType, int aiSpeed});
 }
 
 /// @nodoc
@@ -111,11 +111,11 @@ class __$$AiImplCopyWithImpl<$Res> extends _$AiCopyWithImpl<$Res, _$AiImpl>
       aiType: null == aiType
           ? _value.aiType
           : aiType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       aiSpeed: null == aiSpeed
           ? _value.aiSpeed
           : aiSpeed // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ));
   }
 }
@@ -137,9 +137,9 @@ class _$AiImpl implements _Ai {
   @override
   final String aiName;
   @override
-  final String aiType;
+  final int aiType;
   @override
-  final String aiSpeed;
+  final int aiSpeed;
 
   @override
   String toString() {
@@ -179,8 +179,8 @@ abstract class _Ai implements Ai {
   factory _Ai(
       {required final String aiId,
       required final String aiName,
-      required final String aiType,
-      required final String aiSpeed}) = _$AiImpl;
+      required final int aiType,
+      required final int aiSpeed}) = _$AiImpl;
 
   factory _Ai.fromJson(Map<String, dynamic> json) = _$AiImpl.fromJson;
 
@@ -189,9 +189,9 @@ abstract class _Ai implements Ai {
   @override
   String get aiName;
   @override
-  String get aiType;
+  int get aiType;
   @override
-  String get aiSpeed;
+  int get aiSpeed;
   @override
   @JsonKey(ignore: true)
   _$$AiImplCopyWith<_$AiImpl> get copyWith =>

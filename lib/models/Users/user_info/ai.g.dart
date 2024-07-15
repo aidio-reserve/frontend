@@ -9,8 +9,8 @@ part of 'ai.dart';
 _$AiImpl _$$AiImplFromJson(Map<String, dynamic> json) => _$AiImpl(
       aiId: json['aiId'] as String,
       aiName: json['aiName'] as String,
-      aiType: json['aiType'] as String,
-      aiSpeed: json['aiSpeed'] as String,
+      aiType: (json['aiType'] as num).toInt(),
+      aiSpeed: (json['aiSpeed'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$AiImplToJson(_$AiImpl instance) => <String, dynamic>{

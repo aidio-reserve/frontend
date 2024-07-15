@@ -22,11 +22,11 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   String get uid => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get age => throw _privateConstructorUsedError;
-  String get gender =>
+  int get age => throw _privateConstructorUsedError;
+  int get gender =>
       throw _privateConstructorUsedError; // 1:male,2:female,3:other
   String get phoneNumber => throw _privateConstructorUsedError;
-  String get address => throw _privateConstructorUsedError;
+  Address get address => throw _privateConstructorUsedError;
   bool get isPremium => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,11 +42,13 @@ abstract class $UserCopyWith<$Res> {
   $Res call(
       {String uid,
       String name,
-      String age,
-      String gender,
+      int age,
+      int gender,
       String phoneNumber,
-      String address,
+      Address address,
       bool isPremium});
+
+  $AddressCopyWith<$Res> get address;
 }
 
 /// @nodoc
@@ -82,11 +84,11 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -94,12 +96,20 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Address,
       isPremium: null == isPremium
           ? _value.isPremium
           : isPremium // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AddressCopyWith<$Res> get address {
+    return $AddressCopyWith<$Res>(_value.address, (value) {
+      return _then(_value.copyWith(address: value) as $Val);
+    });
   }
 }
 
@@ -113,11 +123,14 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   $Res call(
       {String uid,
       String name,
-      String age,
-      String gender,
+      int age,
+      int gender,
       String phoneNumber,
-      String address,
+      Address address,
       bool isPremium});
+
+  @override
+  $AddressCopyWith<$Res> get address;
 }
 
 /// @nodoc
@@ -150,11 +163,11 @@ class __$$UserImplCopyWithImpl<$Res>
       age: null == age
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       gender: null == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       phoneNumber: null == phoneNumber
           ? _value.phoneNumber
           : phoneNumber // ignore: cast_nullable_to_non_nullable
@@ -162,7 +175,7 @@ class __$$UserImplCopyWithImpl<$Res>
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Address,
       isPremium: null == isPremium
           ? _value.isPremium
           : isPremium // ignore: cast_nullable_to_non_nullable
@@ -191,14 +204,14 @@ class _$UserImpl implements _User {
   @override
   final String name;
   @override
-  final String age;
+  final int age;
   @override
-  final String gender;
+  final int gender;
 // 1:male,2:female,3:other
   @override
   final String phoneNumber;
   @override
-  final String address;
+  final Address address;
   @override
   @JsonKey()
   final bool isPremium;
@@ -247,10 +260,10 @@ abstract class _User implements User {
   factory _User(
       {required final String uid,
       required final String name,
-      required final String age,
-      required final String gender,
+      required final int age,
+      required final int gender,
       required final String phoneNumber,
-      required final String address,
+      required final Address address,
       final bool isPremium}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
@@ -260,13 +273,13 @@ abstract class _User implements User {
   @override
   String get name;
   @override
-  String get age;
+  int get age;
   @override
-  String get gender;
+  int get gender;
   @override // 1:male,2:female,3:other
   String get phoneNumber;
   @override
-  String get address;
+  Address get address;
   @override
   bool get isPremium;
   @override
