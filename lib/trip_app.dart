@@ -4,7 +4,9 @@ import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
 import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:aitrip/ui/screens/drawer/bookmark_screen.dart';
 import 'package:aitrip/ui/screens/drawer/manual_screen.dart';
-import 'package:aitrip/ui/screens/drawer/profile_screen.dart';
+import 'package:aitrip/ui/screens/drawer/profile/profile_screen.dart';
+import 'package:aitrip/ui/screens/firebase/login_screen.dart';
+import 'package:aitrip/ui/screens/firebase/register_screen.dart';
 import 'package:aitrip/ui/screens/setting_screen.dart';
 import 'package:aitrip/ui/screens/settings/about_app_scren.dart';
 import 'package:aitrip/ui/screens/settings/change_ai_name_screen.dart';
@@ -30,6 +32,8 @@ class TripApp extends ConsumerWidget {
     return MaterialApp(
       routes: {
         '/profile': (context) => const ProfileScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
         '/manual': (context) => const ManualScreen(),
         '/bookmark': (context) => const BookmarkScreen(),
         '/setting': (context) => const SettingScreen(),
