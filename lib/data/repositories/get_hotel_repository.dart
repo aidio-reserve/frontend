@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:aitrip/providers/hotel_provider.dart';
 import 'package:aitrip/services/hotel_model_service.dart.dart';
-import 'package:aitrip/services/hotel_service.dart';
+import 'package:aitrip/services/returned_hotel_service.dart';
 import 'package:aitrip/services/request_url_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
