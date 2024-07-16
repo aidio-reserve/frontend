@@ -4,6 +4,7 @@ import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
 import 'package:aitrip/data/repositories/chat_repository.dart';
 import 'package:aitrip/providers/display_hotel_provider.dart';
+import 'package:aitrip/providers/hotel_option_provider.dart';
 import 'package:aitrip/providers/loading_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
@@ -162,11 +163,14 @@ class ChatScreen extends ConsumerWidget {
     //hotelInfoServiceProviderを使用してHotelInfoRepositoryを取得(実際に楽天APIにリクエストを送信するため)
     final hotelInfoService = ref.read(hotelInfoServiceProvider);
     ref.watch(userInfoNotifierProvider.notifier);
+    ref.read(hotelOptionProvider.notifier).state =
+        ref.read(messageListProvider).last.hotelOption;
+    final hotelOption = ref.read(hotelOptionProvider);
     if (userMessage.isNotEmpty) {
       ref
           .read(messageListProvider.notifier)
           //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
-          .addMessage(userMessage, true, 0);
+          .addMessage(userMessage, true, hotelOption, 0);
       showLoading(ref);
       messageController.clear();
       await messageService.sendMessage(threadId, userMessage);

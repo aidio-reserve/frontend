@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:aitrip/providers/hotel_option_provider.dart';
 import 'package:aitrip/providers/hotel_provider.dart';
 import 'package:aitrip/providers/loading_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
@@ -33,9 +34,15 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
     final userMessage = state.lastWords;
     final userInfoService = ref.read(exportUserInfoProvider);
     final hotelInfoService = ref.read(hotelInfoServiceProvider);
+    ref.read(hotelOptionProvider.notifier).state =
+        ref.read(messageListProvider).last.hotelOption;
+    final hotelOption = ref.read(hotelOptionProvider);
 
     if (userMessage.isNotEmpty) {
-      ref.read(messageListProvider.notifier).addMessage(userMessage, true, 0);
+      //ここに現在のhotelOptionを取得してaddMessageに入れる処理を追加。providerも追加。
+      ref
+          .read(messageListProvider.notifier)
+          .addMessage(userMessage, true, hotelOption, 0);
       await messageService.sendMessage(threadId, userMessage);
       await userInfoService.sendUserInfoRequest(threadId);
       Map<String, dynamic> updatedUserInfo =
