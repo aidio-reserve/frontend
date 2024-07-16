@@ -1,5 +1,5 @@
+import 'package:aitrip/providers/loading_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
-import 'package:aitrip/providers/message_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -31,12 +31,14 @@ class ChatRepository {
         debugPrint('messageの送信が成功しました');
         final Map<String, dynamic> responseData = json.decode(response.body);
         final String responseMessage = responseData['response'];
-        int displayHotel = responseData['display-hotel'];
+        int displayHotel = responseData['display_hotel'];
+        final Map<String, dynamic> hotelOption = responseData['hotel_option'];
+        debugPrint('hotelOptionの型: ${hotelOption.runtimeType}');
         debugPrint('サーバーからのレスポンス: $responseMessage'
             'displayHotel: $displayHotel');
         ref
             .read(messageListProvider.notifier)
-            .addMessage(responseMessage, false, displayHotel);
+            .addMessage(responseMessage, false, hotelOption, displayHotel);
         ref.read(isLoadingProvider.notifier).state = false;
         debugPrint('isLoadingがfalseに戻りました');
       } else {

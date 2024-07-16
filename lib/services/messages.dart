@@ -14,7 +14,10 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
   MessageListNotifier(this.ref)
       : super([
           Message(
-              text: "こんにちは！どこに旅行に行きたいですか？", isSender: false, displayHotel: 0)
+              text:
+                  " こんにちは！どのような旅行をご希望ですか？\n \n  例. \t 北海道で海鮮丼を食べたい！ \n  例. \t 森林浴がしたい",
+              isSender: false,
+              displayHotel: 0)
         ]);
 
   void addMessage(String text, bool isSender, int displayHotel) {

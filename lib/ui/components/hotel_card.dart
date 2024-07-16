@@ -1,5 +1,5 @@
 import 'package:aitrip/services/hotel_model_service.dart.dart';
-import 'package:aitrip/ui/screens/hotel_detail_screen.dart';
+import 'package:aitrip/ui/screens/hotel_screen/hotel_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class HotelCard extends StatelessWidget {
