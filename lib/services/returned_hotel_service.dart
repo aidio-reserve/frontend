@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
+//backendから帰ってきたホテルの情報に関するもの。
 class HotelService {
   var logger = Logger();
 

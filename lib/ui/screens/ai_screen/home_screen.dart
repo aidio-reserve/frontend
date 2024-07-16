@@ -43,40 +43,49 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
+        backgroundColor:
+            Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
         leading: IconButton(
-          icon: const Icon(Icons.menu_rounded),
+          icon: Icon(
+            Icons.menu_rounded,
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
+          ),
           onPressed: () {
             scaffoldKey.currentState?.openDrawer();
           },
         ),
         title: const Text(
-          'みなモン',
+          '旅行アシスタント',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 40.0),
             child: GestureDetector(
-                onVerticalDragUpdate: (details) {
-                  double delta = (details.primaryDelta ?? 0.0) / 100;
-                  showOverlay(context);
-                  updateOpacity(delta);
-                },
-                onVerticalDragEnd: (details) {
-                  if (opacity > 0.5) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ChatScreen(
-                                showAppBar: true,
-                              )),
-                    );
-                    hideOverlay();
-                  } else {
-                    hideOverlay();
-                  }
-                },
-                child: const Icon(Icons.schedule_rounded)),
+              onVerticalDragUpdate: (details) {
+                double delta = (details.primaryDelta ?? 0.0) / 100;
+                showOverlay(context);
+                updateOpacity(delta);
+              },
+              onVerticalDragEnd: (details) {
+                if (opacity > 0.5) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChatScreen(
+                              showAppBar: true,
+                            )),
+                  );
+                  hideOverlay();
+                } else {
+                  hideOverlay();
+                }
+              },
+              child: Icon(
+                Icons.schedule_rounded,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
           )
         ],
       ),
