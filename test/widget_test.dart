@@ -5,14 +5,14 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:aitrip/trip_app.dart';
+import 'package:aitrip/aidio_reserve.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const TripApp(threadId: "0"));
+    await tester.pumpWidget(const AidioReserve(threadId: "0"));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

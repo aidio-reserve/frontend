@@ -1,5 +1,5 @@
 import 'package:aitrip/providers/hotel_provider.dart';
-import '../../../services/hotel_model_service.dart.dart';
+import 'package:aitrip/services/hotel_model_service.dart.dart';
 import 'package:aitrip/ui/components/hotel_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

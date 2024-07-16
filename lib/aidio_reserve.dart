@@ -5,9 +5,9 @@ import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:aitrip/ui/screens/drawer/bookmark_screen.dart';
 import 'package:aitrip/ui/screens/drawer/manual_screen.dart';
 import 'package:aitrip/ui/screens/drawer/profile/profile_screen.dart';
+import 'package:aitrip/ui/screens/drawer/setting_screen.dart';
 import 'package:aitrip/ui/screens/firebase/login_screen.dart';
 import 'package:aitrip/ui/screens/firebase/register_screen.dart';
-import 'package:aitrip/ui/screens/setting_screen.dart';
 import 'package:aitrip/ui/screens/settings/about_app_scren.dart';
 import 'package:aitrip/ui/screens/settings/change_ai_name_screen.dart';
 import 'package:aitrip/ui/screens/settings/change_user_name_screen.dart';
@@ -20,9 +20,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TripApp extends ConsumerWidget {
+class AidioReserve extends ConsumerWidget {
   final String threadId;
-  const TripApp({super.key, required this.threadId});
+  const AidioReserve({super.key, required this.threadId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,7 +51,7 @@ class TripApp extends ConsumerWidget {
               showAppBar: true,
             ),
       },
-      title: '音声AIアプリ',
+      title: 'aidio-reserve',
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: seedColor,
