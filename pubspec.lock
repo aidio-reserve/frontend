@@ -1026,14 +1026,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  wavenet:
-    dependency: "direct main"
-    description:
-      name: wavenet
-      sha256: bebd904cab33e08f651c698022a39bca213b4a7c948906dbce47cbee64577fb7
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.5"
   web:
     dependency: transitive
     description:
