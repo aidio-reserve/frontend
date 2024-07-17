@@ -21,6 +21,7 @@
     "dotenv",
     "Firestore",
     "nodoc",
-    "riverpod"
+    "riverpod",
+    "wavenet"
   ]
 }
