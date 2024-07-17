@@ -3,14 +3,17 @@ import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/speech_notifier_provider.dart';
 import 'package:aitrip/ui/components/voice_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:io';
+import 'package:wavenet/wavenet.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class SpeechState {
   final String lastWords;
   final bool isListening;
   final bool isSpeechEnabled;
 
-  //コンストラクタ
   SpeechState({
     this.lastWords = '',
     this.isListening = false,
@@ -22,16 +25,61 @@ final speechProvider = StateNotifierProvider<SpeechNotifier, SpeechState>(
   (ref) => SpeechNotifier(),
 );
 
-class VoiceScreen extends ConsumerWidget {
+class VoiceScreen extends ConsumerStatefulWidget {
   const VoiceScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  VoiceScreenState createState() => VoiceScreenState();
+}
+
+class VoiceScreenState extends ConsumerState<VoiceScreen> {
+  late TextToSpeechService ttsService; //late:初期化されることを約束するもの
+  final AudioPlayer audioPlayer = AudioPlayer();
+  String? lastSpokenMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    final speechId = dotenv.env['TEXT_TO_SPEECH_API_KEY'];
+    if (speechId == null || speechId.isEmpty) {
+      throw Exception('TEXT_TO_SPEECH_API_KEY is not defined in .env file');
+    }
+    ttsService = TextToSpeechService(speechId);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final speechState = ref.watch(speechProvider);
     final messages = ref.watch(messageListProvider);
     final message = (messages.length % 2 == 0) ? null : messages.last;
-    final isLoading = ref.watch(isLoadingProvider);
 
+    Future<void> _speak(String text) async {
+      try {
+        // Text to Speech変換
+        File mp3 = await ttsService.textToSpeech(
+          text: text,
+          voiceName: 'ja-JP-Wavenet-B',
+          audioEncoding: 'MP3',
+          languageCode: 'ja-JP',
+          pitch: 0.0,
+          speakingRate: 1.0,
+        );
+        // 再生
+        await audioPlayer.play(DeviceFileSource(mp3.path));
+      } catch (e) {
+        debugPrint('Error: $e');
+      }
+    }
+
+    // messageが更新された場合のみ読み上げる
+    if (message != null && message.text != lastSpokenMessage) {
+      lastSpokenMessage = message.text;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _speak(message.text);
+      });
+    }
+
+    final isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
       body: Center(
         child: Column(
@@ -76,11 +124,11 @@ class VoiceScreen extends ConsumerWidget {
                             ? const LoadingContainer()
                             : speechState.isListening
                                 ? UserContainer(
-                                    key: const ValueKey('user'), //Keyを指定
+                                    key: const ValueKey('user'),
                                     text: speechState.lastWords,
                                   )
                                 : ServerContainer(
-                                    key: const ValueKey('server'), //Keyを指定
+                                    key: const ValueKey('server'),
                                     text: message != null ? message.text : '',
                                   ),
                       ),
