@@ -43,7 +43,6 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
     final messages = ref.watch(messageListProvider);
     final message = (messages.length % 2 == 0) ? null : messages.last;
 
-    // messageが更新された場合のみ読み上げる
     if (message != null &&
         message.text != lastSpokenMessage &&
         messages.length != 1) {
