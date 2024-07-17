@@ -5,8 +5,8 @@ import 'package:aitrip/ui/components/voice_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:io';
-import 'package:wavenet/wavenet.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:audioplayers/audioplayers.dart';
 
 class SpeechState {
@@ -33,18 +33,45 @@ class VoiceScreen extends ConsumerStatefulWidget {
 }
 
 class VoiceScreenState extends ConsumerState<VoiceScreen> {
-  late TextToSpeechService ttsService; //late:初期化されることを約束するもの
   final AudioPlayer audioPlayer = AudioPlayer();
   String? lastSpokenMessage;
 
   @override
   void initState() {
     super.initState();
-    final speechId = dotenv.env['TEXT_TO_SPEECH_API_KEY'];
-    if (speechId == null || speechId.isEmpty) {
-      throw Exception('TEXT_TO_SPEECH_API_KEY is not defined in .env file');
+  }
+
+  Future<void> _speak(String text) async {
+    final String apiKey = dotenv.env['TEXT_TO_SPEECH_API_KEY']!;
+    final String url =
+        'https://texttospeech.googleapis.com/v1/text:synthesize?key=$apiKey';
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'input': {'text': text},
+          'voice': {'languageCode': 'ja-JP', 'name': 'ja-JP-Wavenet-B'},
+          'audioConfig': {
+            'audioEncoding': 'MP3',
+            'pitch': 0.0,
+            'speakingRate': 1.0
+          },
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        final audioContent = base64Decode(responseBody['audioContent']);
+        await audioPlayer.play(BytesSource(audioContent));
+      } else {
+        debugPrint('Error: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
     }
-    ttsService = TextToSpeechService(speechId);
   }
 
   @override
@@ -52,24 +79,6 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
     final speechState = ref.watch(speechProvider);
     final messages = ref.watch(messageListProvider);
     final message = (messages.length % 2 == 0) ? null : messages.last;
-
-    Future<void> _speak(String text) async {
-      try {
-        // Text to Speech変換
-        File mp3 = await ttsService.textToSpeech(
-          text: text,
-          voiceName: 'ja-JP-Wavenet-B',
-          audioEncoding: 'MP3',
-          languageCode: 'ja-JP',
-          pitch: 0.0,
-          speakingRate: 1.0,
-        );
-        // 再生
-        await audioPlayer.play(DeviceFileSource(mp3.path));
-      } catch (e) {
-        debugPrint('Error: $e');
-      }
-    }
 
     // messageが更新された場合のみ読み上げる
     if (message != null && message.text != lastSpokenMessage) {
