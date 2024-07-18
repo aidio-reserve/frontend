@@ -1,3 +1,4 @@
+import 'package:aitrip/data/repositories/google_text_to_speech_repository.dart';
 import 'package:aitrip/providers/loading_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/speech_notifier_provider.dart';
@@ -10,7 +11,6 @@ class SpeechState {
   final bool isListening;
   final bool isSpeechEnabled;
 
-  //コンストラクタ
   SpeechState({
     this.lastWords = '',
     this.isListening = false,
@@ -22,16 +22,37 @@ final speechProvider = StateNotifierProvider<SpeechNotifier, SpeechState>(
   (ref) => SpeechNotifier(),
 );
 
-class VoiceScreen extends ConsumerWidget {
+class VoiceScreen extends ConsumerStatefulWidget {
   const VoiceScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  VoiceScreenState createState() => VoiceScreenState();
+}
+
+class VoiceScreenState extends ConsumerState<VoiceScreen> {
+  String? lastSpokenMessage;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final speechState = ref.watch(speechProvider);
     final messages = ref.watch(messageListProvider);
     final message = (messages.length % 2 == 0) ? null : messages.last;
-    final isLoading = ref.watch(isLoadingProvider);
 
+    if (message != null &&
+        message.text != lastSpokenMessage &&
+        messages.length != 1) {
+      lastSpokenMessage = message.text;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        speak(message.text);
+      });
+    }
+
+    final isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
       body: Center(
         child: Column(
@@ -76,11 +97,11 @@ class VoiceScreen extends ConsumerWidget {
                             ? const LoadingContainer()
                             : speechState.isListening
                                 ? UserContainer(
-                                    key: const ValueKey('user'), //Keyを指定
+                                    key: const ValueKey('user'),
                                     text: speechState.lastWords,
                                   )
                                 : ServerContainer(
-                                    key: const ValueKey('server'), //Keyを指定
+                                    key: const ValueKey('server'),
                                     text: message != null ? message.text : '',
                                   ),
                       ),

@@ -1,4 +1,4 @@
-import 'package:aitrip/models/Users/Convresations/messages.dart';
+import 'package:aitrip/models/Users/Conversations/messages.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final messageListProvider =
