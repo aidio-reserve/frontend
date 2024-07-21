@@ -32,7 +32,15 @@ class ChatRepository {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final String responseMessage = responseData['response'];
         int displayHotel = responseData['display_hotel'];
-        final Map<String, dynamic> hotelOption = responseData['hotel_option'];
+        // final Map<String, dynamic> hotelOption = responseData['hotel_option'];//ここで、後々繋ぎ込みを行う。
+        final Map<String, dynamic> hotelOption = <String, dynamic>{
+          "hotel_location": "東京都目黒区",
+          "checkInDate": "08/31",
+          "checkOutDate": "09/01",
+          "number_of_people": "2",
+          "price": "20000",
+          "size_of_room": "single",
+        };
         debugPrint('hotelOptionの型: ${hotelOption.runtimeType}');
         debugPrint('サーバーからのレスポンス: $responseMessage'
             'displayHotel: $displayHotel');
