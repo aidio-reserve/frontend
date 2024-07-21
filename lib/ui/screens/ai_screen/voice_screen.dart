@@ -169,8 +169,8 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
                                 spacing,
                                 Text(
                                     getFormattedDateRange(
-                                        hotelOption['checkInDate'],
-                                        hotelOption['checkOutDate']),
+                                        hotelOption['check_in_date'],
+                                        hotelOption['check_out_date']),
                                     style: textStyle),
                                 spacing,
                                 Text(

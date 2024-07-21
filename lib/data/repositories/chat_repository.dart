@@ -36,8 +36,8 @@ class ChatRepository {
         // final Map<String, dynamic> hotelOption = responseData['hotel_option'];//ここで、後々繋ぎ込みを行う。
         final Map<String, dynamic> hotelOption = <String, dynamic>{
           "hotel_location": "東京都目黒区",
-          "checkInDate": "08/31",
-          "checkOutDate": "09/01",
+          "check_in_date": "08/31",
+          "check_out_date": "09/01",
           "number_of_people": "2",
           "price": "20000",
           "size_of_room": "single",
