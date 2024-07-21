@@ -25,14 +25,14 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
               displayHotel: 0)
         ]);
 
-  void addMessage(String text, bool isSender, Map<String, dynamic> hotelOption,
+  void addMessage(String text, bool isSender, Map<String, dynamic>? hotelOption,
       int displayHotel) {
     state = [
       ...state,
       Message(
           text: text,
           isSender: isSender,
-          hotelOption: hotelOption,
+          hotelOption: hotelOption ?? <String, dynamic>{},
           displayHotel: displayHotel)
     ];
     debugPrint(

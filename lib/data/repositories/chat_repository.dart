@@ -1,3 +1,4 @@
+import 'package:aitrip/providers/hotel_option_provider.dart';
 import 'package:aitrip/providers/loading_provider.dart';
 import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ class ChatRepository {
         debugPrint('hotelOptionの型: ${hotelOption.runtimeType}');
         debugPrint('サーバーからのレスポンス: $responseMessage'
             'displayHotel: $displayHotel');
+        ref.read(hotelOptionProvider.notifier).updateHotelOption(hotelOption);
         ref
             .read(messageListProvider.notifier)
             .addMessage(responseMessage, false, hotelOption, displayHotel);

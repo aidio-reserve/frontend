@@ -1,9 +1,23 @@
-import 'package:aitrip/providers/message_list_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final hotelOptionProvider = StateProvider<Map<String, dynamic>>((ref) {
-  final messageList = ref.watch(messageListProvider);
-  return messageList.isNotEmpty
-      ? messageList.last.hotelOption
-      : <String, dynamic>{};
-});
+final hotelOptionProvider =
+    NotifierProvider<HotelOptionNotifier, Map<String, dynamic>?>(
+  HotelOptionNotifier.new,
+);
+
+class HotelOptionNotifier extends Notifier<Map<String, dynamic>?> {
+  @override
+  Map<String, dynamic>? build() {
+    return null;
+  }
+
+  void updateHotelOption(Map<String, dynamic> hotelOption) {
+    state = hotelOption;
+    debugPrint('HotelOption updated: $hotelOption');
+  }
+
+  void clearHotelOption() {
+    state = null;
+  }
+}
