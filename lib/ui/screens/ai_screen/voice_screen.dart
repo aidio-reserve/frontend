@@ -44,6 +44,20 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
     final messages = ref.watch(messageListProvider);
     final message = (messages.length % 2 == 0) ? null : messages.last;
     final hotelOption = ref.watch(hotelOptionProvider);
+    const textStyle = TextStyle(fontSize: 16);
+    const spacing = SizedBox(height: 8);
+
+    String getFormattedDateRange(String? checkInDate, String? checkOutDate) {
+      if (checkInDate == null && checkOutDate == null) {
+        return "日程:";
+      } else if (checkInDate == null) {
+        return "日程: ~ $checkOutDate";
+      } else if (checkOutDate == null) {
+        return "日程: $checkInDate ~";
+      } else {
+        return "日程: $checkInDate ~ $checkOutDate";
+      }
+    }
 
     if (message != null &&
         message.text != lastSpokenMessage &&
@@ -118,71 +132,61 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
                 right: 30.0,
               ),
               child: Container(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .inverseSurface
-                        .withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  child: Padding(
+                height: MediaQuery.of(context).size.height * 0.35,
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .inverseSurface
+                      .withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: SingleChildScrollView(
-                      child: hotelOption == null
-                          ? const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: hotelOption == null
+                            ? [
+                                const Text("宿泊先：", style: textStyle),
+                                spacing,
+                                const Text("日程：", style: textStyle),
+                                spacing,
+                                const Text("人数：", style: textStyle),
+                                spacing,
+                                const Text("値段帯：", style: textStyle),
+                                spacing,
+                                const Text("部屋のサイズ：", style: textStyle),
+                                spacing,
+                                const Text("ベッドサイズ：", style: textStyle),
+                                spacing,
+                                const Text("ベッドの種類：", style: textStyle),
+                              ]
+                            : [
                                 Text(
-                                  "宿泊先：",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(height: 8),
+                                    '宿泊先: ${hotelOption['hotel_location'] ?? ""}',
+                                    style: textStyle),
+                                spacing,
                                 Text(
-                                  "日程：",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(height: 8),
+                                    getFormattedDateRange(
+                                        hotelOption['checkInDate'],
+                                        hotelOption['checkOutDate']),
+                                    style: textStyle),
+                                spacing,
                                 Text(
-                                  "人数：",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(height: 8),
+                                    '人数: ${hotelOption['number_of_people'] ?? ""}',
+                                    style: textStyle),
+                                spacing,
+                                Text('値段帯: ${hotelOption['price'] ?? ""}',
+                                    style: textStyle),
+                                spacing,
                                 Text(
-                                  "値段帯：",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  "部屋のサイズ：",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  "ベッドサイズ：",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  "ベッドの種類：",
-                                  style: TextStyle(fontSize: 16),
-                                ),
+                                    '部屋のサイズ: ${hotelOption['size_of_room'] ?? ""}',
+                                    style: textStyle),
                               ],
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('宿泊先: ${hotelOption['hotel_location']}'),
-                                Text(
-                                    '日程: ${hotelOption['checkInDate']} ~ ${hotelOption['checkOutDate']}'),
-                                Text('人数: ${hotelOption['number_of_people']}'),
-                                Text('値段帯: ${hotelOption['price']}'),
-                                Text('部屋のサイズ: ${hotelOption['size_of_room']}'),
-                              ],
-                            ),
-                    ),
-                  )),
+                      ),
+                    )),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(30.0),
