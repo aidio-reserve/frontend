@@ -65,7 +65,24 @@ class ChatScreen extends ConsumerWidget {
                           builder: (context) => const HomeScreen()),
                     );
                   },
-                ))
+                ),
+                // Result_screenの改良用につけくわえた遷移ボタン。後で消す
+                actions: [
+                  Container(
+                    padding: const EdgeInsets.only(right: 40.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.check_circle),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ResultScreen()),
+                      );
+                    },
+                  ),
+                  ),
+                ],
+                )
             : null,
         body: Center(
           child: Padding(
