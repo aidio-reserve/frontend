@@ -27,10 +27,9 @@ class ResultScreen extends ConsumerWidget {
                   },
                 ),
         title: const Text(
-          '旅行アシスタント',
+          'ホテル情報',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-        ),
-        
+        ),    
       ),
       body: ListView.builder(
         itemCount: hotels.length,
