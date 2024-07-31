@@ -6,14 +6,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ChatRepository {
-  final String apiEndpoint = 'http://localhost:5001/chatting';
+  final String apiEndpoint =
+      'https://aidio-reserve-c0fdhwbwgbdpc9d8.japaneast-01.azurewebsites.net/chatting';
   final http.Client httpClient;
   final Ref ref;
 
   ChatRepository({required this.ref}) : httpClient = http.Client();
 
   Future<void> sendMessage(String threadId, String message) async {
-    final Uri url = Uri.parse('http://localhost:5001/chatting');
+    final Uri url = Uri.parse(apiEndpoint);
 
     try {
       final response = await httpClient.post(

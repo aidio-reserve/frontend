@@ -5,14 +5,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ExportUserInfoRepository {
-  final String apiEndpoint = 'http://localhost:5001/export_userinfo';
+  final String apiEndpoint =
+      'https://aidio-reserve-c0fdhwbwgbdpc9d8.japaneast-01.azurewebsites.net/export_userinfo';
   final http.Client httpClient;
   final Ref ref;
 
   ExportUserInfoRepository({required this.ref}) : httpClient = http.Client();
 
   Future<void> sendUserInfoRequest(String threadId) async {
-    final Uri url = Uri.parse('http://localhost:5001/export_userinfo');
+    final Uri url = Uri.parse(apiEndpoint);
 
     try {
       final response = await httpClient.post(

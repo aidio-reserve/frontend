@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class StartRepository {
-  final String apiEndpoint = 'http://localhost:5001/start';
+  final String apiEndpoint =
+      'https://aidio-reserve-c0fdhwbwgbdpc9d8.japaneast-01.azurewebsites.net/start';
   final http.Client httpClient;
 
   StartRepository() : httpClient = http.Client();
 
   Future<void> accessToStart(String threadId) async {
-    final Uri url = Uri.parse('http://localhost:5001/start');
+    final Uri url = Uri.parse(apiEndpoint);
 
     try {
       final response = await httpClient.post(
