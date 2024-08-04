@@ -56,46 +56,46 @@ class HotelDetail extends StatelessWidget {
                         kToolbarHeight -
                         MediaQuery.of(context).padding.top) /
                     4,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center, // 中央に揃えるために追加
-                  crossAxisAlignment: CrossAxisAlignment.center, // 中央に揃えるために変更
-                  children: [
-                    Text(
-                      hotel.hotelName,
-                      style: const TextStyle(fontSize: 24),
-                      textAlign: TextAlign.center, // テキストを中央揃え
-                    ),
-                    SizedBox(height: 8), // スペースを追加
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(5, (index) {
-                            return CustomPaint(
-                              painter: StarPainter(
-                                rating: hotel.reviewAverage,
-                                index: index,
-                              ),
-                              child: const SizedBox(width: 24, height: 24),
-                            );
-                          }),
-                        ),
-                        SizedBox(width: 5), // スペースを追加
-                        Text(
-                          '${hotel.reviewAverage.toStringAsFixed(1)} / 5',
-                          style: const TextStyle(
-                            fontSize: 16,
+                child: Padding(
+                  // 左右にパディングを追加
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 36.0), // ここを変更
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        hotel.hotelName,
+                        style: const TextStyle(fontSize: 24),
+                        textAlign: TextAlign.center, // テキストを中央揃え
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(5, (index) {
+                              return CustomPaint(
+                                painter: StarPainter(
+                                  rating: hotel.reviewAverage,
+                                  index: index,
+                                ),
+                                child: const SizedBox(width: 24, height: 24),
+                              );
+                            }),
                           ),
-                        ),
-                      ],
-                    ),
-
-                    const Text(
-                      '2人、3月10日〜3月12日、2泊',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ],
+                          SizedBox(width: 5),
+                          Text(
+                            '${hotel.reviewAverage.toStringAsFixed(1)} / 5',
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Expanded(
