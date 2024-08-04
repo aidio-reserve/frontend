@@ -17,20 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void setDummyTravelInfo(WidgetRef ref) {
-  final userInfoNotifier = ref.read(userInfoNotifierProvider.notifier);
-  final Map<String, dynamic> dummyTravelInfo = {
-    "destination": "Tokyo",
-    "departureDate": "2024-08-01",
-    "returnDate": "2024-08-15",
-    "hotel": "Sample Hotel"
-  };
-
-  final threadId = ref.read(threadIdProvider); // threadIdを取得
-  userInfoNotifier.updateUserInfo(threadId, dummyTravelInfo);
-  ref.read(displayHotelProvider.notifier).state = 1;
-}
-
 final chatScreenProvider = Provider((_) => ChatScreen(
       showAppBar: true,
     ));
