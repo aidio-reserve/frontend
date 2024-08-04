@@ -65,7 +65,8 @@ class ChatScreen extends ConsumerWidget {
                           builder: (context) => const HomeScreen()),
                     );
                   },
-                ))
+                ),
+              )
             : null,
         body: Center(
           child: Padding(
