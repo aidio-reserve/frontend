@@ -31,6 +31,7 @@ class VoiceScreen extends ConsumerStatefulWidget {
 
 class VoiceScreenState extends ConsumerState<VoiceScreen> {
   String? lastSpokenMessage;
+  List<String> spokenMessages = []; // 既に読み上げたメッセージを追跡するリスト
 
   @override
   void initState() {
@@ -45,7 +46,9 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
 
     if (message != null &&
         message.text != lastSpokenMessage &&
-        messages.length != 1) {
+        messages.length != 1 &&
+        !spokenMessages.contains(message.text) // 新しいメッセージが既に読み上げられていないことを確認
+      ) { 
       lastSpokenMessage = message.text;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         speak(message.text);
