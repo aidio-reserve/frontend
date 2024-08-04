@@ -27,7 +27,7 @@ class ResultScreen extends ConsumerWidget {
                   },
                 ),
         title: const Text(
-          'ホテル情報',
+          'ホテル候補',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
         ),    
       ),
