@@ -22,6 +22,7 @@
     "dotenv",
     "Firestore",
     "nodoc",
+    "Proxying",
     "RAKUTEN",
     "riverpod",
     "wavenet"

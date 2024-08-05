@@ -2,7 +2,6 @@ import 'package:aitrip/services/hotel_model_service.dart.dart';
 import 'package:aitrip/ui/screens/hotel_screen/hotel_detail_screen.dart';
 import 'package:flutter/material.dart';
 
-//StatefulWidgetに変更
 class HotelCard extends StatefulWidget {
   final Hotel hotel;
   const HotelCard({super.key, required this.hotel});
@@ -11,12 +10,18 @@ class HotelCard extends StatefulWidget {
   _HotelCardState createState() => _HotelCardState();
 }
 
-//Stateクラスを作成
 class _HotelCardState extends State<HotelCard> {
   bool _isHovered = false;
 
   @override
   Widget build(BuildContext context) {
+    // const String proxyUrl = 'https://aidio-reserve.firebaseapp.com/proxy?url=';
+    // final String encodedUrl = Uri.encodeComponent(widget.hotel.hotelImageUrl);
+    // final String fullProxyUrl = proxyUrl + encodedUrl;
+
+    debugPrint('元の画像URL: ${widget.hotel.hotelImageUrl}');
+    // debugPrint('プロキシ画像URL: $fullProxyUrl');
+
     return MouseRegion(
       onEnter: (_) => setState(() {
         _isHovered = true;
@@ -42,11 +47,11 @@ class _HotelCardState extends State<HotelCard> {
           decoration: BoxDecoration(
             boxShadow: _isHovered
                 ? [
-                    BoxShadow(
+                    const BoxShadow(
                         color: Colors.black26, blurRadius: 10, spreadRadius: 1)
                   ]
                 : [
-                    BoxShadow(
+                    const BoxShadow(
                         color: Colors.black12, blurRadius: 5, spreadRadius: 1)
                   ],
           ),
@@ -70,7 +75,8 @@ class _HotelCardState extends State<HotelCard> {
                               Expanded(
                                 flex: 1,
                                 child: Image.network(
-                                  widget.hotel.hotelImageUrl,
+                                  widget.hotel
+                                      .hotelImageUrl, // エンコードされたプロキシURLを使用
                                   fit: BoxFit.cover,
                                   loadingBuilder:
                                       (context, child, loadingProgress) {
@@ -100,9 +106,8 @@ class _HotelCardState extends State<HotelCard> {
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
-                                        ),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
                                       ),
                                       Text(
                                         '最安値: ¥${widget.hotel.hotelMinCharge}',
@@ -134,7 +139,7 @@ class _HotelCardState extends State<HotelCard> {
                             );
                           }),
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         Text(
                           widget.hotel.reviewAverage.toStringAsFixed(2),
                           style: const TextStyle(
