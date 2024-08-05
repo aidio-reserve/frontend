@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
 
 class SettingScreen extends ConsumerWidget {
