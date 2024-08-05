@@ -16,8 +16,12 @@ class HotelInfoRepository {
   Future<void> sendHotelInfoToAPI(
       String updatedUserInfo, WidgetRef ref, BuildContext context) async {
     final appId = dotenv.env['RAKUTEN_API_KEY'];
+    if (appId == null) {
+      debugPrint('APIキーが設定されていません');
+      return;
+    }
     final requestUrl =
-        RequestUrlService.createRequestUrl(updatedUserInfo, appId!);
+        RequestUrlService.createRequestUrl(updatedUserInfo, appId);
     debugPrint('リクエストURL:$requestUrl');
 
     final hotelService = HotelService();

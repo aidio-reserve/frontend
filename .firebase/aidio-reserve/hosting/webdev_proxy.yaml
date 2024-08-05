@@ -1,0 +1,3 @@
+proxies:
+  /api:
+    origin: https://app.rakuten.co.jp/services/api/Travel
