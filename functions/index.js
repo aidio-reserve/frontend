@@ -1,20 +1,24 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const functions = require('firebase-functions');
+const request = require('request');
+const cors = require('cors')({ origin: true });
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+exports.proxy = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+    const imageUrl = req.query.url;
+    if (!imageUrl) {
+      res.status(400).send('URL is required');
+      return;
+    }
 
-
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
-
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+    request(imageUrl)
+      .on('error', (err) => {
+        console.error('Request error:', err);
+        res.status(500).send('Failed to load image');
+      })
+      .pipe(res)
+      .on('error', (err) => {
+        console.error('Pipe error:', err);
+        res.status(500).send('Failed to send image');
+      });
+  });
+});
