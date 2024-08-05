@@ -6,6 +6,9 @@ import 'aidio_reserve.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'data/firebase/firebase_options.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_web/webview_flutter_web.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +17,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   debugPrint('Firebase initialized');
+
+  // WebViewプラットフォームの初期化を追加
+  WebViewPlatform.instance = WebWebViewPlatform();
 
   runApp(
     ProviderScope(
