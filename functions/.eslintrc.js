@@ -25,4 +25,8 @@ module.exports = {
     },
   ],
   globals: {},
+  ignorePatterns: [
+    "venv/",
+    "node_modules/",
+  ],
 };

@@ -4,19 +4,25 @@
     "ignore": ["firebase.json", "**/.* !**/.env", "**/node_modules/**"],
     "frameworksBackend": {
       "region": "asia-east1"
-    }
+    },
+    "headers": [
+      {
+        "source": "/**",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/proxy/**",
+        "function": "proxy"
+      }
+    ]
   },
-  "headers": [
-    {
-      "source": "/**",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        }
-      ]
-    }
-  ],
   "functions": [
     {
       "source": "functions",
