@@ -1,65 +1,68 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <base href="/">
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="あいトリップ">
+  <head>
+    <base href="/" />
+    <meta charset="UTF-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+    <meta name="description" content="あいトリップ" />
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="ai_trip2">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="ai_trip2" />
+    <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-  <title>ai_trip2</title>
-  <link rel="manifest" href="manifest.json">
+    <title>ai_trip2</title>
+    <link rel="manifest" href="manifest.json" />
 
-  <script>
-    const serviceWorkerVersion = "3134639722";
-  </script>
+    <script>
+      const serviceWorkerVersion = "3616332554";
+    </script>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js"></script>
 
-  <!-- Initialize Firebase -->
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyD8LcZ-W7JnRka_cO-S8rpadR0qFRzzNUQ",
-      authDomain: "aidio-reserve.firebaseapp.com",
-      projectId: "aidio-reserve",
-      storageBucket: "aidio-reserve.appspot.com",
-      messagingSenderId: "673968607580",
-      appId: "1:673968607580:web:c7965530f669dccf947199",
-      measurementId: "G-BV1DKLQBMJ"
-    };
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-  </script>
+    <!-- Initialize Firebase -->
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyD8LcZ-W7JnRka_cO-S8rpadR0qFRzzNUQ",
+        authDomain: "aidio-reserve.firebaseapp.com",
+        projectId: "aidio-reserve",
+        storageBucket: "aidio-reserve.appspot.com",
+        messagingSenderId: "673968607580",
+        appId: "1:673968607580:web:c7965530f669dccf947199",
+        measurementId: "G-BV1DKLQBMJ",
+      };
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
 
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
-</head>
-<body>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer></script>
+  </head>
+  <body>
+    <script>
+      window.addEventListener("load", function (ev) {
+        // Download main.dart.js
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: serviceWorkerVersion,
+          },
+          onEntrypointLoaded: function (engineInitializer) {
+            engineInitializer.initializeEngine().then(function (appRunner) {
+              appRunner.runApp();
+            });
+          },
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+    <script type="text/javascript">
+      window.flutterWebRenderer = "html";
+    </script>
+  </body>
 </html>

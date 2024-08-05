@@ -1,17 +1,21 @@
 {
   "hosting": {
-    "source": ".",
+    "public": "build/web",
     "ignore": ["firebase.json", "**/.* !**/.env", "**/node_modules/**"],
     "frameworksBackend": {
       "region": "asia-east1"
     },
     "headers": [
       {
-        "source": "/**",
+        "source": "/proxy/**",
         "headers": [
           {
             "key": "Access-Control-Allow-Origin",
             "value": "*"
+          },
+          {
+            "key": "Access-Control-Allow-Headers",
+            "value": "Origin, X-Requested-With, Content-Type, Accept"
           }
         ]
       }
