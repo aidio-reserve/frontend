@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:aitrip/providers/display_hotel_provider.dart';
 import 'package:aitrip/providers/hotel_option_provider.dart';
 import 'package:aitrip/providers/hotel_provider.dart';
 import 'package:aitrip/providers/loading_provider.dart';
@@ -9,6 +10,7 @@ import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
+import 'package:aitrip/ui/screens/hotel_screen/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,6 +55,29 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
             jsonUpdatedUserInfo, ref, context);
         clearUserMessage();
       }
+      ref.read(displayHotelProvider.notifier).state =
+          ref.read(messageListProvider).last.displayHotel;
+      final displayHotel = ref.read(displayHotelProvider);
+
+      //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
+      debugPrint('displayHotel: $displayHotel');
+      if (displayHotel == 1) {
+        debugPrint('ホテル情報を取得します');
+        if (context.mounted) {
+          await hotelInfoService.sendHotelInfoToAPI(
+              jsonUpdatedUserInfo, ref, context);
+        }
+        debugPrint('Navigating to ResultScreen');
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ResultScreen()),
+          );
+        }
+      } else {
+        debugPrint('displayHotelがtrueではないため、ホテル情報を取得しません');
+      }
+      ref.read(isLoadingProvider.notifier).state = false;
     }
   }
 
