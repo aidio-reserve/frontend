@@ -27,7 +27,7 @@ class AidioReserve extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const seedColor = Colors.cyan;
-    final theme = ref.watch(themeProvider);
+    final themeMode = ref.watch(themeModeProvider);
 
     return MaterialApp(
       routes: {
@@ -64,7 +64,7 @@ class AidioReserve extends ConsumerWidget {
         brightness: Brightness.dark,
         textTheme: GoogleFonts.kiwiMaruTextTheme(),
       ),
-      themeMode: theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeMode: themeMode, // ここでテーマモードを適用
       home: const HomeScreen(),
     );
   }
