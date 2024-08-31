@@ -3,16 +3,6 @@ import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/* class HoverStateNotifier extends StateNotifier<bool> {
-  HoverStateNotifier() : super(false);
-
-  void setHover(bool isHovering) => state = isHovering;
-}
-
-// StateNotifierProvider を定義
-final hoverProvider = StateNotifierProvider<HoverStateNotifier, bool>(
-  (ref) => HoverStateNotifier(),
-); */
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -71,8 +61,6 @@ class HomeScreen extends ConsumerWidget {
       handleDragEnd(context);
     }
 
-    //final isHovering = ref.watch(hoverProvider);
-
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -94,13 +82,6 @@ class HomeScreen extends ConsumerWidget {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 40.0),
-            /* child: MouseRegion(
-              onEnter: (_) {
-                ref.read(hoverProvider.notifier).setHover(true);
-              },
-              onExit: (_) {
-                ref.read(hoverProvider.notifier).setHover(false);
-              }, */
             child: GestureDetector(
               onTap: (){
                 simulateVerticalDrag(context);  // ドラッグと同じ処理をするため、ここでドラッグを模擬
@@ -114,7 +95,7 @@ class HomeScreen extends ConsumerWidget {
                 handleDragEnd(context);
               },
               child: Icon(
-                Icons.chat,
+                Icons.comment_rounded,
                 color/* : isHovering
                       ? Theme.of(context)
                           .colorScheme
@@ -124,7 +105,6 @@ class HomeScreen extends ConsumerWidget {
               ),
             ),
           ),
-          //)
         ],
       ),
       body: const VoiceScreen(),
