@@ -139,6 +139,7 @@ class ChatScreen extends ConsumerWidget {
                     labelText: "メッセージを入力します",
                     border: OutlineInputBorder(),
                   ),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                 ),
               ),
             ),
