@@ -1,18 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:aitrip/models/Users/Conversations/messages.dart';
 import 'package:aitrip/providers/display_hotel_provider.dart';
 import 'package:aitrip/providers/hotel_option_provider.dart';
 import 'package:aitrip/providers/hotel_provider.dart';
 import 'package:aitrip/providers/loading_provider.dart';
-import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:aitrip/ui/screens/hotel_screen/result_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -44,7 +43,7 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
       //ここに現在のhotelOptionを取得してaddMessageに入れる処理を追加。providerも追加。
       ref
           .read(messageListProvider.notifier)
-          .addMessage(userMessage, true, hotelOption, 0);
+          .addMessage(userMessage, true, hotelOption, false);
       await messageService.sendMessage(threadId, userMessage);
       await userInfoService.sendUserInfoRequest(threadId);
       Map<String, dynamic> updatedUserInfo =
@@ -61,7 +60,7 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
 
       //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
       debugPrint('displayHotel: $displayHotel');
-      if (displayHotel == 1) {
+      if (displayHotel == true) {
         debugPrint('ホテル情報を取得します');
         if (context.mounted) {
           await hotelInfoService.sendHotelInfoToAPI(

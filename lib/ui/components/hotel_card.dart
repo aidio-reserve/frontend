@@ -7,21 +7,14 @@ class HotelCard extends StatefulWidget {
   const HotelCard({super.key, required this.hotel});
 
   @override
-  _HotelCardState createState() => _HotelCardState();
+  HotelCardState createState() => HotelCardState();
 }
 
-class _HotelCardState extends State<HotelCard> {
+class HotelCardState extends State<HotelCard> {
   bool _isHovered = false;
 
   @override
   Widget build(BuildContext context) {
-    // const String proxyUrl = 'https://aidio-reserve.firebaseapp.com/proxy?url=';
-    // final String encodedUrl = Uri.encodeComponent(widget.hotel.hotelImageUrl);
-    // final String fullProxyUrl = proxyUrl + encodedUrl;
-
-    debugPrint('元の画像URL: ${widget.hotel.hotelImageUrl}');
-    // debugPrint('プロキシ画像URL: $fullProxyUrl');
-
     return MouseRegion(
       onEnter: (_) => setState(() {
         _isHovered = true;

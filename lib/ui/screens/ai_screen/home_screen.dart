@@ -1,3 +1,8 @@
+import 'package:aitrip/data/repositories/start_repository.dart';
+import 'package:aitrip/models/Users/Conversations/messages.dart';
+import 'package:aitrip/providers/message_provider.dart';
+import 'package:aitrip/providers/thread_id_provider.dart';
+import 'package:aitrip/services/make_thread_id.dart';
 import 'package:aitrip/ui/screens/ai_screen/chat_screen.dart';
 import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +44,9 @@ class HomeScreen extends ConsumerWidget {
       opacity = (opacity + delta).clamp(0.0, 1.0);
       overlayEntry?.markNeedsBuild();
     }
+
+    final startRepository = StartRepository();
+    final threadId = ref.watch(threadIdProvider);
 
     return Scaffold(
       key: scaffoldKey,
@@ -93,7 +101,11 @@ class HomeScreen extends ConsumerWidget {
                     Icons.add_box_outlined,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    ref.watch(threadIdProvider.notifier).state = makeThreadId();
+                    startRepository.accessToStart(threadId);
+                    ref.read(messageListProvider.notifier).resetMessages();
+                  },
                 ),
               ]))
         ],

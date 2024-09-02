@@ -1,6 +1,6 @@
 import 'package:aitrip/data/repositories/google_text_to_speech_repository.dart';
+import 'package:aitrip/models/Users/Conversations/messages.dart';
 import 'package:aitrip/providers/loading_provider.dart';
-import 'package:aitrip/providers/message_list_provider.dart';
 import 'package:aitrip/providers/speech_notifier_provider.dart';
 import 'package:aitrip/ui/components/voice_container.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +45,10 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
     final message = (messages.length % 2 == 0) ? null : messages.last;
 
     if (message != null &&
-        message.text != lastSpokenMessage &&
-        messages.length != 1 &&
-        !spokenMessages.contains(message.text) // 新しいメッセージが既に読み上げられていないことを確認
-      ) { 
+            message.text != lastSpokenMessage &&
+            messages.length != 1 &&
+            !spokenMessages.contains(message.text) // 新しいメッセージが既に読み上げられていないことを確認
+        ) {
       lastSpokenMessage = message.text;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         speak(message.text);
@@ -186,8 +186,8 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
                   onPressed: speechState.isSpeechEnabled
                       ? () {
                           if (currentAudioPlayer != null) {
-                      currentAudioPlayer!.stop(); // 読み上げを停止する
-                    }
+                            currentAudioPlayer!.stop(); // 読み上げを停止する
+                          }
                           if (speechState.isListening) {
                             ref.read(speechProvider.notifier).stopListening();
                           } else {

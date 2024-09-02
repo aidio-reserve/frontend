@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:aitrip/data/repositories/export_userinfo_repository.dart';
 import 'package:aitrip/data/repositories/get_hotel_repository.dart';
-import 'package:aitrip/data/repositories/chat_repository.dart';
+import 'package:aitrip/models/Users/Conversations/messages.dart';
 import 'package:aitrip/providers/display_hotel_provider.dart';
 import 'package:aitrip/providers/hotel_option_provider.dart';
 import 'package:aitrip/providers/loading_provider.dart';
-import 'package:aitrip/providers/message_list_provider.dart';
+import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';
 import 'package:aitrip/services/returned_hotel_service.dart';
@@ -28,9 +28,6 @@ class ChatScreen extends ConsumerWidget {
   final TextEditingController messageController = TextEditingController();
   final hotelInfoServiceProvider = Provider<HotelInfoRepository>((ref) {
     return HotelInfoRepository(HotelService());
-  });
-  final messageProvider = Provider<ChatRepository>((ref) {
-    return ChatRepository(ref: ref);
   });
   final exportUserInfoProvider = Provider<ExportUserInfoRepository>((ref) {
     return ExportUserInfoRepository(ref: ref);
@@ -171,7 +168,7 @@ class ChatScreen extends ConsumerWidget {
       ref
           .read(messageListProvider.notifier)
           //↓ 一旦displayHotelがtrueになると、ずっとtrueのままになるように後々実装。
-          .addMessage(userMessage, true, hotelOption, 0);
+          .addMessage(userMessage, true, hotelOption, false);
       showLoading(ref);
       messageController.clear();
       await messageService.sendMessage(threadId, userMessage);
@@ -185,9 +182,9 @@ class ChatScreen extends ConsumerWidget {
           ref.read(messageListProvider).last.displayHotel;
       final displayHotel = ref.read(displayHotelProvider);
 
-      //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
+      //もしdisplayHotelがtrueであれば、ホテル情報を取得し、画面遷移を実装する。
       debugPrint('displayHotel: $displayHotel');
-      if (displayHotel == 1) {
+      if (displayHotel == true) {
         debugPrint('ホテル情報を取得します');
         if (context.mounted) {
           await hotelInfoService.sendHotelInfoToAPI(

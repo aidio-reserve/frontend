@@ -5,7 +5,8 @@ class Message {
   final String text;
   final bool isSender;
   final Map<String, dynamic> hotelOption;
-  final int displayHotel;
+  final bool displayHotel;
+
   Message(
       {required this.text,
       required this.isSender,
@@ -15,6 +16,7 @@ class Message {
 
 class MessageListNotifier extends StateNotifier<List<Message>> {
   final Ref ref;
+
   MessageListNotifier(this.ref)
       : super([
           Message(
@@ -22,11 +24,11 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
                   " こんにちは！どのような旅行をご希望ですか？\n \n  例. \t 北海道で海鮮丼を食べたい！ \n  例. \t 森林浴がしたい",
               isSender: false,
               hotelOption: <String, dynamic>{},
-              displayHotel: 0)
+              displayHotel: false)
         ]);
 
   void addMessage(String text, bool isSender, Map<String, dynamic> hotelOption,
-      int displayHotel) {
+      bool displayHotel) {
     state = [
       ...state,
       Message(
@@ -38,4 +40,21 @@ class MessageListNotifier extends StateNotifier<List<Message>> {
     debugPrint(
         'Updated Message List:【 ${state.map((message) => 'text: ${message.text}, isSender: ${message.isSender}, hotelOption: ${message.hotelOption}, displayHotel: ${message.displayHotel}').toList()} 】');
   }
+
+  void resetMessages() {
+    state = [
+      Message(
+          text:
+              " こんにちは！どのような旅行をご希望ですか？\n \n  例. \t 北海道で海鮮丼を食べたい！ \n  例. \t 森林浴がしたい",
+          isSender: false,
+          hotelOption: <String, dynamic>{},
+          displayHotel: false)
+    ];
+    debugPrint('Reset Message List');
+  }
 }
+
+final messageListProvider =
+    StateNotifierProvider<MessageListNotifier, List<Message>>((ref) {
+  return MessageListNotifier(ref);
+});
