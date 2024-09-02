@@ -1,6 +1,5 @@
 import 'package:aitrip/data/repositories/start_repository.dart';
 import 'package:aitrip/models/Users/Conversations/messages.dart';
-import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/services/make_thread_id.dart';
 import 'package:aitrip/ui/screens/ai_screen/chat_screen.dart';

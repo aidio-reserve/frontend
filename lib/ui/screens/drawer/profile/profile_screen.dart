@@ -5,7 +5,6 @@ import 'package:aitrip/ui/screens/drawer/profile/user/add_user_info_screen.dart'
 import 'package:aitrip/ui/screens/firebase/login_screen.dart';
 import 'package:aitrip/ui/screens/drawer/profile/user/update_user_info_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
