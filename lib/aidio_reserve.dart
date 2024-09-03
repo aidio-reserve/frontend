@@ -56,12 +56,20 @@ class AidioReserve extends ConsumerWidget {
         useMaterial3: true,
         colorSchemeSeed: seedColor,
         brightness: Brightness.light,
+        inputDecorationTheme: InputDecorationTheme(
+          labelStyle: const TextStyle(color: Colors.black), 
+          hintStyle: TextStyle(color: Colors.grey[600]), 
+        ),
         textTheme: GoogleFonts.kiwiMaruTextTheme(),
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: seedColor,
         brightness: Brightness.dark,
+        inputDecorationTheme: InputDecorationTheme(
+          labelStyle: const TextStyle(color: Colors.white), 
+          hintStyle: TextStyle(color: Colors.grey[300]), 
+        ),
         textTheme: GoogleFonts.kiwiMaruTextTheme(),
       ),
       themeMode: themeMode, // ここでテーマモードを適用

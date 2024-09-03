@@ -33,8 +33,8 @@ class SettingScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(right: 40.0),
               child: Row(
                 children: [
-                  Icon(Icons.sunny, size: 24),
-                  SizedBox(width: 16),
+                  const Icon(Icons.sunny, size: 24),
+                  const SizedBox(width: 16),
                   Switch(
                     value: themeMode == ThemeMode.dark,
                     onChanged: (value) {
@@ -42,8 +42,8 @@ class SettingScreen extends ConsumerWidget {
                       ref.read(themeModeProvider.notifier).toggleTheme();
                     },
                   ),
-                  SizedBox(width: 16),
-                  Icon(Icons.nightlight, size: 24),
+                  const SizedBox(width: 16),
+                  const Icon(Icons.nightlight, size: 24),
                 ],
               ),
             ),

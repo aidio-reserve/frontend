@@ -128,7 +128,7 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
                         .withOpacity(0.05),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.all(30.0),
                     child: SingleChildScrollView(
                       child: Column(
@@ -136,27 +136,37 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
                         children: [
                           Text(
                             "宿泊先：",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 16),
                           ),
                           SizedBox(height: 8),
                           Text(
                             "日程：",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 16),
                           ),
                           SizedBox(height: 8),
                           Text(
                             "人数：",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 16),
                           ),
                           SizedBox(height: 8),
                           Text(
                             "値段帯：",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 16),
                           ),
                           SizedBox(height: 8),
                           Text(
                             "部屋のサイズ：",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 16),
                           ),
                           // SizedBox(height: 8),
                           // Text(

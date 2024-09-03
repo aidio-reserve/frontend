@@ -66,10 +66,12 @@ class HotelDetail extends StatelessWidget {
                     children: [
                       Text(
                         hotel.hotelName,
-                        style: const TextStyle(fontSize: 24),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 24),
                         textAlign: TextAlign.center, // テキストを中央揃え
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -85,10 +87,11 @@ class HotelDetail extends StatelessWidget {
                               );
                             }),
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           Text(
                             '${hotel.reviewAverage.toStringAsFixed(1)} / 5',
-                            style: const TextStyle(
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontSize: 16,
                             ),
                           ),

@@ -95,6 +95,7 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> {
                 decoration: const InputDecoration(
                   labelText: 'メールアドレス',
                 ),
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
               ),
               TextField(
                 controller: _passwordController,
@@ -116,6 +117,7 @@ class RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
                 obscureText: !_isPasswordVisible,
                 obscuringCharacter: '●',
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
