@@ -14,52 +14,72 @@ class HotelOptionColumn extends ConsumerWidget {
         hotelOption["hotel_location"] != null
             ? Text(
                 "宿泊先：${hotelOption["hotel_location"]}",
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               )
-            : const Text(
+            : Text(
                 "宿泊先：",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               ),
         const SizedBox(height: 8),
         hotelOption["checkinDate"] != null &&
                 hotelOption["checkoutDate"] != null
             ? Text(
                 "日程：${hotelOption["checkinDate"]} 〜 ${hotelOption["checkoutDate"]}",
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               )
-            : const Text(
+            : Text(
                 "日程：",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               ),
         const SizedBox(height: 8),
         hotelOption["adultNum"] != null
             ? Text(
                 "人数：${hotelOption["adultNum"]}",
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               )
-            : const Text(
+            : Text(
                 "人数：",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               ),
         const SizedBox(height: 8),
         hotelOption["minCharge"] != null && hotelOption["maxCharge"] != null
             ? Text(
                 "値段帯：${hotelOption["minCharge"]}円 〜 ${hotelOption["maxCharge"]}円",
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               )
-            : const Text(
+            : Text(
                 "時間帯：",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               ),
         const SizedBox(height: 8),
         hotelOption["roomNum"] != null
             ? Text(
                 "部屋のサイズ：${hotelOption["roomNum"]}部屋", // TODO 部屋のサイズをBEから取得する
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               )
-            : const Text(
+            : Text(
                 "部屋のサイズ：",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface),
               ),
         const SizedBox(height: 8),
       ],
