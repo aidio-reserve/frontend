@@ -90,14 +90,19 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
             children: [
               TextField(
                 controller: _emailController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'メールアドレス',
+                  labelStyle: Theme.of(context).inputDecorationTheme.labelStyle,
+                  hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
                 ),
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
               ),
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'パスワード',
+                  labelStyle: Theme.of(context).inputDecorationTheme.labelStyle,
+                  hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
                   suffixIcon: IconButton(
                     icon: Icon(
                       _isPasswordVisible
@@ -114,6 +119,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 obscureText: !_isPasswordVisible,
                 obscuringCharacter: '●',
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
               ),
               const SizedBox(height: 20),
               ElevatedButton(

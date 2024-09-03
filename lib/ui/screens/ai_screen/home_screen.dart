@@ -46,6 +46,26 @@ class HomeScreen extends ConsumerWidget {
 
     final startRepository = StartRepository();
     final threadId = ref.watch(threadIdProvider);
+    void handleDragEnd(BuildContext context) {
+      //ドラッグ時に遷移を行う関数、二重遷移を防ぐ。
+      if (opacity > 0.5) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              showAppBar: true,
+            ),
+          ),
+        );
+      }
+      hideOverlay();
+    }
+
+    void simulateVerticalDrag(BuildContext context) {
+      showOverlay(context);
+      updateOpacity(1.0); // 完全にドラッグされた状態を模擬
+      handleDragEnd(context);
+    }
 
     return Scaffold(
       key: scaffoldKey,

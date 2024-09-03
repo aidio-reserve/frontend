@@ -98,13 +98,16 @@ class HotelCardState extends State<HotelCard> {
                                         widget.hotel.hotelName,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
+                                        style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onSurface,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
                                       ),
                                       Text(
                                         '最安値: ¥${widget.hotel.hotelMinCharge}',
-                                        style: const TextStyle(fontSize: 16),
+                                        style: TextStyle(
+                                          color: Theme.of(context).colorScheme.onSurface,
+                                          fontSize: 16),
                                       ),
                                     ],
                                   ),
@@ -135,8 +138,9 @@ class HotelCardState extends State<HotelCard> {
                         const SizedBox(width: 5),
                         Text(
                           widget.hotel.reviewAverage.toStringAsFixed(2),
-                          style: const TextStyle(
-                              color: Colors.black54, fontSize: 24),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              ),
                         ),
                       ],
                     ),
