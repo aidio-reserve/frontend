@@ -146,7 +146,7 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
                 child: IconButton(
                   icon: const Icon(
                     Icons.mic_rounded,
-                    size: 40,
+                    size: 60,
                   ),
                   onPressed: speechState.isSpeechEnabled
                       ? () {
