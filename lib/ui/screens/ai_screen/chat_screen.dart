@@ -136,12 +136,13 @@ class ChatScreen extends ConsumerWidget {
                     labelText: "メッセージを入力します",
                     border: OutlineInputBorder(),
                   ),
-                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
                 ),
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.send),
+              icon: const Icon(Icons.send_rounded),
               onPressed: () async {
                 await sendTextMessage(ref, context);
               },
