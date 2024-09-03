@@ -86,8 +86,12 @@ class ProfileScreen extends ConsumerWidget {
                                           child: Column(
                                         children: [
                                           const SizedBox(height: 32),
-                                          const Text(
-                                              'ユーザー情報が未登録です。\nユーザー情報を登録することで、ホテルの予約の際に個人情報入力をスムーズに行うことができます。'),
+                                          Text(
+                                              'ユーザー情報が未登録です。\nユーザー情報を登録することで、ホテルの予約の際に個人情報入力をスムーズに行うことができます。',
+                                              style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onSurface,
+                                              )
+                                            ),
                                           const SizedBox(height: 40),
                                           Row(
                                             mainAxisAlignment:
@@ -104,14 +108,19 @@ class ProfileScreen extends ConsumerWidget {
                                                     ),
                                                   );
                                                 },
-                                                child: const Row(
+                                                child: Row(
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       Icons.person_add,
                                                       size: 20,
                                                     ),
-                                                    SizedBox(width: 8.0),
-                                                    Text('ユーザー情報を登録する'),
+                                                    const SizedBox(width: 8.0),
+                                                    Text(
+                                                      'ユーザー情報を登録する',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context).colorScheme.onSurface,
+                                                        )
+                                                      ),
                                                   ],
                                                 ),
                                               ),
@@ -135,12 +144,14 @@ class ProfileScreen extends ConsumerWidget {
                                                           .size
                                                           .width *
                                                       0.05),
-                                              const Text(
+                                              Text(
                                                 'ユーザー情報',
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight:
-                                                        FontWeight.w400),
+                                                        FontWeight.w400,
+                                                    color: Theme.of(context).colorScheme.onSurface,                                       
+                                                    ),
                                               ),
                                             ],
                                           ),
@@ -158,8 +169,10 @@ class ProfileScreen extends ConsumerWidget {
                                                             0.10),
                                                 Text(
                                                   '名前 : ${userData['name']}',
-                                                  style: const TextStyle(
-                                                      fontSize: 16),
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                  color: Theme.of(context).colorScheme.onSurface,
+                                                      ),
                                                 ),
                                               ],
                                             ),
@@ -182,8 +195,10 @@ class ProfileScreen extends ConsumerWidget {
                                                       : email;
                                                   return Text(
                                                     'メールアドレス: $displayEmail',
-                                                    style: const TextStyle(
-                                                        fontSize: 16),
+                                                    style: TextStyle(
+                                                        fontSize: 16,         
+                                                    color: Theme.of(context).colorScheme.onSurface,
+                                                        ),
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                   );
@@ -205,8 +220,10 @@ class ProfileScreen extends ConsumerWidget {
                                                       0.10),
                                               Text(
                                                 '年齢 : ${userData['age']}歳',
-                                                style: const TextStyle(
-                                                    fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Theme.of(context).colorScheme.onSurface,
+                                                    ),
                                               ),
                                             ]),
                                             const SizedBox(height: 2),
@@ -220,8 +237,10 @@ class ProfileScreen extends ConsumerWidget {
                                                       0.10),
                                               Text(
                                                 '住所 : ${userData['address']}',
-                                                style: const TextStyle(
-                                                    fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Theme.of(context).colorScheme.onSurface,
+                                                    ),
                                               ),
                                             ]),
                                             const SizedBox(height: 2),
@@ -235,8 +254,10 @@ class ProfileScreen extends ConsumerWidget {
                                                       0.10),
                                               Text(
                                                 '電話番号 : ${userData['phoneNumber']}',
-                                                style: const TextStyle(
-                                                    fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Theme.of(context).colorScheme.onSurface,
+                                                    ),
                                               ),
                                             ]),
                                           ]),
@@ -256,14 +277,19 @@ class ProfileScreen extends ConsumerWidget {
                                                     ),
                                                   );
                                                 },
-                                                child: const Row(
+                                                child: Row(
                                                   children: [
-                                                    Icon(
+                                                    const Icon(
                                                       Icons.update,
                                                       size: 20,
                                                     ),
-                                                    SizedBox(width: 8.0),
-                                                    Text('ユーザー情報を更新する'),
+                                                    const SizedBox(width: 8.0),
+                                                    Text(
+                                                      'ユーザー情報を更新する',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context).colorScheme.onSurface,
+                                                        )
+                                                      ),
                                                   ],
                                                 ),
                                               ),
@@ -277,7 +303,12 @@ class ProfileScreen extends ConsumerWidget {
                                     child: CircularProgressIndicator(),
                                   ),
                                   error: (error, stackTrace) => Center(
-                                    child: Text('エラーが発生しました：$error'),
+                                    child: Text(
+                                      'エラーが発生しました：$error',
+                                      style: TextStyle(
+                                        color: Theme.of(context).colorScheme.onSurface,
+                                        )
+                                      ),
                                   ),
                                 ),
                               ],
@@ -312,8 +343,12 @@ class ProfileScreen extends ConsumerWidget {
                                         child: Column(
                                       children: [
                                         const SizedBox(height: 32),
-                                        const Text(
-                                            'AIのカスタマイズをすることができます。\nAIの名前や、話す速度の変更等ができます。'),
+                                        Text(
+                                            'AIのカスタマイズをすることができます。\nAIの名前や、話す速度の変更等ができます。',
+                                            style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onSurface,
+                                              )
+                                            ),
                                         const SizedBox(height: 40),
                                         Row(
                                           mainAxisAlignment:
@@ -330,15 +365,20 @@ class ProfileScreen extends ConsumerWidget {
                                                   ),
                                                 );
                                               },
-                                              child: const Row(
+                                              child: Row(
                                                 children: [
-                                                  Icon(
+                                                  const Icon(
                                                     Icons
                                                         .precision_manufacturing_rounded,
                                                     size: 20,
                                                   ),
-                                                  SizedBox(width: 8.0),
-                                                  Text('AIのカスタマイズに進む'),
+                                                  const SizedBox(width: 8.0),
+                                                  Text(
+                                                    'AIのカスタマイズに進む',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).colorScheme.onSurface,
+                                                      )
+                                                    ),
                                                 ],
                                               ),
                                             ),
@@ -382,8 +422,10 @@ class ProfileScreen extends ConsumerWidget {
                                                       0.10),
                                               Text(
                                                 'AIの名前 : ${aiData['aiName']}',
-                                                style: const TextStyle(
-                                                    fontSize: 16),
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Theme.of(context).colorScheme.onSurface,
+                                                    ),
                                               ),
                                             ],
                                           ),
@@ -399,7 +441,10 @@ class ProfileScreen extends ConsumerWidget {
                                             Text(
                                               'AIの声 : ${aiData['aiType']}',
                                               style:
-                                                  const TextStyle(fontSize: 16),
+                                                  TextStyle(
+                                                    fontSize: 16,
+                                                    color: Theme.of(context).colorScheme.onSurface,
+                                                    ),
                                             ),
                                           ]),
                                           const SizedBox(height: 2),
@@ -414,7 +459,10 @@ class ProfileScreen extends ConsumerWidget {
                                             Text(
                                               '話す速度 : ${aiData['aiSpeed']}',
                                               style:
-                                                  const TextStyle(fontSize: 16),
+                                                  TextStyle(
+                                                    fontSize: 16,
+                                                    color: Theme.of(context).colorScheme.onSurface,
+                                                    ),
                                             ),
                                           ]),
                                         ]),
@@ -434,14 +482,19 @@ class ProfileScreen extends ConsumerWidget {
                                                   ),
                                                 );
                                               },
-                                              child: const Row(
+                                              child: Row(
                                                 children: [
-                                                  Icon(
+                                                  const Icon(
                                                     Icons.update,
                                                     size: 20,
                                                   ),
-                                                  SizedBox(width: 8.0),
-                                                  Text('AI情報を更新する'),
+                                                  const SizedBox(width: 8.0),
+                                                  Text(
+                                                    'AI情報を更新する',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context).colorScheme.onSurface,
+                                                      ),
+                                                    ),
                                                 ],
                                               ),
                                             ),
@@ -455,7 +508,12 @@ class ProfileScreen extends ConsumerWidget {
                                   child: CircularProgressIndicator(),
                                 ),
                                 error: (error, stackTrace) => Center(
-                                  child: Text('エラーが発生しました：$error'),
+                                  child: Text(
+                                    'エラーが発生しました：$error',
+                                    style: TextStyle(
+                                      color: Theme.of(context).colorScheme.onSurface,
+                                      ),
+                                    ),
                                 ),
                               ),
                             ],
@@ -515,7 +573,13 @@ class ProfileScreen extends ConsumerWidget {
                             );
                           });
                     },
-                    child: const Text('ログアウト'),
+                    child: Text(
+                      'ログアウト',
+                      style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 16,
+                            ),
+                      ),
                   ),
                 ],
               ),
