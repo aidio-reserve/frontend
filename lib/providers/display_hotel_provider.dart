@@ -1,7 +1,7 @@
-import 'package:aitrip/providers/message_list_provider.dart';
+import 'package:aitrip/models/Users/Conversations/messages.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final displayHotelProvider = StateProvider<int>((ref) {
+final displayHotelProvider = StateProvider<bool>((ref) {
   final messageList = ref.watch(messageListProvider);
-  return messageList.isNotEmpty ? messageList.last.displayHotel : 0;
+  return messageList.isNotEmpty ? messageList.last.displayHotel : false;
 });

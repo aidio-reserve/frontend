@@ -1,8 +1,11 @@
+import 'package:aitrip/data/repositories/start_repository.dart';
+import 'package:aitrip/models/Users/Conversations/messages.dart';
+import 'package:aitrip/providers/thread_id_provider.dart';
+import 'package:aitrip/services/make_thread_id.dart';
 import 'package:aitrip/ui/screens/ai_screen/chat_screen.dart';
 import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -41,12 +44,15 @@ class HomeScreen extends ConsumerWidget {
       overlayEntry?.markNeedsBuild();
     }
 
-    void handleDragEnd(BuildContext context) { //ドラッグ時に遷移を行う関数、二重遷移を防ぐ。
+    final startRepository = StartRepository();
+    final threadId = ref.watch(threadIdProvider);
+    void handleDragEnd(BuildContext context) {
+      //ドラッグ時に遷移を行う関数、二重遷移を防ぐ。
       if (opacity > 0.5) {
         Navigator.push(
           context,
-        MaterialPageRoute(
-          builder: (context) => ChatScreen(
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
               showAppBar: true,
             ),
           ),
@@ -57,7 +63,7 @@ class HomeScreen extends ConsumerWidget {
 
     void simulateVerticalDrag(BuildContext context) {
       showOverlay(context);
-      updateOpacity(1.0);  // 完全にドラッグされた状態を模擬
+      updateOpacity(1.0); // 完全にドラッグされた状態を模擬
       handleDragEnd(context);
     }
 
@@ -81,30 +87,46 @@ class HomeScreen extends ConsumerWidget {
         ),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 40.0),
-            child: GestureDetector(
-              onTap: (){
-                simulateVerticalDrag(context);  // ドラッグと同じ処理をするため、ここでドラッグを模擬
-              },
-              onVerticalDragUpdate: (details) {
-                double delta = (details.primaryDelta ?? 0.0) / 100;
-                showOverlay(context);
-                updateOpacity(delta);
-              },
-              onVerticalDragEnd: (details) {
-                handleDragEnd(context);
-              },
-              child: Icon(
-                Icons.comment_rounded,
-                color/* : isHovering
-                      ? Theme.of(context)
-                          .colorScheme
-                          .onPrimaryContainer
-                          .withOpacity(0.7) */
-                      : Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.only(right: 40.0),
+              child: Row(children: [
+                GestureDetector(
+                  onVerticalDragUpdate: (details) {
+                    double delta = (details.primaryDelta ?? 0.0) / 100;
+                    showOverlay(context);
+                    updateOpacity(delta);
+                  },
+                  onVerticalDragEnd: (details) {
+                    if (opacity > 0.5) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChatScreen(
+                                  showAppBar: true,
+                                )),
+                      );
+                      hideOverlay();
+                    } else {
+                      hideOverlay();
+                    }
+                  },
+                  child: Icon(
+                    Icons.schedule_rounded,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                IconButton(
+                  icon: Icon(
+                    Icons.add_box_outlined,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                  onPressed: () {
+                    ref.watch(threadIdProvider.notifier).state = makeThreadId();
+                    startRepository.accessToStart(threadId);
+                    ref.read(messageListProvider.notifier).resetMessages();
+                  },
+                ),
+              ]))
         ],
       ),
       body: const VoiceScreen(),
