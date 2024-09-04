@@ -91,26 +91,6 @@ class SettingScreen extends ConsumerWidget {
             ),
             ListTile(
               leading: Icon(
-                Icons.monitor_rounded,
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
-              ),
-              title: const Text(
-                '画面・音声',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              trailing: Icon(Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.primary),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/display_voice');
-              },
-            ),
-            buildSeparator(),
-            ListTile(
-              leading: Icon(
                 Icons.attach_money_rounded,
                 color: Theme.of(context).colorScheme.primary,
                 size: 30,
@@ -128,7 +108,6 @@ class SettingScreen extends ConsumerWidget {
                 Navigator.pushNamed(context, '/payment_method');
               },
             ),
-            buildSeparator(),
             ListTile(
               leading: Icon(
                 Icons.help_rounded,
