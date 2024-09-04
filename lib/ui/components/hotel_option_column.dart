@@ -62,7 +62,7 @@ class HotelOptionColumn extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.onSurface),
               )
             : Text(
-                "時間帯：",
+                "値段帯：",
                 style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSurface),
