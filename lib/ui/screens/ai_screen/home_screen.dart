@@ -90,6 +90,9 @@ class HomeScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(right: 40.0),
               child: Row(children: [
                 GestureDetector(
+                  onTap: () {
+                    simulateVerticalDrag(context);
+                  },
                   onVerticalDragUpdate: (details) {
                     double delta = (details.primaryDelta ?? 0.0) / 100;
                     showOverlay(context);
@@ -110,7 +113,7 @@ class HomeScreen extends ConsumerWidget {
                     }
                   },
                   child: Icon(
-                    Icons.schedule_rounded,
+                    Icons.comment_rounded,
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
                 ),

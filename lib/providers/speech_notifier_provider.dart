@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:aitrip/models/Users/Conversations/messages.dart';
 import 'package:aitrip/providers/display_hotel_provider.dart';
 import 'package:aitrip/providers/hotel_option_provider.dart';
@@ -9,12 +8,27 @@ import 'package:aitrip/providers/loading_provider.dart';
 import 'package:aitrip/providers/message_provider.dart';
 import 'package:aitrip/providers/thread_id_provider.dart';
 import 'package:aitrip/providers/user_info_provider.dart';
-import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:aitrip/ui/screens/hotel_screen/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+
+class SpeechState {
+  final String lastWords;
+  final bool isListening;
+  final bool isSpeechEnabled;
+
+  SpeechState({
+    this.lastWords = '',
+    this.isListening = false,
+    this.isSpeechEnabled = false,
+  });
+}
+
+final speechProvider = StateNotifierProvider<SpeechNotifier, SpeechState>(
+  (ref) => SpeechNotifier(),
+);
 
 class SpeechNotifier extends StateNotifier<SpeechState> {
   final SpeechToText _speechToText = SpeechToText();
