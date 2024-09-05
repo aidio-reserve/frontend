@@ -2,15 +2,15 @@ import 'package:aitrip/models/Users/user_info/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class UpdateUserInfoScreen extends StatefulWidget {
+class ChangeUserInfoScreen extends StatefulWidget {
   final String uid;
-  const UpdateUserInfoScreen(this.uid, {super.key});
+  const ChangeUserInfoScreen(this.uid, {super.key});
 
   @override
-  UpdateUserInfoScreenState createState() => UpdateUserInfoScreenState();
+  ChangeUserInfoScreenState createState() => ChangeUserInfoScreenState();
 }
 
-class UpdateUserInfoScreenState extends State<UpdateUserInfoScreen> {
+class ChangeUserInfoScreenState extends State<ChangeUserInfoScreen> {
   final TextEditingController _nameController = TextEditingController();
   // final TextEditingController _ageController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
