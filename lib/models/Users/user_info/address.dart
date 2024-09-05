@@ -6,7 +6,7 @@ part 'address.g.dart';
 @freezed
 class Address with _$Address {
   const factory Address({
-    required String postalCode, //郵便番号
+    required String postalCode,
     required String address,
     required String street,
   }) = _Address;
