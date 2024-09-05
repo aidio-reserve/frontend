@@ -21,6 +21,7 @@
     "cupertino",
     "dotenv",
     "Firestore",
+    "Maru",
     "nodoc",
     "predeploy",
     "Proxying",

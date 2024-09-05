@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 //この画面は、最初の一回のみ。2回目以降やると、別のAI情報が生成される。
 //2回目以降は、updateAiInfoScreenでupdateメソッドを実装する。
 
-class UpdateAiInfoScreen extends StatefulWidget {
+class ChangeAiInfoScreen extends StatefulWidget {
   final String uid;
-  const UpdateAiInfoScreen(this.uid, {super.key});
+  const ChangeAiInfoScreen(this.uid, {super.key});
 
   @override
-  UpdateAiInfoScreenState createState() => UpdateAiInfoScreenState();
+  ChangeAiInfoScreenState createState() => ChangeAiInfoScreenState();
 }
 
-class UpdateAiInfoScreenState extends State<UpdateAiInfoScreen> {
+class ChangeAiInfoScreenState extends State<ChangeAiInfoScreen> {
   final TextEditingController _aiNameController = TextEditingController();
   // String _aiGender = '男';
   // double _aiSpeed = 1.0;

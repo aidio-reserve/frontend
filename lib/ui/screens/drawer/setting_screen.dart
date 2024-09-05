@@ -1,3 +1,7 @@
+import 'package:aitrip/providers/auth_provider.dart';
+import 'package:aitrip/ui/screens/drawer/profile/ai/change_ai_info_screen.dart';
+import 'package:aitrip/ui/screens/drawer/profile/user/change_user_info_screen.dart';
+import 'package:aitrip/ui/screens/firebase/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
@@ -10,6 +14,7 @@ class SettingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
         appBar: AppBar(
@@ -66,8 +71,23 @@ class SettingScreen extends ConsumerWidget {
               trailing: Icon(Icons.arrow_forward_ios,
                   color: Theme.of(context).colorScheme.primary),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/change_user_name');
+                final user = ref.read(authStateProvider).maybeWhen(
+                      data: (user) => user,
+                      orElse: () => null,
+                    );
+                if (user != null) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ChangeUserInfoScreen(user.uid),
+                    ),
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
+                }
               },
             ),
             ListTile(
@@ -85,8 +105,23 @@ class SettingScreen extends ConsumerWidget {
               trailing: Icon(Icons.arrow_forward_ios,
                   color: Theme.of(context).colorScheme.primary),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/change_ai_name');
+                final user = ref.read(authStateProvider).maybeWhen(
+                      data: (user) => user,
+                      orElse: () => null,
+                    );
+                if (user != null) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ChangeAiInfoScreen(user.uid),
+                    ),
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
+                }
               },
             ),
             ListTile(

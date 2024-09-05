@@ -1,16 +1,17 @@
+import 'package:aitrip/providers/auth_provider.dart';
 import 'package:aitrip/providers/theme_provider.dart';
 import 'package:aitrip/ui/screens/ai_screen/chat_screen.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
 import 'package:aitrip/ui/screens/ai_screen/voice_screen.dart';
 import 'package:aitrip/ui/screens/drawer/bookmark_screen.dart';
 import 'package:aitrip/ui/screens/drawer/manual_screen.dart';
+import 'package:aitrip/ui/screens/drawer/profile/ai/change_ai_info_screen.dart';
 import 'package:aitrip/ui/screens/drawer/profile/profile_screen.dart';
+import 'package:aitrip/ui/screens/drawer/profile/user/change_user_info_screen.dart';
 import 'package:aitrip/ui/screens/drawer/setting_screen.dart';
 import 'package:aitrip/ui/screens/firebase/login_screen.dart';
 import 'package:aitrip/ui/screens/firebase/register_screen.dart';
-import 'package:aitrip/ui/screens/settings/about_app_scren.dart';
-import 'package:aitrip/ui/screens/settings/change_ai_name_screen.dart';
-import 'package:aitrip/ui/screens/settings/change_user_name_screen.dart';
+import 'package:aitrip/ui/screens/settings/about_app_screen.dart';
 import 'package:aitrip/ui/screens/settings/display_voice_screen.dart';
 import 'package:aitrip/ui/screens/settings/help_screen.dart';
 import 'package:aitrip/ui/screens/settings/payment_method_screen.dart';
@@ -37,8 +38,6 @@ class AidioReserve extends ConsumerWidget {
         '/manual': (context) => const ManualScreen(),
         '/bookmark': (context) => const BookmarkScreen(),
         '/setting': (context) => const SettingScreen(),
-        '/change_user_name': (context) => const ChangeUserNameScreen(),
-        '/change_ai_name': (context) => const ChangeAiNameScreen(),
         '/display_voice': (context) => const DisplayVoiceScreen(),
         '/payment_method': (context) => const PaymentMethodScreen(),
         '/help': (context) => const HelpScreen(),
@@ -47,9 +46,7 @@ class AidioReserve extends ConsumerWidget {
         '/privacy_policy': (context) => const PrivacyPolicyScreen(),
         '/home': (context) => const HomeScreen(),
         '/voice': (context) => const VoiceScreen(),
-        '/chatting': (context) => ChatScreen(
-              showAppBar: true,
-            ),
+        '/chatting': (context) => ChatScreen(showAppBar: true),
       },
       title: 'aidio-reserve',
       theme: ThemeData(
@@ -57,8 +54,8 @@ class AidioReserve extends ConsumerWidget {
         colorSchemeSeed: seedColor,
         brightness: Brightness.light,
         inputDecorationTheme: InputDecorationTheme(
-          labelStyle: const TextStyle(color: Colors.black), 
-          hintStyle: TextStyle(color: Colors.grey[600]), 
+          labelStyle: const TextStyle(color: Colors.black),
+          hintStyle: TextStyle(color: Colors.grey[600]),
         ),
         textTheme: GoogleFonts.kiwiMaruTextTheme(),
       ),
@@ -67,8 +64,8 @@ class AidioReserve extends ConsumerWidget {
         colorSchemeSeed: seedColor,
         brightness: Brightness.dark,
         inputDecorationTheme: InputDecorationTheme(
-          labelStyle: const TextStyle(color: Colors.white), 
-          hintStyle: TextStyle(color: Colors.grey[300]), 
+          labelStyle: const TextStyle(color: Colors.white),
+          hintStyle: TextStyle(color: Colors.grey[300]),
         ),
         textTheme: GoogleFonts.kiwiMaruTextTheme(),
       ),
