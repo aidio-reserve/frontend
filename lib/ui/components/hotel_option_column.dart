@@ -40,9 +40,9 @@ class HotelOptionColumn extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.onSurface),
               ),
         const SizedBox(height: 8),
-        hotelOption["adultNum"] != null
+        hotelOption["number_of_people"] != null
             ? Text(
-                "人数：${hotelOption["adultNum"]}",
+                "人数：${hotelOption["number_of_people"].toString()}人",
                 style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSurface),
@@ -61,27 +61,28 @@ class HotelOptionColumn extends ConsumerWidget {
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSurface),
               )
-            : Text(
-                "値段帯：",
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onSurface),
-              ),
+            : hotelOption["minCharge"] != null
+                ? Text(
+                    "値段帯：${hotelOption["minCharge"]}円〜",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.onSurface),
+                  )
+                : hotelOption["maxCharge"] != null
+                    ? Text(
+                        "値段帯：〜${hotelOption["maxCharge"]}円",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.onSurface),
+                      )
+                    : Text(
+                        "値段帯：",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.onSurface),
+                      ),
         const SizedBox(height: 8),
-        hotelOption["roomNum"] != null
-            ? Text(
-                "部屋のサイズ：${hotelOption["roomNum"]}部屋", // TODO 部屋のサイズをBEから取得する
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onSurface),
-              )
-            : Text(
-                "部屋のサイズ：",
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onSurface),
-              ),
-        const SizedBox(height: 8),
+        //TODO 部屋のサイズ、ベッドサイズを後々取得し、追加
       ],
     );
   }
