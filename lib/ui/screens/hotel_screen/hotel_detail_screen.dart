@@ -1,5 +1,6 @@
 import 'package:aitrip/services/hotel_model_service.dart.dart';
 import 'package:aitrip/ui/components/hotel_card.dart';
+import 'package:aitrip/ui/components/star_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:aitrip/ui/screens/hotel_screen/result_screen.dart';

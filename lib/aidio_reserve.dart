@@ -68,7 +68,7 @@ class AidioReserve extends ConsumerWidget {
         ),
         textTheme: GoogleFonts.kiwiMaruTextTheme(),
       ),
-      themeMode: themeMode, // ここでテーマモードを適用
+      themeMode: themeMode,
       home: const HomeScreen(),
     );
   }

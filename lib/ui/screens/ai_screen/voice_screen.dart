@@ -138,7 +138,7 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
                   onPressed: speechState.isSpeechEnabled
                       ? () {
                           if (currentAudioPlayer != null) {
-                            currentAudioPlayer!.stop(); // 読み上げを停止する
+                            currentAudioPlayer!.stop();
                           }
                           if (speechState.isListening) {
                             ref.read(speechProvider.notifier).stopListening();
