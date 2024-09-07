@@ -1,7 +1,6 @@
 import 'package:aitrip/providers/auth_provider.dart';
-import 'package:aitrip/ui/screens/drawer/profile/ai/change_ai_info_screen.dart';
-import 'package:aitrip/ui/screens/drawer/profile/user/change_user_info_screen.dart';
-import 'package:aitrip/ui/screens/firebase/login_screen.dart';
+import 'package:aitrip/ui/components/setting_list_method.dart';
+import 'package:aitrip/ui/components/setting_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
@@ -14,7 +13,7 @@ class SettingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
-    final authState = ref.watch(authStateProvider);
+    ref.watch(authStateProvider);
 
     return Scaffold(
         appBar: AppBar(
@@ -43,7 +42,6 @@ class SettingScreen extends ConsumerWidget {
                   Switch(
                     value: themeMode == ThemeMode.dark,
                     onChanged: (value) {
-                      // トグルボタンでテーマを切り替える
                       ref.read(themeModeProvider.notifier).toggleTheme();
                     },
                   ),
@@ -56,177 +54,56 @@ class SettingScreen extends ConsumerWidget {
         ),
         body: ListView(
           children: [
-            ListTile(
-              leading: Icon(
-                Icons.person_rounded,
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
-              ),
-              title: const Text(
-                'ユーザー名の変更',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              trailing: Icon(Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.primary),
+            SettingListTile(
+              title: 'ユーザー名の変更',
+              iconName: Icons.person_rounded,
               onTap: () {
-                final user = ref.read(authStateProvider).maybeWhen(
-                      data: (user) => user,
-                      orElse: () => null,
-                    );
-                if (user != null) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ChangeUserInfoScreen(user.uid),
-                    ),
-                  );
-                } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
-                }
+                SettingListMethod.onTapChangeUserNameTile(context, ref);
               },
             ),
-            ListTile(
-              leading: Icon(
-                Icons.support_agent_rounded,
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
-              ),
-              title: const Text(
-                'AIの名前の変更',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              trailing: Icon(Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.primary),
+            SettingListTile(
+              title: 'AIの名前の変更',
+              iconName: Icons.support_agent_rounded,
               onTap: () {
-                final user = ref.read(authStateProvider).maybeWhen(
-                      data: (user) => user,
-                      orElse: () => null,
-                    );
-                if (user != null) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ChangeAiInfoScreen(user.uid),
-                    ),
-                  );
-                } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
-                }
+                SettingListMethod.onTapChangeAiNameTile(context, ref);
               },
             ),
-            ListTile(
-              leading: Icon(
-                Icons.attach_money_rounded,
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
-              ),
-              title: const Text(
-                '決済手段',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              trailing: Icon(Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.primary),
+            SettingListTile(
+              title: '決済手段',
+              iconName: Icons.attach_money_rounded,
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/payment_method');
+                SettingListMethod.onTapPaymentTile(context);
               },
             ),
-            ListTile(
-              leading: Icon(
-                Icons.help_rounded,
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
-              ),
-              title: const Text(
-                'ヘルプ',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              trailing: Icon(Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.primary),
+            SettingListTile(
+              title: 'ヘルプ',
+              iconName: Icons.help_rounded,
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/help');
+                SettingListMethod.onTapHelpTile(context);
               },
             ),
-            ListTile(
-              leading: Icon(
-                Icons.description_rounded,
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
-              ),
-              title: const Text(
-                'このアプリについて',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              trailing: Icon(Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.primary),
+            SettingListTile(
+              title: 'このアプリについて',
+              iconName: Icons.description_rounded,
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/about_app');
+                SettingListMethod.onTapAboutAppTile(context);
               },
             ),
-            ListTile(
-              leading: Icon(
-                Icons.gavel_rounded,
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
-              ),
-              title: const Text(
-                '利用規約',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              trailing: Icon(Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.primary),
+            SettingListTile(
+              title: '利用規約',
+              iconName: Icons.gavel_rounded,
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/terms_of_service');
+                SettingListMethod.onTapTermsOfServiceTile(context);
               },
             ),
-            ListTile(
-              leading: Icon(
-                Icons.privacy_tip_rounded,
-                color: Theme.of(context).colorScheme.primary,
-                size: 30,
-              ),
-              title: const Text(
-                'プライバシーポリシー',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              trailing: Icon(Icons.arrow_forward_ios,
-                  color: Theme.of(context).colorScheme.primary),
+            SettingListTile(
+              title: 'プライバシーポリシー',
+              iconName: Icons.privacy_tip_rounded,
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/privacy_policy');
+                SettingListMethod.onTapPrivacyPolicyTile(context);
               },
             ),
           ],
         ));
-  }
-
-  Widget buildSeparator() {
-    return Container(
-      color: Colors.grey.shade300,
-      height: 1.0,
-    );
   }
 }

@@ -22,6 +22,7 @@
     "cupertino",
     "dotenv",
     "Firestore",
+    "LTWH",
     "Maru",
     "nodoc",
     "predeploy",

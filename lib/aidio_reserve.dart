@@ -1,4 +1,3 @@
-import 'package:aitrip/providers/auth_provider.dart';
 import 'package:aitrip/providers/theme_provider.dart';
 import 'package:aitrip/ui/screens/ai_screen/chat_screen.dart';
 import 'package:aitrip/ui/screens/ai_screen/home_screen.dart';
