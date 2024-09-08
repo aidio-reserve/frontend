@@ -1,6 +1,6 @@
-# ai_trip2
+# aidio-reserve
 
-あいトリップ
+エイディオ リザーブ
 
 ## Getting Started
 

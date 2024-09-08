@@ -13,13 +13,13 @@ class HotelOptionColumn extends ConsumerWidget {
       children: [
         hotelOption["hotel_location"] != null
             ? Text(
-                "宿泊先：${hotelOption["hotel_location"]}",
+                "宿泊先(*)：${hotelOption["hotel_location"]}",
                 style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSurface),
               )
             : Text(
-                "宿泊先：",
+                "宿泊先(*)：",
                 style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSurface),
@@ -28,13 +28,13 @@ class HotelOptionColumn extends ConsumerWidget {
         hotelOption["checkinDate"] != null &&
                 hotelOption["checkoutDate"] != null
             ? Text(
-                "日程：${hotelOption["checkinDate"]} 〜 ${hotelOption["checkoutDate"]}",
+                "日程(*)：${hotelOption["checkinDate"]} 〜 ${hotelOption["checkoutDate"]}",
                 style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSurface),
               )
             : Text(
-                "日程：",
+                "日程(*)：",
                 style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSurface),
@@ -56,27 +56,27 @@ class HotelOptionColumn extends ConsumerWidget {
         const SizedBox(height: 8),
         hotelOption["minCharge"] != null && hotelOption["maxCharge"] != null
             ? Text(
-                "値段帯：${hotelOption["minCharge"]}円 〜 ${hotelOption["maxCharge"]}円",
+                "一泊の値段帯：${hotelOption["minCharge"]}円 〜 ${hotelOption["maxCharge"]}円",
                 style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSurface),
               )
             : hotelOption["minCharge"] != null
                 ? Text(
-                    "値段帯：${hotelOption["minCharge"]}円〜",
+                    "一泊の値段帯：${hotelOption["minCharge"]}円〜",
                     style: TextStyle(
                         fontSize: 16,
                         color: Theme.of(context).colorScheme.onSurface),
                   )
                 : hotelOption["maxCharge"] != null
                     ? Text(
-                        "値段帯：〜${hotelOption["maxCharge"]}円",
+                        "一泊の値段帯：${hotelOption["maxCharge"]}円",
                         style: TextStyle(
                             fontSize: 16,
                             color: Theme.of(context).colorScheme.onSurface),
                       )
                     : Text(
-                        "値段帯：",
+                        "一泊の値段帯：",
                         style: TextStyle(
                             fontSize: 16,
                             color: Theme.of(context).colorScheme.onSurface),
