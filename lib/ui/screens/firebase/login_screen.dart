@@ -95,7 +95,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   labelStyle: Theme.of(context).inputDecorationTheme.labelStyle,
                   hintStyle: Theme.of(context).inputDecorationTheme.hintStyle,
                 ),
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onSurface),
               ),
               TextField(
                 controller: _passwordController,
@@ -119,7 +120,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 obscureText: !_isPasswordVisible,
                 obscuringCharacter: '●',
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onSurface),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -135,7 +137,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                 },
                 child: const Text('アカウントをお持ちでない場合 登録'),
               ),
-              //以下に、Googleアカウントでのログイン機能などを後々実装
+              //TODO Googleアカウントでのログイン機能などを後々実装
             ],
           ),
         ),

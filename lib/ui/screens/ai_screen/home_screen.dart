@@ -47,7 +47,6 @@ class HomeScreen extends ConsumerWidget {
     final startRepository = StartRepository();
     final threadId = ref.watch(threadIdProvider);
     void handleDragEnd(BuildContext context) {
-      //ドラッグ時に遷移を行う関数、二重遷移を防ぐ。
       if (opacity > 0.5) {
         Navigator.push(
           context,

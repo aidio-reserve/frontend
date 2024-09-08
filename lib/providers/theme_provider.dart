@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// ThemeModeを管理するためのStateNotifier
 class ThemeModeNotifier extends StateNotifier<ThemeMode> {
   ThemeModeNotifier() : super(ThemeMode.light);
 
@@ -10,7 +9,6 @@ class ThemeModeNotifier extends StateNotifier<ThemeMode> {
   }
 }
 
-// StateNotifierProviderを作成
 final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>(
   (ref) => ThemeModeNotifier(),
 );

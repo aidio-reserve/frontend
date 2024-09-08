@@ -1,4 +1,5 @@
 import 'package:aitrip/services/hotel_model_service.dart.dart';
+import 'package:aitrip/ui/components/star_painter.dart';
 import 'package:aitrip/ui/screens/hotel_screen/hotel_detail_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -68,8 +69,7 @@ class HotelCardState extends State<HotelCard> {
                               Expanded(
                                 flex: 1,
                                 child: Image.network(
-                                  widget.hotel
-                                      .hotelImageUrl, // エンコードされたプロキシURLを使用
+                                  widget.hotel.hotelImageUrl,
                                   fit: BoxFit.cover,
                                   loadingBuilder:
                                       (context, child, loadingProgress) {
@@ -99,15 +99,19 @@ class HotelCardState extends State<HotelCard> {
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onSurface,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
                                       ),
                                       Text(
                                         '最安値: ¥${widget.hotel.hotelMinCharge}',
                                         style: TextStyle(
-                                          color: Theme.of(context).colorScheme.onSurface,
-                                          fontSize: 16),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
+                                            fontSize: 16),
                                       ),
                                     ],
                                   ),
@@ -139,8 +143,8 @@ class HotelCardState extends State<HotelCard> {
                         Text(
                           widget.hotel.reviewAverage.toStringAsFixed(2),
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              ),
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ],
                     ),
@@ -152,52 +156,5 @@ class HotelCardState extends State<HotelCard> {
         ),
       ),
     );
-  }
-}
-
-class StarPainter extends CustomPainter {
-  final double rating;
-  final int index;
-
-  StarPainter({required this.rating, required this.index});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = Colors.amber;
-
-    final starPath = Path()
-      ..moveTo(size.width * 0.5, 0)
-      ..lineTo(size.width * 0.618, size.height * 0.38)
-      ..lineTo(size.width, size.height * 0.38)
-      ..lineTo(size.width * 0.691, size.height * 0.618)
-      ..lineTo(size.width * 0.809, size.height)
-      ..lineTo(size.width * 0.5, size.height * 0.764)
-      ..lineTo(size.width * 0.191, size.height)
-      ..lineTo(size.width * 0.309, size.height * 0.618)
-      ..lineTo(0, size.height * 0.38)
-      ..lineTo(size.width * 0.382, size.height * 0.38)
-      ..close();
-
-    double fillPercentage =
-        ((rating - index).clamp(0.0, 1.0) * 100).ceilToDouble() / 100;
-
-    canvas.save();
-    canvas.clipRect(
-        Rect.fromLTWH(0, 0, size.width * fillPercentage, size.height));
-    canvas.drawPath(starPath, paint);
-    canvas.restore();
-
-    final borderPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = Colors.black54;
-
-    canvas.drawPath(starPath, borderPaint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
   }
 }

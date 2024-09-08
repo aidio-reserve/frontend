@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserRepository {
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
-  // Firestoreからデータを取得するメソッド
   Future<List<User>> getUsersInfo() async {
     try {
       final snapShot = await fireStore.collection('users').get();
@@ -18,7 +17,6 @@ class UserRepository {
     }
   }
 
-  // Firestoreにデータを保存するメソッド
   Future<void> addUser(User user) async {
     try {
       await fireStore.collection('users').add(user.toJson());

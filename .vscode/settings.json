@@ -22,6 +22,8 @@
     "cupertino",
     "dotenv",
     "Firestore",
+    "hotellist",
+    "LTWH",
     "Maru",
     "nodoc",
     "predeploy",

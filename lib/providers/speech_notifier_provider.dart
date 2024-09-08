@@ -72,7 +72,6 @@ class SpeechNotifier extends StateNotifier<SpeechState> {
           ref.read(messageListProvider).last.displayHotel;
       final displayHotel = ref.read(displayHotelProvider);
 
-      //もしdisplayHotelが1であれば、ホテル情報を取得し、画面遷移を実装する。
       debugPrint('displayHotel: $displayHotel');
       if (displayHotel == true) {
         debugPrint('ホテル情報を取得します');

@@ -17,7 +17,6 @@ Future<void> main() async {
   );
   debugPrint('Firebase initialized');
 
-  // WebViewプラットフォームの初期化を追加
   WebViewPlatform.instance = WebWebViewPlatform();
 
   runApp(
