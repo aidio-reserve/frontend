@@ -109,7 +109,7 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
                 right: 30.0,
               ),
               child: Container(
-                  height: MediaQuery.of(context).size.height * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     color: Theme.of(context)
@@ -128,7 +128,7 @@ class VoiceScreenState extends ConsumerState<VoiceScreen> {
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.1,
+                height: MediaQuery.of(context).size.height * 0.2,
                 alignment: Alignment.bottomCenter,
                 child: IconButton(
                   icon: const Icon(
